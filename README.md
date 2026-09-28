@@ -1,5 +1,7 @@
 # AI Agents Team
 
+![Sequence diagram: a change request flows from the user through the coordinator, which consults the product owner and architect in parallel, then hands off to the engineer, whose merge request goes through an independent review loop with the reviewer before a SHA-pinned merge and /verify](docs/agent-flow.png)
+
 A reusable, cross-runtime agent-team configuration for Claude Code, Codex, and
 OpenCode. It defines six delivery roles plus a standalone organic-search
 agent. There is no application, build, or project-specific `specs/`
