@@ -1,0 +1,21 @@
+{
+  "name": "ai-agents-team",
+  "displayName": "AI Agents Team",
+  "version": "1.0.0",
+  "description": "A reusable, cross-runtime agent-team configuration for Claude Code, Codex, and OpenCode: six delivery roles (coordinator, product owner, architect, engineer, reviewer, devops) plus a standalone organic-search agent, all under a spec-driven delivery workflow.",
+  "author": {
+    "name": "uprinter",
+    "url": "https://github.com/uprinter"
+  },
+  "homepage": "https://github.com/uprinter/ai-agents-team",
+  "license": "MIT",
+  "keywords": [
+    "agent-team",
+    "subagents",
+    "sdd",
+    "spec-driven-development",
+    "multi-agent",
+    "delivery-workflow"
+  ],
+  "skills": "./.claude/skills"
+}

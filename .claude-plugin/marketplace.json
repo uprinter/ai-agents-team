@@ -1,0 +1,16 @@
+{
+  "name": "ai-agents-team",
+  "owner": {
+    "name": "uprinter",
+    "url": "https://github.com/uprinter"
+  },
+  "description": "A single-plugin marketplace hosting the AI Agents Team plugin: a reusable, cross-runtime agent-team configuration for Claude Code, Codex, and OpenCode.",
+  "plugins": [
+    {
+      "name": "ai-agents-team",
+      "source": ".",
+      "description": "Six delivery roles plus a standalone organic-search agent, a spec-driven delivery workflow, and shared process skills.",
+      "version": "1.0.0"
+    }
+  ]
+}

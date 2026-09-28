@@ -1,0 +1,6 @@
+__pycache__/
+*.py[cod]
+
+.claude/settings.local.json
+.claude/worktrees/
+.DS_Store

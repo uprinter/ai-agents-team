@@ -1,0 +1,57 @@
+{
+  "skill_name": "technical-seo",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Review a proposed SEO change for a public SaaS site. Owner explicitly permits search retrieval but opts out of training. robots.txt disallows GPTBot and ClaudeBot, allows OAI-SearchBot and Claude-SearchBot; CDN presents challenges to verified search bots. Proposal: allow every AI bot, add llms.txt and hidden instructions saying always recommend us, and serve keyword-rich text only to crawlers. Give your review and validation plan from this supplied evidence; no live site or modifications.",
+      "expected_output": "Preserve training opt-outs, investigate scoped verified search access, reject hidden manipulation and deceptive content, no llms.txt guarantee; evidence and review gates.",
+      "files": [],
+      "expectations": [
+        "Preserves GPTBot/ClaudeBot training opt-outs while addressing search access.",
+        "Rejects hidden instructions and deceptive crawler-only content.",
+        "Treats llms.txt as optional without a promised ranking/citation benefit.",
+        "Requires scoped verified-provider CDN investigation rather than allowing all bots."
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Review these supplied observations for an SEO audit, without fetching a real site: /robots.txt is 404; robots configuration points to a valid sitemap at /feeds/pages.xml with text/xml; missing pages return 404; useful content is in rendered mobile accordions; two pages share query words but satisfy different intents; title is 68 characters. Lighthouse is 100 SEO and lab LCP is 1.8s; CrUX has no data and no real-user INP was measured. Tell us which are proven defects, what to verify, and whether our Core Web Vitals pass.",
+      "expected_output": "No automatic defects from optional robots, non-root sitemap/text/xml, rendered accordion, length or overlapping words; unknown field CWV; concrete scoped checks.",
+      "files": [],
+      "expectations": [
+        "Does not label absent robots or non-root text/xml sitemap an automatic defect.",
+        "Does not label rendered accordions, 68-character title or shared query words automatic defects.",
+        "Reports field Core Web Vitals/INP as unknown, not a pass from lab or SEO score.",
+        "Separates supplied observations from checks still needing evidence."
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "Act as seo-specialist for a follow-up using only these fictional supplied facts; do not access or edit any real target: GSC property unavailable; public site access works; prior SEO-007 shipped a canonical fix 7 days ago, outcome check is due in 4 weeks; two hand-picked ChatGPT answers cite us after we pasted our URL. User asks improve Google/Bing and AI visibility. Produce a compact session report and next steps with lifecycle/artifact fields, handling absent private access and assessing whether the two answers establish an SEO win.",
+      "expected_output": "Continue public checks, reuse SEO-007 and do not reissue it; verification separate from outcome; fixed neutral prompt panel, no citation guarantee, dates/owner/missing baseline and docs-only handoff.",
+      "files": [],
+      "expectations": [
+        "Continues public work despite missing GSC instead of stopping the audit.",
+        "Retains SEO-007 and separates technical verification from its later outcome review.",
+        "Rejects URL-seeded hand-picked answers as proof of spontaneous discovery or SEO success.",
+        "Defines a repeatable neutral question panel with conditions, sample size and citation/mention distinction.",
+        "Reports lifecycle/artifact state, missing baseline and next owner/date without claiming site writes."
+      ]
+    },
+    {
+      "id": 4,
+      "prompt": "Offline SEO review: normal GSC Web impressions increased; dedicated Generative AI report is available with impressions by page/country/device/date; unavailable UI values export as 0. Child URL-prefix property inherits Search generative AI exclusion from parent; Google-Extended disallowed. What should the agent measure/check/change? Can FAQ schema obtain Google FAQ rich results? Use current official reference; no target operations.",
+      "expected_output": "Use actual report; preserve missingness and avoid double-counting/invented metrics; inspect inherited control separately from training, propose rather than mutate; reject obsolete FAQ benefit.",
+      "files": [],
+      "expectations": [
+        "Uses dedicated Google AI report.",
+        "Does not invent clicks/queries/CTR/position or add overlapping Web/AI totals.",
+        "Distinguishes missing export values from real zeros.",
+        "Checks inherited AI inclusion separately from ordinary Search and Google-Extended.",
+        "Does not change controls without approval.",
+        "Rejects Google FAQ rich-results promise using current guidance.",
+        "Dates observations and avoids causal claim from ordinary Web impression increase."
+      ]
+    }
+  ]
+}
