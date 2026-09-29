@@ -35,7 +35,7 @@ actors = [
 ax = {k: x for k, _, x in actors}
 
 TOP = 168
-BOTTOM = 1560
+BOTTOM = 1592
 BOX_W, BOX_H = 172, 64
 
 lines = []
@@ -72,18 +72,17 @@ def badge(x, y, n):
 def arrow(y, src, dst, label, n, dashed=False, label_dy=-9):
     x1, x2 = ax[src], ax[dst]
     forward = x2 > x1
-    tip = x2 - (16 if forward else -16)
     stroke_style = f'stroke-dasharray="7 5"' if dashed else ""
-    lines.append(f'<line x1="{x1+ (14 if forward else -14):.1f}" y1="{y:.1f}" x2="{tip:.1f}" y2="{y:.1f}" '
+    lines.append(f'<line x1="{x1+ (13 if forward else -13):.1f}" y1="{y:.1f}" x2="{x2:.1f}" y2="{y:.1f}" '
                  f'stroke="{MUTED}" stroke-width="2" {stroke_style} marker-end="url(#arrow)"/>')
     mid = (x1 + x2) / 2
     text(mid, y+label_dy, label, size=14.5, weight=600, fill=INK)
-    badge(x1 + (14 if forward else -14), y, n)
+    badge(x1, y, n)
 
 def self_msg(y, actor, label, n):
     x = ax[actor]
     hook = 66
-    lines.append(f'<path d="M {x:.1f} {y-14:.1f} L {x+hook:.1f} {y-14:.1f} L {x+hook:.1f} {y+14:.1f} L {x+13:.1f} {y+14:.1f}" '
+    lines.append(f'<path d="M {x:.1f} {y-14:.1f} L {x+hook:.1f} {y-14:.1f} L {x+hook:.1f} {y+14:.1f} L {x:.1f} {y+14:.1f}" '
                  f'fill="none" stroke="{MUTED}" stroke-width="2" marker-end="url(#arrow)"/>')
     text(x+hook+14, y-2, label, size=14.5, weight=600, fill=INK, anchor="start")
     badge(x, y-14, n)
@@ -113,33 +112,33 @@ for key, label, x in actors:
     actor_box(x, TOP, label)
     lifeline(x)
 
-# ---- rows ----
-arrow(240, "U", "R", "Request", 1)
-arrow(310, "R", "C", "Brief and constraints", 2)
-self_msg(380, "C", "Classify size lane and dependencies", 3)
+# ---- rows ---- (shifted +32 from box bottom so badge 1 clears the actor boxes)
+arrow(272, "U", "R", "Request", 1)
+arrow(342, "R", "C", "Brief and constraints", 2)
+self_msg(412, "C", "Classify size lane and dependencies", 3)
 
-fragment(420, 700, ax["PO"], ax["A"], "par", top_label=None, mid_label="[ architecture ]", mid_y=560)
-text((ax["PO"]+ax["A"])/2, 442, "[ business requirements ]", size=13, weight=600, fill=ACCENT, anchor="middle")
-arrow(480, "C", "PO", "Draft requirements and ACs", 4)
-arrow(538, "PO", "C", "Spec and consultation", 5, dashed=True)
-arrow(618, "C", "A", "Define constraints", 6)
-arrow(676, "A", "C", "Plan and consultation", 7, dashed=True)
+fragment(452, 732, ax["PO"], ax["A"], "par", top_label=None, mid_label="[ architecture ]", mid_y=592)
+text((ax["PO"]+ax["A"])/2, 474, "[ business requirements ]", size=13, weight=600, fill=ACCENT, anchor="middle")
+arrow(512, "C", "PO", "Draft requirements and ACs", 4)
+arrow(570, "PO", "C", "Spec and consultation", 5, dashed=True)
+arrow(650, "C", "A", "Define constraints", 6)
+arrow(708, "A", "C", "Plan and consultation", 7, dashed=True)
 
-arrow(760, "C", "E", "Requirements and constraints", 8)
-self_msg(830, "E", "Implement, test, open MR", 9)
-arrow(900, "E", "CR", "MR for independent review", 10)
+arrow(792, "C", "E", "Requirements and constraints", 8)
+self_msg(862, "E", "Implement, test, open MR", 9)
+arrow(932, "E", "CR", "MR for independent review", 10)
 
-fragment(940, 1080, ax["E"], ax["CR"], "loop")
-text((ax["E"]+ax["CR"])/2, 962, "[ while blocking findings remain ]", size=13, weight=600, fill=ACCENT, anchor="middle")
-arrow(1000, "CR", "E", "Findings", 11, dashed=True)
-arrow(1058, "E", "CR", "Fixes", 12)
+fragment(972, 1112, ax["E"], ax["CR"], "loop")
+text((ax["E"]+ax["CR"])/2, 994, "[ while blocking findings remain ]", size=13, weight=600, fill=ACCENT, anchor="middle")
+arrow(1032, "CR", "E", "Findings", 11, dashed=True)
+arrow(1090, "E", "CR", "Fixes", 12)
 
-arrow(1140, "CR", "E", "Attestation and approval", 13, dashed=True)
-self_msg(1210, "E", "SHA-pinned merge", 14)
-arrow(1280, "E", "C", "Result and evidence", 15, dashed=True)
-self_msg(1350, "C", "/verify", 16)
-arrow(1420, "C", "R", "Confirmation or blockers", 17, dashed=True)
-arrow(1490, "R", "U", "Outcome", 18, dashed=True)
+arrow(1172, "CR", "E", "Attestation and approval", 13, dashed=True)
+self_msg(1242, "E", "SHA-pinned merge", 14)
+arrow(1312, "E", "C", "Result and evidence", 15, dashed=True)
+self_msg(1382, "C", "/verify", 16)
+arrow(1452, "C", "R", "Confirmation or blockers", 17, dashed=True)
+arrow(1522, "R", "U", "Outcome", 18, dashed=True)
 
 # ---- actor boxes (bottom) ----
 for key, label, x in actors:
@@ -155,7 +154,7 @@ H = BOTTOM + BOX_H + 90
 svg = f'''<svg width="{W}" height="{H}" viewBox="0 0 {W} {H}" xmlns="http://www.w3.org/2000/svg" role="img"
   aria-label="Sequence diagram: a change request flows from the user through the coordinator, which consults the product owner and architect in parallel, then hands off to the engineer, whose merge request goes through an independent review loop with the reviewer before a SHA-pinned merge and /verify.">
   <defs>
-    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7.5" markerHeight="7.5" orient="auto-start-reverse">
+    <marker id="arrow" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="7.5" markerHeight="7.5" orient="auto-start-reverse">
       <path d="M0,0 L10,5 L0,10 z" fill="{MUTED}"/>
     </marker>
   </defs>

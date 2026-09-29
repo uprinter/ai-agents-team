@@ -4,3 +4,5 @@ __pycache__/
 .claude/settings.local.json
 .claude/worktrees/
 .DS_Store
+
+docs/agent-flow.svg
