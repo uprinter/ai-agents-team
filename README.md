@@ -29,7 +29,9 @@ values after installing; they are placeholders, not live endpoints.
 | `devops-infra-expert` | Owns infrastructure, Kubernetes, CI/CD, deployment, and operational reliability. |
 
 The standalone `seo-specialist` agent supports organic search and AI-answer
-visibility work. It does not replace the delivery-team roles.
+visibility work. The standalone `user-eyes-tester` agent tests a live UI as an
+ordinary user and reports confusion points; the coordinator requires its run on
+every UI-touching MR. Neither replaces a delivery-team role.
 
 ### How a change flows through the team
 
