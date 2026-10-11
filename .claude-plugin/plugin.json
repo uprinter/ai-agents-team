@@ -2,7 +2,7 @@
   "name": "ai-agents-team",
   "displayName": "AI Agents Team",
   "version": "1.0.0",
-  "description": "A reusable, cross-runtime agent-team configuration for Claude Code, Codex, and OpenCode: six delivery roles (coordinator, product owner, architect, engineer, reviewer, devops) plus a standalone organic-search agent, all under a spec-driven delivery workflow.",
+  "description": "A reusable, cross-runtime agent-team configuration for Claude Code, Codex, and OpenCode: six delivery roles (coordinator, product owner, architect, engineer, reviewer, devops) plus a standalone organic-search agent and a simulated-user UI tester, all under a spec-driven delivery workflow.",
   "author": {
     "name": "uprinter",
     "url": "https://github.com/uprinter"

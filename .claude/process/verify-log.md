@@ -16,7 +16,7 @@ Three things fall out of moving the record:
 ## NNN-<slug> — PASSED <date> · lane <XS|S|M|L> · <n> MR(s) (!iid, …)
 ## NNN-<slug> — BLOCKED <date> · lane <X> · <n> MR(s) (!iid) — <one-line reason>
 
-gates: lane=<X> budget=<lines>/<limit> tasks.md=<yes|no> status=<Active|…> mrs=<n>/<expected> worktrees=<clean|n left> design=<pass|n/a> copy=<pass|n/a> live=<pass|n/a> ci=<pass|n/a> tier=<0|1|2> gap=<elapsed>/<floor>|n/a
+gates: lane=<X> budget=<lines>/<limit> tasks.md=<yes|no> status=<Active|…> mrs=<n>/<expected> worktrees=<clean|n left> design=<pass|n/a> ux=<pass|n/a> copy=<pass|n/a> live=<pass|n/a> ci=<pass|n/a> tier=<0|1|2> gap=<elapsed>/<floor>|n/a
 ```
 
 **The `NNN-` prefix applies whenever the entry closes a numbered `specs/NNN-<slug>/` feature.** A standalone XS docs/cleanup MR that never went through `/specify` has no feature number to carry, so its header is the bare `<slug>` — e.g. `## offline-manifest-validation — PASSED …`, not `## NNN-offline-manifest-validation`. Do not invent a number to force the prefix; an absent prefix on a non-featured entry is not a defect.
@@ -42,7 +42,7 @@ Cover, in this order, omitting only what genuinely does not apply:
 ```markdown
 ## 029-signup-copy-round-2 — PASSED 2026-08-24 · lane S · 1 MR (!79)
 
-gates: lane=S budget=112/120 tasks.md=yes status=Active mrs=1/1 worktrees=clean design=pass copy=pass live=pass ci=pass tier=1 gap=142s/15s
+gates: lane=S budget=112/120 tasks.md=yes status=Active mrs=1/1 worktrees=clean design=pass ux=pass copy=pass live=pass ci=pass tier=1 gap=142s/15s
 
 - **Branch base / merge cleanliness:** `git diff f5e464d..30c66bf --stat` shows exactly the 7 files in T1–T7's scope. No unrelated content rode along.
 - **Attestation:** note `3722231165`, reviewer-instance `engineer-reviewer`, distinct from the only committer `engineer-author`; `reviewed-sha 683efdf4…` equals the SHA the merge was pinned to; posted before approval.

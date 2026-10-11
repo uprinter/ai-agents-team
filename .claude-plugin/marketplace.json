@@ -9,7 +9,7 @@
     {
       "name": "ai-agents-team",
       "source": ".",
-      "description": "Six delivery roles plus a standalone organic-search agent, a spec-driven delivery workflow, and shared process skills.",
+      "description": "Six delivery roles plus a standalone organic-search agent, a simulated-user UI tester, a spec-driven delivery workflow, and shared process skills.",
       "version": "1.0.0"
     }
   ]
