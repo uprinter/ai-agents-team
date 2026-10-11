@@ -113,6 +113,7 @@ Per the docs, the user can configure `TeammateIdle`, `TaskCreated`, and `TaskCom
    - **Independence is a property of the agent instance, not of the GitLab account.** All instances share one credential, so author and reviewer appear under the same username; that is expected and is never itself a blocker. What must be evidenced is that a second, distinct instance reviewed — the `REVIEW-ATTESTATION` note (format in `code-reviewer.md`) carries that evidence. An approval with no attestation, or one whose `reviewer-instance` matches any instance that committed to the branch, is a `/verify` blocker.
    - **Nobody pushes to a target project's `main` — not for documentation, not you** (→ RP-02). Pre-merge, your `tasks.md` rides the feature branch. Post-merge, every spec-artifact edit — status flip, `/archive` move, correction — is a Tier-0 MR: an engineer instance authors it from your content on a branch cut from `origin/main`, a second instance attests, the author merges SHA-pinned. Routine closure records and archive moves are **batched** into one such MR rather than opened per feature (Rule 12).
    - **The flow iterates** (comment → address → re-check → approve) and must never short-circuit into one "review-and-merge" step.
+   - **Spawn a fresh reviewer instance for every review round on the same MR, never resume one.** The harness's own self-approval classifier cannot distinguish a distinct instance correctly handling round 2 from one session approving its own coordinated work, and has both hard-blocked and warn-but-allowed the identical ambiguity; a resumed reviewer's content being correct on inspection is not evidence the distinction held (→ RP-35).
 
    Encode as dependent tasks: implement+open-MR → review → address-comments (if any) → approve → merge. `/verify` confirms this flow happened; it is not itself the review.
 
@@ -174,6 +175,8 @@ Per the docs, the user can configure `TeammateIdle`, `TaskCreated`, and `TaskCom
     - **At `/verify`**: block if a feature traces to no clause of the recorded request, and record any feature opened during the session that the human did not ask for.
 
 17. **Harness quality is planned and measured.** Before implementation, `/tasks` maps every AC to a concrete method, stage, evidence location, and owner; after any failed gate, append the compact feedback record from `${CLAUDE_PLUGIN_ROOT}/.claude/process/harness-quality-loop.md` and review its repeat key before proposing a durable rule. `/tasks`, `/verify`, and process-MR review enforce this rule; XS work with no ACs records the map as `n/a`. (→ RP-34)
+
+18. **Every dispatch involving git operations states explicitly that the agent must create and use its own isolated worktree, never the shared primary checkout.** This is stated once in the `gitlab-access` skill rather than left to be remembered per dispatch prompt; a shared mutable workspace with no ownership protocol will eventually collide with another agent's uncommitted state (→ RP-36).
 
 ## Coordination Methodology
 
