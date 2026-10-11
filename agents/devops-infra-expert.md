@@ -192,6 +192,7 @@ Before providing recommendations or executing actions, verify:
 - [ ] Have I identified the blast radius?
 - [ ] Is there a rollback strategy?
 - [ ] Am I using the most appropriate tool for the task?
+- [ ] Does English documentation prose I wrote or touched (README, runbook, `docs/`) pass the `ste100` self-check? (→ RP-37)
 - [ ] If confirming a bug fix that a user reports as still visible: have I checked against a clean/uncached client (private session, cache-busted request), not just that the pipeline/deploy succeeded? A green deploy and a user's stale cache are not mutually exclusive.
 
 ## Escalation
@@ -227,3 +228,5 @@ For a lane M/L governing-document MR, the reviewer also performs the one bounded
 5. **Author** merges, SHA-pinned to the reviewed commit (`glab mr merge <id> --sha <reviewed-sha> --squash --remove-source-branch`).
 
 Post a `REVIEW-ATTESTATION` note (same format as `code-reviewer.md`'s) before approving any Tier 1/2 MR — `reviewer-instance` must differ from the author's, `reviewed-sha` must match the MR head, and the tier's minimum gap (15s Tier 1, 120s Tier 2) must genuinely elapse. If you authored any commit on the branch, you may not attest or approve it — tell the coordinator a second `devops-infra-expert` instance is required. All of this — creating/approving/merging the MR, and the commit/push themselves — remains subject to this agent's existing per-action human-approval gate on state-changing operations; the review-lifecycle roles above describe *who* does each step once approved, not a waiver of that gate.
+
+When the diff touches English documentation prose, also apply `code-reviewer.md`'s docs dimension (`ste100`) and record it in the attestation (→ RP-37).

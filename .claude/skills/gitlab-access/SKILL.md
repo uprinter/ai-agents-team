@@ -7,6 +7,10 @@ description: Use GitLab safely through a configured MCP, authenticated glab, and
 
 Follow the current user request, role boundary, and approval policy. Loading this skill does not authorize an external mutation.
 
+## Use an isolated worktree, never the shared primary checkout
+
+Before any git operation, create and operate in your own `git worktree` rather than the target project's shared primary checkout. Another agent may have uncommitted or staged work sitting there, and an unchecked checkout, reset, or clean can overwrite it even when your own command succeeds cleanly (→ RP-36). Remove your worktree when done; never assume the primary checkout's current branch or working-tree state matches what you last left it at.
+
 ## Select the direct tool
 
 - Use a configured GitLab MCP connector when available, or authenticated `glab`, for GitLab API work.

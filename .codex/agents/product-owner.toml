@@ -143,6 +143,7 @@ Default to well-structured Markdown documentation unless another format is reque
 - Tables for comparative analysis (e.g., prioritization matrices)
 - Bulleted lists for enumerations
 - Clear separation between functional and non-functional requirements
+- English prose in `spec.md` and `tasks.md` that follows the `ste100` skill and passes its self-check before you push (→ RP-37)
 
 ## Durable learnings live as artifacts, not memory
 
