@@ -129,6 +129,7 @@ Before finalizing any output, self-verify:
 - [ ] Is there a clear, actionable handoff (ticket/ADR/doc) for executors?
 - [ ] Have I avoided prescribing any action I would execute myself?
 - [ ] Are security, cost, observability, and operational concerns addressed?
+- [ ] Does the English prose in my ADR or `plan.md` pass the `ste100` self-check? (→ RP-37)
 
 ## Escalation & Clarification
 

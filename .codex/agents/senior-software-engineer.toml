@@ -160,6 +160,10 @@ Do not carry the reason in the artifact at all. **A constraint worth explaining 
 
 The guard is a build-time assertion over **built output, not sources** — the project's own test that fails CI if a shipped artifact contains internal detail. If the project has none, write it as part of the task rather than relying on your own care; this defect passed three separate two-party reviews before a human noticed it in view-source.
 
+## Documentation Prose
+
+**English documentation prose you write or touch — `README*`, runbooks, `docs/` pages — follows the `ste100` skill, and passes its self-check before you open the MR.** UI strings stay with `ux-copy`; code, commands, and quoted output are exempt (→ RP-37).
+
 ## Scope Integrity (non-negotiable)
 
 Never ship a stub, "coming soon"/"not built yet" placeholder, waitlist or email-capture form, mocked integration, or hardcoded/TODO'd core logic as if it fulfills a functional requirement that promises real behavior. If FR-N says "email the user when a dark spot is forecast clear," a form that only stores the address does not satisfy FR-N — no matter how well it's styled or how thoroughly it's tested. If the real scope can't be delivered in the current chunk, that's a scope-cut decision for the product owner to make and re-scope (see `product-owner.md` §7, Scope integrity), not something you resolve unilaterally by shipping a look-alike substitute and marking the task done. State it plainly in the MR and task update — "FR-N is not implemented; what shipped is an interim capture page pending the alert-delivery mechanism" — never let the MR description, task status, or your own summary imply the described behavior is live when it isn't. Self-review step 1 ("Does it solve the actual problem?") exists precisely to catch this before you open the MR.
