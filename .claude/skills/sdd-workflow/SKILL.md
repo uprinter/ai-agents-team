@@ -30,7 +30,7 @@ The coordinator assigns a **size lane** at intake, records it in `tasks.md` and 
 | Lane | Use when the change touches… | Artifacts |
 |:--|:--|:--|
 | **XS** | nothing user-visible and no behavior: doc-only, comment-only, or a bugfix with no behavior change | one row in `tasks.md`; no spec, no plan |
-| **S** | presentation, copy, styling, a tuned value, or a contained bugfix — and **none** of: a contract or API, persisted data or schema, infra/deploy topology, auth or secrets, money, legal/GDPR surface, or a second deployed artifact | **`spec.md` only, ≤120 lines**, S template (`product-owner.md`); design notes are a section in it. **No `plan.md` — and no architect-authored governing document under any other filename** (→ RP-26) |
+| **S** | presentation, copy, styling, a tuned value, or a contained bugfix — and **none** of: a contract or API, persisted data or schema, infra/deploy topology, auth or secrets, money, legal/GDPR surface, or a second deployed artifact | **`spec.md` ≤120 lines**, S template (`product-owner.md`); design notes are a section in it, plus **`tasks.md` (always)**. **No `plan.md` — and no architect-authored governing document under any other filename** (→ RP-26) |
 | **M** | new or changed behavior inside existing contracts, inside one deployed artifact | `spec.md` ≤250 lines + `plan.md` ≤250 lines (+ `contracts/` where applicable) |
 | **L** | any of the exclusions listed under S | the full pipeline, no line budget |
 
