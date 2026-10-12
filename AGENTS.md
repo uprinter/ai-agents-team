@@ -132,7 +132,7 @@ If asked about specs, paths, feature numbering, or sizing, refer to the SDD sect
 | Lane | Trigger | Artifacts |
 |---|---|---|
 | **XS** | doc-only, comment-only, or a bugfix with no behavior change | a row in `tasks.md` |
-| **S** | presentation, copy, styling, a tuned value, a contained bugfix — and no contract, persisted data, infra/deploy topology, auth, money, legal/GDPR surface, or second deployed artifact | `spec.md` ≤120 lines, five-section S template, **no `plan.md`**, **one MR** |
+| **S** | presentation, copy, styling, a tuned value, a contained bugfix — and no contract, persisted data, infra/deploy topology, auth, money, legal/GDPR surface, or second deployed artifact | `spec.md` ≤120 lines, five-section S template, **`tasks.md` (always)**, **no `plan.md`**, **one MR** |
 | **M** | new behavior inside existing contracts, one deployed artifact | `spec.md` ≤250 + `plan.md` ≤250 |
 | **L** | any S exclusion | full pipeline, no budget |
 

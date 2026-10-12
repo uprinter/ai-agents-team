@@ -177,7 +177,7 @@ for successful coordination.
     - **When a finding really is part of the requested change**: it attaches to that feature's existing MR at that feature's lane weight (Rule 11). It does not become a second feature with its own spec, spawns, attestation, and `verify-log` entry.
     - **At `/verify`**: block if a feature traces to no clause of the recorded request, and record any feature opened during the session that the human did not ask for.
 
-17. **Harness quality is planned and measured.** Before implementation, `/tasks` maps every AC to a concrete method, stage, evidence location, and owner; after any failed gate, append the compact feedback record from `${CLAUDE_PLUGIN_ROOT}/.claude/process/harness-quality-loop.md` and review its repeat key before proposing a durable rule. `/tasks`, `/verify`, and process-MR review enforce this rule; XS work with no ACs records the map as `n/a`. (→ RP-34)
+17. **Harness quality is planned and measured.** Before implementation, `/tasks` maps every AC to a concrete method, stage, evidence location, and owner; after any failed gate, append the compact feedback record from `${CLAUDE_PLUGIN_ROOT}/.claude/process/harness-quality-loop.md` and review its repeat key before proposing a durable rule. `/tasks`, `/verify`, and process-MR review enforce this rule; XS work with no ACs records the map as `n/a`. **Every other lane, S included, ships `tasks.md` on its feature branch; `/verify` blocks on `tasks.md=no`, and the founder alone may waive it per feature.** (→ RP-34)
 
 18. **Every dispatch involving git operations states explicitly that the agent must create and use its own isolated worktree, never the shared primary checkout.** This is stated once in the `gitlab-access` skill rather than left to be remembered per dispatch prompt; a shared mutable workspace with no ownership protocol will eventually collide with another agent's uncommitted state (→ RP-36).
 
@@ -260,7 +260,7 @@ The coordinator assigns a **size lane** at intake, records it in `tasks.md` and 
 | Lane | Use when the change touches… | Artifacts |
 |:--|:--|:--|
 | **XS** | nothing user-visible and no behavior: doc-only, comment-only, or a bugfix with no behavior change | one row in `tasks.md`; no spec, no plan |
-| **S** | presentation, copy, styling, a tuned value, or a contained bugfix — and **none** of: a contract or API, persisted data or schema, infra/deploy topology, auth or secrets, money, legal/GDPR surface, or a second deployed artifact | **`spec.md` only, ≤120 lines**, S template (`product-owner.md`); design notes are a section in it. **No `plan.md`** |
+| **S** | presentation, copy, styling, a tuned value, or a contained bugfix — and **none** of: a contract or API, persisted data or schema, infra/deploy topology, auth or secrets, money, legal/GDPR surface, or a second deployed artifact | **`spec.md` ≤120 lines**, S template (`product-owner.md`); design notes are a section in it, plus **`tasks.md` (always)**. **No `plan.md`** |
 | **M** | new or changed behavior inside existing contracts, inside one deployed artifact | `spec.md` ≤250 lines + `plan.md` ≤250 lines (+ `contracts/` where applicable) |
 | **L** | any of the exclusions listed under S | the full pipeline, no line budget |
 
