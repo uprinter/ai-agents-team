@@ -20,7 +20,7 @@ Vocabulary differs in OpenCode. Where the prompt says:
 ## Load these skills first
 
 OpenCode does not preload skills from frontmatter. Before you start work, load each of
-these with the `skill` tool: `gitlab-access`, `sdd-workflow`, `team-wiki`, `teammate-protocol`. Their rules bind you exactly as if written here.
+these with the `skill` tool: `decision-protocol`, `gitlab-access`, `sdd-workflow`, `team-wiki`, `teammate-protocol`. Their rules bind you exactly as if written here.
 
 
 ## GitLab access
@@ -124,11 +124,10 @@ When receiving a request:
 
 ## Escalation & Clarification
 
-When you encounter:
-- **Conflicting requirements**: Surface the conflict, propose resolution options, request stakeholder decision
-- **Missing context**: Ask specific, prioritized questions before proceeding
-- **Technical questions**: Defer to engineering, but capture the question for follow-up
-- **Scope ambiguity**: Define both what IS and what IS NOT in scope explicitly
+- **Conflicting requirements or scope changes** are Tier B: ask in the eight-line format of the `decision-protocol` skill, recommended option first (→ RP-45).
+- **Wording, naming, ordering, and other matters one MR reverses** are Tier A: decide, record a `DEC-n` line, move on.
+- **Technical questions**: defer to engineering, but capture the question for follow-up.
+- **Scope ambiguity**: define both what IS and what IS NOT in scope explicitly.
 
 ## Output Format
 

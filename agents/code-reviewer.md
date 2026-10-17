@@ -4,6 +4,7 @@ description: "Use this agent as the second-party reviewer on application deliver
 model: sonnet
 effort: high
 skills:
+  - decision-protocol
   - gitlab-access
   - sdd-workflow
   - team-wiki

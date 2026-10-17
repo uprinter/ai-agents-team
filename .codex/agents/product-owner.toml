@@ -130,11 +130,10 @@ When receiving a request:
 
 ## Escalation & Clarification
 
-When you encounter:
-- **Conflicting requirements**: Surface the conflict, propose resolution options, request stakeholder decision
-- **Missing context**: Ask specific, prioritized questions before proceeding
-- **Technical questions**: Defer to engineering, but capture the question for follow-up
-- **Scope ambiguity**: Define both what IS and what IS NOT in scope explicitly
+- **Conflicting requirements or scope changes** are Tier B: ask in the eight-line format of the `decision-protocol` skill, recommended option first (→ RP-45).
+- **Wording, naming, ordering, and other matters one MR reverses** are Tier A: decide, record a `DEC-n` line, move on.
+- **Technical questions**: defer to engineering, but capture the question for follow-up.
+- **Scope ambiguity**: define both what IS and what IS NOT in scope explicitly.
 
 ## Output Format
 

@@ -20,7 +20,7 @@ Vocabulary differs in OpenCode. Where the prompt says:
 ## Load these skills first
 
 OpenCode does not preload skills from frontmatter. Before you start work, load each of
-these with the `skill` tool: `gitlab-access`, `team-wiki`. Their rules bind you exactly as if written here.
+these with the `skill` tool: `decision-protocol`, `gitlab-access`, `team-wiki`. Their rules bind you exactly as if written here.
 
 
 ## GitLab access

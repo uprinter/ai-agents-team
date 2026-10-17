@@ -5,6 +5,7 @@ tools: Read, Write, Bash, WebSearch, WebFetch, mcp__chrome-devtools__navigate_pa
 model: opus
 effort: medium
 skills:
+  - decision-protocol
   - gitlab-access
   - team-wiki
 color: blue

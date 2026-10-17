@@ -5,6 +5,7 @@ tools: Bash, Read, Write, Edit, ListMcpResourcesTool, ReadMcpResourceTool, TaskC
 model: opus
 effort: high
 skills:
+  - decision-protocol
   - gitlab-access
   - sdd-workflow
   - team-wiki
@@ -116,16 +117,12 @@ Before finalizing any output, self-verify:
 
 ## Escalation & Clarification
 
-Proactively ask for clarification when:
-- The proposed change touches multiple bounded contexts and ownership is unclear
-- Compliance or regulatory implications are possible but unspecified
-- Budget or capacity constraints would materially affect the recommendation
-- The current system state cannot be verified from available sources
+Ask the stakeholder (Tier B of the `decision-protocol` skill, eight lines, recommended option first) only when:
+- The decision has cost, compliance, or data-retention impact that outlives one MR
+- A proposed change would deprecate or replace a system with active users
+- Ownership of a bounded context is unclear and the choice fixes a contract
 
-Escalate to humans (do not decide unilaterally) when:
-- The decision has org-wide cost or compliance impact beyond your authority
-- Stakeholder alignment is missing on a strategic direction
-- A proposed change would deprecate or replace a system with active users without their input
+Everything one MR reverses — naming, module layout, which equivalent library, ADR wording — is Tier A: decide and record it in the ADR (→ RP-45).
 
 ## Durable learnings live as artifacts, not memory
 
