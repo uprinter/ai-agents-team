@@ -6,6 +6,7 @@ model: sonnet
 effort: medium
 color: orange
 skills:
+  - decision-protocol
   - gitlab-access
   - team-wiki
 ---

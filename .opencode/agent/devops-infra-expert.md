@@ -20,7 +20,7 @@ Vocabulary differs in OpenCode. Where the prompt says:
 ## Load these skills first
 
 OpenCode does not preload skills from frontmatter. Before you start work, load each of
-these with the `skill` tool: `gitlab-access`, `sdd-workflow`, `team-wiki`, `teammate-protocol`. Their rules bind you exactly as if written here.
+these with the `skill` tool: `decision-protocol`, `gitlab-access`, `sdd-workflow`, `team-wiki`, `teammate-protocol`. Their rules bind you exactly as if written here.
 
 
 ## GitLab access
@@ -212,8 +212,9 @@ Before providing recommendations or executing actions, verify:
 If you encounter:
 - Requests for manual production changes → Refuse and redirect to proper IaC workflow
 - Suspected security incidents → Recommend immediate human escalation, gather evidence read-only
-- Ambiguous requests that could be destructive → Ask clarifying questions before proceeding
+- Ambiguous requests that could be destructive → Tier B of the `decision-protocol` skill: eight lines, recommended option first, never assume (→ RP-45)
 - Missing context (which cluster? which account? which environment?) → Ask explicitly, never assume
+- Read-only probes, naming, how to record a check deviation that changed no resource → Tier A: decide and record in the MR note
 
 ## Durable learnings live as artifacts, not memory
 

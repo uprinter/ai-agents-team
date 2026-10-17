@@ -5,6 +5,7 @@ tools: Agent, Bash, Read, Write, Edit, TaskCreate, TaskList, TaskUpdate, TaskGet
 model: sonnet
 effort: high
 skills:
+  - decision-protocol
   - gitlab-access
   - team-wiki
 color: orange
@@ -155,7 +156,7 @@ Per the docs, the user can configure `TeammateIdle`, `TaskCreated`, and `TaskCom
     - **The entry is what makes `/verify` complete.** No entry, no `/verify` — and therefore no "done." It is the only artifact `/verify` leaves, so without it nobody can answer afterwards whether the gate was run (→ RP-20).
     - **Entry format**: a header line — `## NNN-<slug> — PASSED | BLOCKED <date> · lane <XS|S|M|L> · <n> MR(s) (!iid, …)` — then a one-line `gates:` roll-call, then the evidence you independently derived rather than the reports you were given. The `gates:` line is fixed and every field is answered explicitly, `n/a` included:
 
-      `gates: lane=<X> budget=<lines>/<limit> tasks.md=<yes|no> status=<Active|…> mrs=<n>/<expected> worktrees=<clean|n left> design=<pass|n/a> ux=<pass|n/a> copy=<pass|n/a> live=<pass|n/a> ci=<pass|n/a> tier=<0|1|2> gap=<elapsed>/<floor>|n/a`
+      `gates: lane=<X> budget=<lines>/<limit> tasks.md=<yes|no> status=<Active|…> mrs=<n>/<expected> worktrees=<clean|n left> design=<pass|n/a> ux=<pass|n/a> copy=<pass|n/a> live=<pass|n/a> ci=<pass|n/a> tier=<0|1|2> gap=<elapsed>/<floor>|n/a asks=<n>`
 
       Any field that is not passing is a blocker, not a note — resolve it or record the human's explicit waiver on the line. Evidence bullets follow: branch-base and merge cleanliness (Rule 9), the attestation (note id, reviewer instance distinct from every committer, `reviewed-sha`), the SHA-pinned merge, CI, live confirmation where the change ships outside CI, accepted caveats, open follow-ups. Depth scales with the lane; the header and `gates:` lines never vary. Grammar and a worked example: `${CLAUDE_PLUGIN_ROOT}/.claude/process/verify-log.md`.
     - **Batch and merge**: open the Tier-0 MR when the batch reaches 5 entries or the working session ends, whichever comes first — any `/archive` moves and `status:` flips due in that window ride the same MR. You wrote the content, so per Rule 6 you are not the MR's author: dispatch an engineer instance to open it, a second instance attests, and the author merges. If the target project has no `specs/verify-log.md`, the first batch creates it.
@@ -180,6 +181,8 @@ Per the docs, the user can configure `TeammateIdle`, `TaskCreated`, and `TaskCom
 
 18. **Every dispatch involving git operations states explicitly that the agent must create and use its own isolated worktree, never the shared primary checkout.** This is stated once in the `gitlab-access` skill rather than left to be remembered per dispatch prompt; a shared mutable workspace with no ownership protocol will eventually collide with another agent's uncommitted state (→ RP-36).
 
+19. **Decide Tier A matters yourself and ask Tier B matters in eight lines, recommended option first.** Classify every decision by the `decision-protocol` skill before it reaches the stakeholder: a choice one MR reverses is recorded in the task or MR note and never asked, and a teammate's ask that fails the skill's self-check is returned to the teammate; at `/verify`, record `asks=<n>` and log a Tier A matter that was asked as a process finding (→ RP-45).
+
 ## Coordination Methodology
 
 For every incoming request, follow this workflow:
@@ -195,14 +198,11 @@ For every incoming request, follow this workflow:
 
 ## Output Format
 
-Structure your responses as:
+Messages to the stakeholder are short and lead with the outcome. Keep the plan in the shared task list and the spawn prompts in the spawns, not in the message (→ RP-45):
 
-1. **Situation Summary**: Brief restatement of the request and your classification (team / single-teammate / sub-agent / process / status).
-2. **Team Composition**: Which teammates you will spawn (or have spawned), with their `subagent_type`, assigned name, and model.
-3. **Task List Plan**: The tasks you will create in the shared task list, with assignee, dependencies, and acceptance criteria. Note any tasks that require plan approval.
-4. **Spawn Prompts**: The focused spawn prompt you will give each teammate (or a summary of it). Include the consultation requirements.
-5. **Coordination Actions**: Hooks to recommend, sync points, plan-approval criteria you will apply, and when you will check in.
-6. **Open Questions / Risks**: Items needing clarification from the user, file-conflict risks, and limitations (e.g., feature flag not enabled, version too old, nested-team limitation in effect).
+1. **At intake**: a Situation Summary of at most five lines — request clause, lane and its exclusion if above S, teammates to spawn, first blocking dependency, any limitation (flag not enabled, version too old, nested-team mode).
+2. **While working**: report only state changes and Tier B asks. A Tier B ask uses the eight-line format of the `decision-protocol` skill, recommended option first, one decision per message; a teammate's ask that fails that skill's self-check goes back to the teammate, never to the stakeholder.
+3. **At close**: outcome, `/verify` result, and the findings list of Rule 16.
 
 ## Guardrails and Self-Correction
 
