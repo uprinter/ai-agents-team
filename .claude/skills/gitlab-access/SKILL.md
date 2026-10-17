@@ -79,3 +79,17 @@ git -c credential.helper= \
 **zsh gotcha — always brace the variable before the colon.** In zsh, `$var:x` is parsed as a parameter-expansion modifier (`:a`, `:h`, `:t`, `:r`, `:e`, `:l`, `:u`, `:s`, `:q`, `:P`, …), not a literal colon, whenever a modifier letter immediately follows the colon. `--force-with-lease="$gitlab_remote_branch:$gitlab_prior_sha"` silently mangles the branch name into garbage (e.g. `:a` runs an absolute-path transform) whenever the SHA happens to start with one of those letters, and the lease then matches nothing — git falls back to a plain non-fast-forward rejection that looks exactly like a stale-branch problem, not a quoting bug. Braces (`${gitlab_remote_branch}:...`, used above) make `zsh` treat the whole thing as one token and avoid this. Bash is unaffected either way, but always brace it since a script may run under either shell.
 
 Verify with `git push --dry-run` first if you want to confirm the lease will apply without risking the actual push.
+
+## Upload a file to a project (MR screenshots)
+
+Use `--form` to upload a file. Run the command inside the target repository so `:id` resolves. The token stays inside `glab`.
+
+```sh
+glab api --method POST projects/:id/uploads --form "file=@/path/to/shot.png"
+```
+
+The response has a `markdown` field. Paste it into the MR description or a note.
+
+Do not use `-F file=@<png>`. It sends JSON, not multipart. GitLab answers HTTP 400 (glab 1.123).
+
+Test with a throwaway file. An upload stays on the project.
