@@ -53,7 +53,8 @@ Code spans and identifiers count as one word each.
 
 ## Self-check before you open the MR
 
-- Count the words in each sentence. Procedure: 20 maximum. Description: 25 maximum.
+- Run `.claude/skills/ste100/scripts/ste100-check.sh <file>...` from this repository (`-p` for a procedure file) on every prose file you touched, and fix every line it reports before you push. Three authors missed the length rule by hand and paid two to four review rounds per MR (→ RP-49).
+- Count the words in each sentence the script cannot split. Procedure: 20 maximum. Description: 25 maximum.
 - Find each "-ing" word, each passive verb, and each "should". Rewrite each one, or confirm that it is a permitted exception.
 - Count the sentences in each paragraph. Six is the maximum.
 - Read each numbered step. Each step has one action.
@@ -61,7 +62,7 @@ Code spans and identifiers count as one word each.
 
 ## In review
 
-The reviewer records a **docs** finding in the `REVIEW-ATTESTATION` for each touched prose file. A finding names the file, the rule number from this skill, and the sentence. A sentence over its length limit, more than one instruction in one sentence, or a procedure that is not in the imperative is a blocking finding. A long word with a common short equivalent is a nit.
+The reviewer runs the same script on the touched files first and cites its output. The reviewer records a **docs** finding in the `REVIEW-ATTESTATION` for each touched prose file. A finding names the file, the rule number from this skill, and the sentence. A sentence over its length limit, more than one instruction in one sentence, or a procedure that is not in the imperative is a blocking finding. A long word with a common short equivalent is a nit.
 
 ## Example
 

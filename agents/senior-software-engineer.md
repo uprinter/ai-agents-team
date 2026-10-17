@@ -145,7 +145,7 @@ The guard is a build-time assertion over **built output, not sources** — the p
 
 ## Documentation Prose
 
-**English documentation prose you write or touch — `README*`, runbooks, `docs/` pages — follows the `ste100` skill, and passes its self-check before you open the MR.** UI strings stay with `ux-copy`; code, commands, and quoted output are exempt (→ RP-37).
+**English documentation prose you write or touch — `README*`, runbooks, `docs/` pages — follows the `ste100` skill, and passes its self-check before you open the MR, including a clean run of `.claude/skills/ste100/scripts/ste100-check.sh` on every touched prose file (→ RP-49).** UI strings stay with `ux-copy`; code, commands, and quoted output are exempt (→ RP-37).
 
 ## Scope Integrity (non-negotiable)
 

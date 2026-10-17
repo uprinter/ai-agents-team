@@ -247,3 +247,35 @@ The stakeholder's instruction, in substance: make decisions radically lighter; t
 Four causes. The escalation sections of the product owner, architect, and devops agents each said "ask" or "request stakeholder decision" with no size or format bound. The coordinator's Output Format required six sections on every response, so even a status message carried a plan. No rule split decisions by consequence; the lane-S exclusion list and the Tier 2 review list already named the lasting consequences, but no rule applied them to asks. And no rule bound the relay: the root session passed the coordinator's text on and added to it.
 
 The fix is one preloaded skill, `decision-protocol`, backed by a process file. It reuses the existing exclusion list as the ask list, settles ties by reversibility, limits an ask to eight lines with the recommended option first, keeps technical detail behind one pointer, and makes the relay forward or shorten but never expand. It is gated three times: the sender's self-check, the coordinator returning a failing ask to its teammate, and `/verify` counting asks and logging an asked Tier A matter as a process finding. It generalizes Rule 16's "never offer found work" from scope to decisions and replaces the four unbounded escalation bullets.
+
+## RP-46 — Lane S assembled the full team for a CSS rule
+**Date:** 2026-10-17 · **Where:** a target project features 008, 009, 010, 014, 018, 023 (all lane S) · **Rules it backs:** coordinator Core Operating Rules 7 and 11; the lane-S task table in `verify-gates.md`; `lead-system-architect.md` "Lane S"; the simulated-user gate in `AGENTS.md`.
+
+A lane-S feature is a styling, copy, or contained-bugfix change. Each one still spawned the coordinator, the product owner, the engineer, a fresh reviewer per round, the architect and product owner as commenters on the MR, three `user-eyes-tester` instances plus a compare run, and at `/verify` an engineer and an attester for the batch MR. About ten spawns per CSS rule. The MR itself took 14 to 37 minutes from open to merge; the time was spent before and after it.
+
+The fix: no architect instance at lane S (the reviewer escalates a design question, and that escalation is the re-classification trigger); the simulated-user run applies to M/L and to a lane-S change that alters navigation or a user flow, while lane-S styling records `ux=n/a` with the reason; the reviewer and the testers are dispatched in the same turn.
+
+## RP-47 — stakeholder silence defaulted to the heavier lane
+**Date:** 2026-10-17 · **Where:** a target project feature 022 (remove one nav item, four lines) · **Rules it backs:** coordinator Core Operating Rule 11.
+
+The orchestrating session recommended lane S. The stakeholder did not answer, so lane L stood: 26 files, 1402 added spec lines, five review rounds on the governing-documents MR, about six hours of agent time. The fix: when the coordinator recommends the lighter lane and the stakeholder has not answered by dispatch time, the lighter lane stands, recorded as `lane-default: stakeholder silent` in `tasks.md`; the stakeholder can tier up later.
+
+## RP-48 — verify-log entries grew to seventy lines of prose
+**Date:** 2026-10-17 · **Where:** a target project `specs/verify-log.md`, entries 001 (36 MRs) and 022 · **Rules it backs:** coordinator Core Operating Rule 12; `verify-log.md`.
+
+The coordinator writes each entry itself. Entries reached about seventy lines, repeating evidence that already sits in MR notes and pipelines. The fix: the fixed header, the fixed `gates:` line, and at most eight evidence bullets of one or two sentences; anything longer goes to `specs/NNN-<slug>/evidence/verify.md`.
+
+## RP-49 — The same test suite ran three times per MR
+**Date:** 2026-10-17 · **Where:** a target project features 005, 008, 009 · **Rules it backs:** coordinator Core Operating Rule 20; `code-reviewer.md` "What you review against"; SDD `/verify` checklist in `verify-gates.md`.
+
+CI ran the suite on the head SHA. The reviewer "rebuilt the Docker image and re-ran the full test suite (138 passed)". The coordinator at `/verify` "independently verified, not taken on either reviewer's report". The fix: a green pipeline on `reviewed-sha` is the evidence; the reviewer reads pipeline status and test headers and re-runs only a test it believes wrong, and the coordinator reads `ci=` and never rebuilds.
+
+## RP-50 — The coordinator definition carried its checklists inline
+**Date:** 2026-10-17 · **Where:** `team-lead-coordinator.md`, 55.3 KB on 2026-10-17 against 57.8 KB on 2026-08-22, after a rule-hygiene pass · **Rules it backs:** "Rule hygiene"; `verify-gates.md`.
+
+Rule hygiene limited the rule body but not the "Concretely" bullets, so every delegation still paid 55 KB before reading a project file, and the inline SDD block duplicated the `sdd-workflow` skill. The fix: the checklists move verbatim to `verify-gates.md`, read at `/tasks` and `/verify`; the coordinator preloads `sdd-workflow` and keeps a pointer; the agent file states each rule in two sentences.
+
+## RP-51 — Agents retried a dead credential and a hung browser for hours
+**Date:** 2026-10-14 · **Where:** a target project feature 019 · **Rules it backs:** coordinator "Fail fast on tooling"; `gitlab-access` "Check authentication first".
+
+`glab` OAuth refresh failed with `invalid_grant`. Five of eight reviewer spawns produced no output for 600 seconds each before the watchdog fired; about three hours elapsed. The `chrome-devtools` MCP hung for about 40 minutes; three `user-eyes-tester` runs reported zero steps. The fix: `glab auth status` is the first command of every GitLab-touching spawn and a failure stops the spawn with a one-line report; a 60-second probe precedes any browser-driven dispatch; a teammate with no tool output for 180 seconds is stopped and re-spawned once with the stall named.

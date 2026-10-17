@@ -17,6 +17,10 @@ Before any git operation, create and operate in your own `git worktree` rather t
 - Use Git directly for repository transport. Do not recreate a local commit through GitLab's commit API.
 - If neither direct path works, report the blocker and request configuration or approval for the exact alternative. Do not switch to a browser, workflow platform, or another service's credential without explicit approval.
 
+## Check authentication first
+
+Run `glab auth status` as the first command of any task that will use GitLab. If it reports a failure, stop and report the one decisive line to the coordinator or the user; do not retry, wait, or continue to the next step with GitLab work pending (→ RP-51).
+
 ## Protect authentication
 
 An authentication check can fail when the current runtime cannot read the operating-system keyring. Use that runtime's documented permission mechanism to repeat the diagnostic before concluding that the user is signed out.

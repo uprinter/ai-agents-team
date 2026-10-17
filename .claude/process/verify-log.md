@@ -25,7 +25,7 @@ gates: lane=<X> budget=<lines>/<limit> tasks.md=<yes|no> status=<Active|…> mrs
 
 **The entry is what makes `/verify` complete** — no entry, no "done." Both lines are fixed. Every `gates:` field is answered explicitly, including `n/a`; an omitted field reads as unchecked, which is the failure this line exists to prevent (→ RP-20). A field that is not passing is a blocker, not a note — resolve it, or record the human's explicit waiver inline (`budget=125/120 waived-by-stakeholder`).
 
-The header never varies. The bullets below it scale with the lane: an XS or S entry may be four lines; an L entry with a live-deploy surface will be longer. State evidence **you derived yourself**, with the identifier you actually ran a command to obtain — never a teammate's self-report, and never an identifier recalled rather than re-derived.
+The header never varies. The bullets below it are **at most 8, one or two sentences each**, for every lane: an XS or S entry may be four lines; an L entry uses all eight and puts anything longer in `specs/NNN-<slug>/evidence/verify.md`, cited by link (→ RP-48). State evidence **you derived yourself**, with the identifier you actually ran a command to obtain — never a teammate's self-report, and never an identifier recalled rather than re-derived.
 
 Cover, in this order, omitting only what genuinely does not apply:
 
