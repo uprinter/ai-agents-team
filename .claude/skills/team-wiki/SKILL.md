@@ -1,6 +1,6 @@
 ---
 name: team-wiki
-description: The team's shared cross-project Obsidian knowledge base: where it lives, when to consult it, and how to contribute back. Preloaded into every team agent.
+description: "The team's shared cross-project Obsidian knowledge base: where it lives, when to consult it, and how to contribute back. Preloaded into every team agent."
 ---
 
 ## Shared knowledge base — the wiki (always consult; contribute back)

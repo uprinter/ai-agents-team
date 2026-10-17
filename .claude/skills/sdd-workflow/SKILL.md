@@ -1,6 +1,6 @@
 ---
 name: sdd-workflow
-description: The team's spec-driven development workflow: the /specify -> /plan -> /tasks -> /implement -> /verify -> /archive stages, the XS/S/M/L size lanes with their artifact budgets, the non-negotiables, and the spec change management pointer. Preloaded into every delivery-team agent.
+description: "The team's spec-driven development workflow: the /specify -> /plan -> /tasks -> /implement -> /verify -> /archive stages, the XS/S/M/L size lanes with their artifact budgets, the non-negotiables, and the spec change management pointer. Preloaded into every delivery-team agent."
 ---
 
 ## Spec-Driven Development (team standard)
