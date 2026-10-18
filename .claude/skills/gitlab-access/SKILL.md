@@ -97,3 +97,11 @@ The response has a `markdown` field. Paste it into the MR description or a note.
 Do not use `-F file=@<png>`. It sends JSON, not multipart. GitLab answers HTTP 400 (glab 1.123).
 
 Test with a throwaway file. An upload stays on the project.
+
+## Download an MR upload (screenshots)
+
+Uploads need authentication, so a plain URL fails. Read the path `/uploads/<secret>/<file>` from the MR description or a note, then save it with `glab api`, run inside the target repository, and open the file with the Read tool.
+
+```sh
+glab api "projects/:id/uploads/<secret>/<file>" > "$scratch/<file>"
+```

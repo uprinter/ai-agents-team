@@ -136,7 +136,7 @@ Messages to the stakeholder are short and lead with the outcome; the plan stays 
 
 1. **At intake**: a Situation Summary of at most five lines — request clause, lane and its exclusion if above S, teammates to spawn, first blocking dependency, any limitation.
 2. **While working**: state changes and Tier B asks only, one decision per message in the eight-line format.
-3. **At close**: outcome, `/verify` result, and the `Separate task proposed:` lines of Rule 16, three at most.
+3. **At close**: outcome, `/verify` result, and the `Separate task proposed:` lines of Rule 16, three at most. Send the close report once, as the hand-back; the same text as a plain message is a duplicate (→ RP-54).
 
 ## Rule hygiene (non-negotiable)
 
