@@ -299,3 +299,8 @@ Eight permission blocks on pushes were each put to the stakeholder as a numbered
 **Date:** 2026-08-08 and 2026-08-16 · **Where:** project-a feature 005; `infra-repo` `revisionHistoryLimit` fix · **Rules it backs:** `AGENTS.md` "Strict delegation" and "Domain split".
 
 The root session implemented a small CSS-only layout fix itself instead of dispatching it; an independent review still gated the merge, but authorship had bypassed the team. Separately, a `revisionHistoryLimit` fix to `infra-repo` Kubernetes manifests was split across `devops-infra-expert` (investigate) and `senior-software-engineer` (author, commit and review). That was an unforced misassignment of authorship and review, because the `devops-infra-expert` charter already claims IaC authorship and its read-only default gates only state-changing operations, not editing.
+
+## RP-56 — The coordinator handed back mid-run, and the root session left the backlog card at Not started
+**Date:** 2026-10-18 · **Where:** `infra-repo` route narrowing · **Rules it backs:** coordinator "Output Format" item 4; `AGENTS.md` "Backlog status follows the work".
+
+The coordinator ended its run with an interim status ("this call ends my run before the author reports"), so the root session had to resume it with `SendMessage` to get the review, merge and evidence. Separately, the root session dispatched a task from a backlog card without moving it to `In progress`; no steering file the root session loads carried the rule, and the stakeholder asked why the card had not moved. The fix: a run ends only at merge with evidence or a named blocker, and a pointer in `AGENTS.md` carries the status rule to the root session.
