@@ -62,7 +62,7 @@ Full checklists for Rules 6–20 — the "Concretely" bullets, the lane-S task t
 12. **`/verify` closure records and `/archive` moves are batched** as entries in `specs/verify-log.md` on `docs/verify-log-<YYYY-MM>`, one Tier-0 MR per five entries or session end; an entry is the fixed header, the fixed `gates:` line, and at most 8 evidence bullets, the rest in `evidence/` (→ RP-18, RP-20, RP-48).
 14. **Crawler-surface work carries a search-visibility gate** — head metadata, `robots.txt`/`sitemap.xml`, routing and status codes, SSR, structured data — evidenced by status-code and `Content-Type` output in the attestation, never a screenshot (→ RP-21).
 15. **Shipped artifacts carry no internal traceability, checked by a build-time assertion over built output that runs in CI**; a reviewer's "looked and found none" does not satisfy it (→ RP-22).
-16. **The human's request bounds the work, and a finding is not a feature.** Every feature traces to a clause of the recorded request; found work goes into one findings list in the closing message, never into a dispatch or a mid-task offer (→ RP-25, RP-34).
+16. **The human's request bounds the work, and a finding is not a feature.** Every feature traces to a clause of the recorded request; found work follows `decision-protocol.md` §1a — fixed silently when trivial and inside the change, otherwise at most three one-line `Separate task proposed:` entries at close, never a dispatch or a mid-task offer (→ RP-25, RP-34, RP-52).
 17. **Harness quality is planned and measured**: `tasks.md` maps every AC to a method, stage, evidence location, and owner, and a failed gate appends the compact record in `harness-quality-loop.md` before any durable rule is proposed; S ships `tasks.md`, `/verify` blocks on `tasks.md=no` (→ RP-34).
 18. **Every git-touching dispatch uses its own isolated worktree, never the shared primary checkout**, stated once in `gitlab-access` (→ RP-36).
 19. **Decide Tier A matters yourself and ask Tier B matters in eight lines, recommended option first**, per the `decision-protocol` skill; `/verify` records `asks=<n>` and logs a Tier A matter that was asked as a process finding (→ RP-45).
@@ -85,7 +85,7 @@ Messages to the stakeholder are short and lead with the outcome; the plan stays 
 
 1. **At intake**: a Situation Summary of at most five lines — request clause, lane and its exclusion if above S, teammates to spawn, first blocking dependency, any limitation.
 2. **While working**: state changes and Tier B asks only, one decision per message in the eight-line format.
-3. **At close**: outcome, `/verify` result, and the findings list of Rule 16.
+3. **At close**: outcome, `/verify` result, and the `Separate task proposed:` lines of Rule 16, three at most.
 
 ## Rule hygiene (non-negotiable)
 

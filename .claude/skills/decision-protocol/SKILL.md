@@ -11,4 +11,6 @@ description: "How to decide and how to ask: decide small reversible matters your
 
 **The ask is at most eight lines**: `Decision:` one line, `Why it matters:` one line, up to three numbered options with one-line consequences, the recommended option first and marked, then `Reply with a number. Details: <one pointer>`. No job IDs, SHAs, timestamps, paths, rule or AC IDs in the ask; they live at the pointer. One decision per message; ask the blocking one first. A relay forwards the block as is or shorter, never longer.
 
+**Found work follows the same split** (`decision-protocol.md` §1a): trivial and inside the files you change — fix it in the same MR and record it, do not report it; a real problem — one `Separate task proposed:` line at close, three at most; never a mid-task offer or a list of small improvements (→ RP-52).
+
 **Before you send any ask, read `${CLAUDE_PLUGIN_ROOT}/.claude/process/decision-protocol.md`** — it carries the full tier table, the format, and the gates (sender self-check, coordinator return, `/verify` `asks=` count) (→ RP-45).

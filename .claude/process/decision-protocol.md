@@ -24,6 +24,15 @@ Rules of the split:
 - **A Tier A decision never becomes Tier B because it is in a log the stakeholder owns.** The stakeholder's name on the log is the normal state of every artifact; it is not a reservation.
 - **Uncertainty about the tier is not a Tier B question.** Apply the reversibility rule and move on.
 
+## 1a. Found work
+
+The same split applies to what you notice while working (→ RP-52):
+
+- **Trivial and inside the change's own files** (a typo, a stale comment, a mismatched name, a formatting slip): fix it in the same MR, record it in one `tasks.md` row, do not mention it in the closing message.
+- **Trivial and outside the change's files:** leave it; do not report it.
+- **A real problem** (a defect, a wrong rule, a failing gate, a security or data issue): one line in the closing message, in the form `Separate task proposed: <what is wrong, in plain words>`. At most three such lines per closing message; if there are more, the three most important stay and the rest go to the run's postmortem.
+- Never offer to fix it now, never dispatch it, never widen the current MR with it (Core Operating Rule 16).
+
 ## 2. The ask format (Tier B)
 
 One decision per message. Eight lines maximum, in this order, nothing else:
