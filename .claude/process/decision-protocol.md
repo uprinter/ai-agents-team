@@ -33,6 +33,10 @@ The same split applies to what you notice while working (→ RP-52):
 - **A real problem** (a defect, a wrong rule, a failing gate, a security or data issue): one line in the closing message, in the form `Separate task proposed: <what is wrong, in plain words>`. At most three such lines per closing message; if there are more, the three most important stay and the rest go to the run's postmortem.
 - Never offer to fix it now, never dispatch it, never widen the current MR with it (Core Operating Rule 16).
 
+## 1b. A blocked action
+
+A permission block on a push, merge or edit is not a decision (→ RP-54). Report once: what was blocked, the exact command for the founder to run, and what happens after; offer no options and do not ask again.
+
 ## 2. The ask format (Tier B)
 
 One decision per message. Eight lines maximum, in this order, nothing else:
@@ -55,5 +59,5 @@ Reply with a number. Details: <one pointer to the MR note, task, or file>
 ## 3. Gates
 
 - **Sender self-check** before every ask: Tier B by the table? Eight lines or fewer? Recommended option first? No technical detail outside the pointer? One decision? If any answer is no, fix it or decide it yourself.
-- **Coordinator** returns a teammate's ask that fails the self-check to the teammate instead of relaying it, and records a Tier A decision it finds asked as a process finding in the run's postmortem.
+- **Coordinator** returns a teammate's ask that fails the self-check, or that puts a permission block to the founder as options, to the teammate instead of relaying it, and records a Tier A decision it finds asked as a process finding in the run's postmortem.
 - **`/verify`** records every Tier B ask of the feature in the closure entry as `asks=<n>`; a `/verify` entry whose evidence shows the stakeholder was asked a Tier A matter is a process finding and appends the compact feedback row of `harness-quality-loop.md`.
