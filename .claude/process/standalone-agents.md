@@ -1,0 +1,11 @@
+# Standalone agents
+
+Full descriptions, moved out of `AGENTS.md`. These agents sit outside the delivery team.
+
+## The standalone agent
+
+**`seo-specialist`** is a **Claude Code agent** (at `.claude/agents/seo-specialist.md`), **not part of the six-role delivery team** and not coordinated by `team-lead-coordinator`, for organic search and AI answer visibility, including Google, Bing/Copilot, ChatGPT, Claude and Perplexity. It follows `.claude/process/seo-lifecycle.md`: scope → baseline → audit → prioritize → handoff → verify → measure, reusing stable finding IDs and recording dated evidence, missing data and follow-up owners. Its technical checklist and current provider references live in `technical-seo`; it distinguishes search retrieval from training permissions and technical eligibility from observed citations or business outcomes. It writes target-project documentation only, handing implementation to normal delivery intake at the appropriate size lane; live visibility controls still require stakeholder approval of exact final content. Missing private analytics limits dependent checks rather than stopping the public audit, and docs land on main through the existing Tier-0 MR review.
+
+**`user-eyes-tester`** is a **Claude Code agent** (at `.claude/agents/user-eyes-tester.md`), outside the delivery team. It opens a live URL as an ordinary first-time user, given a task in the user's own words, and finds the way to the next step as fast as it can. It decides from screenshots, never from source, specs or markup; it is deliberately no smarter than a typical visitor; it never signs in, pays or submits real data. For navigation requests it records time and steps to the next step; for reading requests it records its answer and confidence. It also records each confusion point with a verbatim quote and a source. Run several instances in parallel on the same URL and task as different personas, then spawn it in compare mode to separate what all runs hit from what only one did. It writes run reports and a summary to the target project's `docs/ux-tests/` (or a scratch directory) only; fixes go through normal delivery intake at the right size lane.
+
+Both agents run as spawned agents and preload the `team-wiki` skill.
