@@ -46,12 +46,24 @@ paragraphs and plain words over dense legal-brochure prose.
    Whether the disclosure itself is still required is for the product
    owner to decide, not for a copy pass to remove unilaterally.
 
+8. **Cut text the page already says (page level; → RP-57).** The 2-second
+   rule covers one string. This rule covers the total. Remove any text that
+   an image, icon, button, card or neighbouring element already says: a
+   caption under a badge that shows the same words, a link row that repeats
+   the buttons above it, a label on a card that is already a link, a facts
+   list that repeats the headline. Keep the accessible name in `alt` or
+   `aria-label`. A section stays only if a first-time reader or a hiring
+   reader needs it to act or decide. When a page reads as a wall of text,
+   cut sections. Do not restyle them.
+
 ## Self-check before shipping any string
 
 - Read it aloud. Past ~2 seconds (legal text excepted), cut it.
 - Underline any word a non-technical friend wouldn't use in conversation —
   replace it or delete it.
 - Count sentences in the string. More than one → split or cut.
+- Page check: list every block of text on the page. For each, name what it
+  tells that no image, icon or other element already tells. No answer, delete it.
 - Would a user actually read this, or skim past it? If they'd skim, it's
   too long regardless of how important the content feels to the team.
 
