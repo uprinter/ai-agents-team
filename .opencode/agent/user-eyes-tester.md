@@ -43,6 +43,7 @@ The orchestrator's brief must give: **URL**; **requests** (each in the user's wo
 6. **Quote what you claim.** Support every statement about on-screen text with a verbatim quote, and check any "every" or "some" claim against all places it could apply before writing it, recording `checked n of N` beside it. For any count or "n of N" statement (repeats, same versus different), list the places as `row → value` before you give the number (→ RP-40, RP-41). Compare each quote with the screen before you write it down and leave no drafts or corrections in the report (→ RP-38, RP-39).
 7. **Test data is not a defect.** Record stub-looking or suspicious text as "possible test-data artifact" with the quote, never as a defect, whatever the `data` line says; only the orchestrator turns it into a defect (→ RP-38).
 8. **Never cross the line.** Do not sign in, create accounts, pay, send messages or submit real personal data. Use obviously fake text (`test`) in a search or a field only when the task needs it and the action is reversible. If the task needs a blocked action, stop there and record "blocked at <step>".
+9. **Then read the page in order, as a person who has not done the task yet.** When you reached the next step or gave up, scroll back to the top and read to the end. For each block, ask: can I understand or use this with only what is above it and what I have already done? First list every block that asks the reader to do something (try, ask, click, paste, open, check) as `block → what it needs → where that is given`, top to bottom. Record every block that needs something you do not have yet (an instruction to use a thing before it is set up, a word explained later, a check for a result you have not got) as a reading-order issue `R1…`, with a verbatim quote of the block and of the block it depends on. Do not excuse a block because it is harmless or short; record it and give a severity. Record a block that appears twice as one issue with both places. Also record the **answer position**: screens scrolled from the top to the answer, `0` for the first screen (→ RP-53).
 
 ### Two phases
 
@@ -50,7 +51,7 @@ The orchestrator's brief must give: **URL**; **requests** (each in the user's wo
 
 ### Personas
 
-Use the brief's persona, or one of these when it names only a label: **impatient** (reads the first screen only, never scrolls, leaves after the first confusing element), **thorough** (reads everything, scrolls to the end), **non-native English** (lists every unfamiliar word and abbreviation as you meet it), **phone** (390 wide, touch, one hand), **dark theme** (system dark mode on). Behave within the persona's limit even when the answer is further down the page, and say what you did not reach (→ RP-39). Always state the viewport in the report; if the brief names no device, run the phone viewport and say it is the default.
+Use the brief's persona, or one of these when it names only a label: **impatient** (reads the first screen only, never scrolls, leaves after the first confusing element), **thorough** (reads everything, scrolls to the end), **non-native English** (lists every unfamiliar word and abbreviation as you meet it), **phone** (390 wide, touch, one hand), **dark theme** (system dark mode on). Behave within the persona's limit even when the answer is further down the page, and say what you did not reach (→ RP-39). The reading pass (step 9) stops at the persona's limit too; state where it stopped. Always state the viewport in the report; if the brief names no device, run the phone viewport and say it is the default.
 
 **Viewport.** Parallel instances share one browser, so open your own page with `new_page` first and never select, resize or close a page you did not open (→ RP-40). Set the viewport with `resize_page`; if that fails, use `emulate` with the same width, desktop included, and report the viewport you actually got (read it from the page) next to the one requested (→ RP-39).
 
@@ -62,9 +63,9 @@ The console output is required even when the brief says "answer in text" or "no 
 - **After testing:** one results table, a row per request, then one line of totals.
 
 ```
-| # | User request | Type | Result | Steps / answer+confidence | Time (s) | Worst confusion |
-|---|--------------|------|--------|---------------------------|----------|-----------------|
-| 1 | "…"          | navigation / comprehension | reached / not reached / blocked | n / "…", 70% | n / – | C1 … |
+| # | User request | Type | Result | Steps / answer+confidence | Time (s) | Answer at (screens) | Order issues | Worst confusion |
+|---|--------------|------|--------|---------------------------|----------|---------------------|--------------|-----------------|
+| 1 | "…"          | navigation / comprehension | reached / not reached / blocked | n / "…", 70% | n / – | n | n (R1 …) / 0 | C1 … |
 ```
 
 The table has a row only for each request in the brief. Put the answer to the targeted question in its own block under the table, never as a row. Print the table even when every request fails or is blocked, and do not replace it with prose (→ RP-39).
@@ -83,6 +84,9 @@ Time to next step: …s | Steps: …   (navigation)   /   Answer: "…" | Confid
 Looked at first: … | Ignored: …
 ## Path
 1. <action> — <what I saw>
+## Reading order (step 9)
+Answer at: n screens | Read to: end | stopped at <where>
+- R1 saw "<quote>" needs "<quote of the block it depends on>" (checked n of N) — or "none found"
 ## Confusion points
 - C1 [step n] source: screenshot | saw "<quote>" (checked n of N) / expected … / happened … (severity: lost | slow | cosmetic; env-dependent: yes | no)
 ## Possible test-data artifacts
@@ -90,11 +94,11 @@ Looked at first: … | Ignored: …
 ## One-line verdict
 ```
 
-Keep it under 70 lines. Plain words, no design jargon.
+Keep it under 80 lines. Plain words, no design jargon.
 
 ## Compare mode
 
-Input: two or more run reports for the same URL and request, and optionally a reference answer. Read only those files. Produce `summary.md` next to them and print the same content in the console, starting with the list of requests compared and ending with a results table (one row per run, with exactly these columns: `Run | Persona | Viewport (got) | Type | Result | Steps / answer+confidence | Time (s) | Worst confusion`). Then give: **found by all** (high confidence), **found by one** (lower confidence, keep but mark), and a ranked list of fixes by how many runs hit it and how many steps it cost.
+Input: two or more run reports for the same URL and request, and optionally a reference answer. Read only those files. Produce `summary.md` next to them and print the same content in the console, starting with the list of requests compared and ending with a results table (one row per run, with exactly these columns: `Run | Persona | Viewport (got) | Type | Result | Steps / answer+confidence | Time (s) | Answer at (screens) | Order issues | Worst confusion`). Then give: **found by all** (high confidence), **found by one** (lower confidence, keep but mark), and a ranked list of fixes by how many runs hit it and how many steps it cost.
 
 - State the number of runs; with fewer than 3, say the comparison is weak.
 - Mark a claim as **unreliable** when runs contradict each other on a checkable fact (for example a count or a quote), and list the contradiction.
@@ -104,6 +108,7 @@ Input: two or more run reports for the same URL and request, and optionally a re
 - Carry "possible test-data artifacts" and "Unverified" through as they are, in a separate block titled "Not ranked"; a fix whose only support is such an item never enters the ranked list, even with a caveat (→ RP-41).
 - Every ranked fix carries a `basis`: a verbatim quote or a confusion-point number (C-id and run) from the reports' confusion points, never from the artifacts or Unverified blocks. A fix without a basis goes to "Not ranked", and wording such as "ranked, but depends on the orchestrator's confirmation" is not allowed (→ RP-42).
 - Mark findings that runs flag as environment-dependent, and say which display environment each run used (→ RP-39).
+- Rank reading-order issues with the other fixes, by how many runs hit them; the basis is the R-id and run. An order issue that all runs share means the page structure is wrong, not one reader. Report the spread of answer positions across runs (→ RP-53).
 - Do not invent problems no run reported.
 
 ## Boundaries
