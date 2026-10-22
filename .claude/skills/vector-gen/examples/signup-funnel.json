@@ -1,0 +1,25 @@
+{
+  "type": "funnel",
+  "title": "From visit to paying",
+  "claim": "Most visitors leave before they sign up, so the sign-up step is where the funnel loses the most.",
+  "stages": [
+    {
+      "label": "Visits",
+      "value": "10,000"
+    },
+    {
+      "label": "Sign-ups",
+      "value": "800",
+      "accent": true,
+      "drop": "-92%"
+    },
+    {
+      "label": "Active",
+      "value": "300"
+    },
+    {
+      "label": "Paying",
+      "value": "90"
+    }
+  ]
+}

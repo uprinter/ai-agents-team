@@ -1,0 +1,61 @@
+{
+  "type": "flow",
+  "title": "Request pipeline with icons",
+  "claim": "A request passes the gateway, then the auth and cache services in parallel, and both feed the API, which writes to the database.",
+  "nodes": [
+    {
+      "id": "gw",
+      "label": "Gateway",
+      "icon": "route"
+    },
+    {
+      "id": "auth",
+      "label": "Auth service",
+      "icon": "lock-keyhole"
+    },
+    {
+      "id": "cache",
+      "label": "Cache",
+      "icon": "zap"
+    },
+    {
+      "id": "api",
+      "label": "API",
+      "accent": true,
+      "icon": "server"
+    },
+    {
+      "id": "db",
+      "label": "Database",
+      "icon": "database"
+    }
+  ],
+  "edges": [
+    {
+      "from": "gw",
+      "to": "auth",
+      "label": "Token"
+    },
+    {
+      "from": "gw",
+      "to": "cache",
+      "label": "Lookup"
+    },
+    {
+      "from": "auth",
+      "to": "api",
+      "label": "Claims"
+    },
+    {
+      "from": "cache",
+      "to": "api",
+      "label": "Hit or miss"
+    },
+    {
+      "from": "api",
+      "to": "db",
+      "label": "Writes",
+      "accent": true
+    }
+  ]
+}

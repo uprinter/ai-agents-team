@@ -1,0 +1,23 @@
+{
+  "type": "steps",
+  "title": "Review loop",
+  "claim": "A change goes through four steps in order: spec, build, review, merge.",
+  "steps": [
+    {
+      "title": "Write the spec",
+      "text": "One page, with acceptance criteria."
+    },
+    {
+      "title": "Build the change",
+      "text": "Small steps, each with a test."
+    },
+    {
+      "title": "Review the diff",
+      "text": "A second instance, not the author."
+    },
+    {
+      "title": "Merge",
+      "text": "Only after a green pipeline."
+    }
+  ]
+}

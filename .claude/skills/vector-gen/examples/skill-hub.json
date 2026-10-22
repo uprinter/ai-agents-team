@@ -1,0 +1,28 @@
+{
+  "type": "hub",
+  "title": "Skills around the harness",
+  "claim": "One harness team routes work to four skills.",
+  "hub": {
+    "label": "Harness",
+    "icon": "network"
+  },
+  "spokes": [
+    {
+      "label": "Diagrams",
+      "icon": "workflow"
+    },
+    {
+      "label": "Charts",
+      "icon": "layers"
+    },
+    {
+      "label": "Images",
+      "icon": "eye"
+    },
+    {
+      "label": "Reviews",
+      "icon": "shield-check"
+    }
+  ],
+  "arrows": "out"
+}
