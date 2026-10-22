@@ -1,0 +1,61 @@
+{
+  "type": "compare",
+  "title": "Queue between writer and reader",
+  "claim": "Before, the writer calls the reader directly. After, a queue sits between them and the writer no longer waits.",
+  "no_social": true,
+  "panels": [
+    {
+      "label": "Before",
+      "nodes": [
+        {
+          "id": "w",
+          "label": "Writer"
+        },
+        {
+          "id": "r",
+          "label": "Reader"
+        }
+      ],
+      "edges": [
+        {
+          "from": "w",
+          "to": "r",
+          "label": "Calls and waits"
+        }
+      ]
+    },
+    {
+      "label": "After",
+      "nodes": [
+        {
+          "id": "w",
+          "label": "Writer"
+        },
+        {
+          "id": "q",
+          "label": "Queue",
+          "delta": "add"
+        },
+        {
+          "id": "r",
+          "label": "Reader"
+        }
+      ],
+      "edges": [
+        {
+          "from": "w",
+          "to": "q",
+          "label": "Enqueues, no wait",
+          "async": true,
+          "delta": "add"
+        },
+        {
+          "from": "q",
+          "to": "r",
+          "label": "Delivers",
+          "delta": "add"
+        }
+      ]
+    }
+  ]
+}

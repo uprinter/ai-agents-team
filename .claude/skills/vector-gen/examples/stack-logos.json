@@ -1,0 +1,36 @@
+{
+  "type": "flow",
+  "title": "Service stack with logos",
+  "claim": "The Python service reads from Redis first and queries PostgreSQL only when Redis has no answer.",
+  "nodes": [
+    {
+      "id": "app",
+      "label": "Python",
+      "icon": "brand:python",
+      "accent": true
+    },
+    {
+      "id": "cache",
+      "label": "Redis",
+      "icon": "brand:redis"
+    },
+    {
+      "id": "db",
+      "label": "PostgreSQL",
+      "icon": "brand:postgresql"
+    }
+  ],
+  "edges": [
+    {
+      "from": "app",
+      "to": "cache",
+      "label": "Reads first"
+    },
+    {
+      "from": "app",
+      "to": "db",
+      "label": "On a miss",
+      "dashed": true
+    }
+  ]
+}

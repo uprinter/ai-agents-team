@@ -1,0 +1,45 @@
+{
+  "type": "flow",
+  "title": "Retry loop",
+  "claim": "A job runs, is checked, and goes back to run again until the check passes.",
+  "nodes": [
+    {
+      "id": "q",
+      "label": "Queue"
+    },
+    {
+      "id": "w",
+      "label": "Worker"
+    },
+    {
+      "id": "c",
+      "label": "Check"
+    },
+    {
+      "id": "d",
+      "label": "Done"
+    }
+  ],
+  "edges": [
+    {
+      "from": "q",
+      "to": "w"
+    },
+    {
+      "from": "w",
+      "to": "c"
+    },
+    {
+      "from": "c",
+      "to": "d",
+      "label": "Passes",
+      "accent": true
+    },
+    {
+      "from": "c",
+      "to": "w",
+      "label": "Fails",
+      "back": true
+    }
+  ]
+}

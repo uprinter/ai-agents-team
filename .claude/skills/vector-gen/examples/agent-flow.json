@@ -1,0 +1,110 @@
+{
+  "type": "sequence",
+  "title": "Agent team flow",
+  "claim": "The coordinator gathers requirements and constraints in parallel, hands them to the engineer, and the engineer and reviewer loop until the work is approved.",
+  "no_social": true,
+  "participants": [
+    {
+      "id": "C",
+      "label": "Coordinator"
+    },
+    {
+      "id": "PO",
+      "label": "Product owner"
+    },
+    {
+      "id": "A",
+      "label": "Architect"
+    },
+    {
+      "id": "E",
+      "label": "Engineer"
+    },
+    {
+      "id": "R",
+      "label": "Reviewer"
+    }
+  ],
+  "steps": [
+    {
+      "frame": "Parallel",
+      "steps": [
+        {
+          "row": [
+            {
+              "from": "C",
+              "to": "PO",
+              "label": "Requirements"
+            },
+            {
+              "from": "C",
+              "to": "A",
+              "label": "Constraints"
+            }
+          ]
+        },
+        {
+          "row": [
+            {
+              "from": "PO",
+              "to": "C",
+              "label": "Spec",
+              "return": true
+            },
+            {
+              "from": "A",
+              "to": "C",
+              "label": "Plan",
+              "return": true
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "from": "C",
+      "to": "E",
+      "label": "Requirements, constraints"
+    },
+    {
+      "frame": "Until approved",
+      "accent": true,
+      "steps": [
+        {
+          "from": "E",
+          "to": "R",
+          "label": "Review"
+        },
+        {
+          "from": "R",
+          "to": "E",
+          "label": "Findings",
+          "return": true,
+          "accent": true
+        },
+        {
+          "from": "E",
+          "to": "R",
+          "label": "Fixes",
+          "accent": true
+        },
+        {
+          "from": "R",
+          "to": "E",
+          "label": "Approval",
+          "return": true
+        }
+      ],
+      "repeat": [
+        2,
+        0
+      ]
+    },
+    {
+      "from": "E",
+      "to": "C",
+      "label": "Result and evidence",
+      "return": true
+    }
+  ]
+}

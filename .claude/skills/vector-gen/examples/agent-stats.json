@@ -1,0 +1,23 @@
+{
+  "type": "cards",
+  "title": "Review gates",
+  "claim": "Every merge request passes three independent checks before it lands.",
+  "cards": [
+    {
+      "value": "3",
+      "title": "Independent checks",
+      "text": "Tests, review and a live look.",
+      "accent": true
+    },
+    {
+      "value": "0",
+      "title": "Self-approvals",
+      "text": "The author never approves."
+    },
+    {
+      "value": "1",
+      "title": "Place to land",
+      "text": "A merge request, never a direct push."
+    }
+  ]
+}

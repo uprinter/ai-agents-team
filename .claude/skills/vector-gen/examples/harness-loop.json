@@ -1,0 +1,28 @@
+{
+  "type": "cycle",
+  "title": "Harness loop",
+  "claim": "Work moves in a loop: spec, build, review, verify, and what the team learns goes back into the next spec.",
+  "steps": [
+    {
+      "label": "Spec",
+      "icon": "clipboard-check"
+    },
+    {
+      "label": "Build",
+      "icon": "hammer"
+    },
+    {
+      "label": "Review",
+      "icon": "eye"
+    },
+    {
+      "label": "Verify",
+      "icon": "shield-check"
+    },
+    {
+      "label": "Learn",
+      "icon": "search"
+    }
+  ],
+  "return_label": "Feeds the next spec"
+}

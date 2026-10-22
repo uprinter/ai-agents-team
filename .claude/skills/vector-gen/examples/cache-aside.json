@@ -1,0 +1,70 @@
+{
+  "type": "sequence",
+  "title": "Cache-aside read",
+  "claim": "The API asks the cache first and goes to the database only on a miss, then stores the answer in the cache.",
+  "participants": [
+    {
+      "id": "A",
+      "label": "Client"
+    },
+    {
+      "id": "B",
+      "label": "API"
+    },
+    {
+      "id": "C",
+      "label": "Cache"
+    },
+    {
+      "id": "D",
+      "label": "Database"
+    }
+  ],
+  "steps": [
+    {
+      "from": "A",
+      "to": "B",
+      "label": "Get item"
+    },
+    {
+      "from": "B",
+      "to": "C",
+      "label": "Lookup"
+    },
+    {
+      "from": "C",
+      "to": "B",
+      "label": "Miss",
+      "return": true,
+      "accent": true
+    },
+    {
+      "frame": "On a miss",
+      "steps": [
+        {
+          "from": "B",
+          "to": "D",
+          "label": "Query"
+        },
+        {
+          "from": "D",
+          "to": "B",
+          "label": "Row",
+          "return": true
+        },
+        {
+          "from": "B",
+          "to": "C",
+          "label": "Store"
+        }
+      ],
+      "accent": true
+    },
+    {
+      "from": "B",
+      "to": "A",
+      "label": "Item",
+      "return": true
+    }
+  ]
+}

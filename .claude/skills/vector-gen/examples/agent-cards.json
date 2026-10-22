@@ -1,0 +1,27 @@
+{
+  "type": "cards",
+  "title": "Agent team roles",
+  "claim": "Four agents split the work: the coordinator routes, the architect decides, the engineer builds and the reviewer checks.",
+  "cards": [
+    {
+      "icon": "network",
+      "title": "Coordinator",
+      "text": "Routes work, never writes code."
+    },
+    {
+      "icon": "layers",
+      "title": "Architect",
+      "text": "Decides structure, records why."
+    },
+    {
+      "icon": "hammer",
+      "title": "Engineer",
+      "text": "Builds the change and opens the MR."
+    },
+    {
+      "icon": "shield-check",
+      "title": "Reviewer",
+      "text": "Checks the diff, approves or blocks."
+    }
+  ]
+}

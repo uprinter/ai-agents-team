@@ -1,0 +1,42 @@
+{
+  "type": "swimlanes",
+  "title": "Release by role",
+  "claim": "The engineer builds, the reviewer checks and the pipeline tests, each in its own lane.",
+  "lanes": [
+    {
+      "id": "e",
+      "label": "Engineer"
+    },
+    {
+      "id": "r",
+      "label": "Reviewer"
+    },
+    {
+      "id": "p",
+      "label": "Pipeline"
+    }
+  ],
+  "steps": [
+    {
+      "id": "s1",
+      "lane": "e",
+      "label": "Open merge request"
+    },
+    {
+      "id": "s2",
+      "lane": "r",
+      "label": "Review the diff"
+    },
+    {
+      "id": "s3",
+      "lane": "e",
+      "label": "Fix findings"
+    },
+    {
+      "id": "s4",
+      "lane": "p",
+      "label": "Run tests",
+      "accent": true
+    }
+  ]
+}

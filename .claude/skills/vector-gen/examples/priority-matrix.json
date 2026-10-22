@@ -1,0 +1,26 @@
+{
+  "type": "matrix",
+  "title": "What to build first",
+  "claim": "Build first what gives the most impact for the least effort.",
+  "x": "Effort",
+  "y": "Impact",
+  "cells": [
+    {
+      "title": "Quick wins",
+      "text": "High impact, low effort. Do these now.",
+      "accent": true
+    },
+    {
+      "title": "Big bets",
+      "text": "High impact, high effort. Plan them."
+    },
+    {
+      "title": "Fill-ins",
+      "text": "Low impact, low effort. Only when idle."
+    },
+    {
+      "title": "Money pits",
+      "text": "Low impact, high effort. Drop them."
+    }
+  ]
+}

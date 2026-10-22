@@ -1,0 +1,209 @@
+{
+  "colors": {
+    "bg": "#080f13",
+    "ink": "#f9f9f9",
+    "muted": "#b7bcc4",
+    "hair": "#4a5058",
+    "surface": "#2a2f38",
+    "accent": "#4f9dff"
+  },
+  "font": {
+    "family": "Georgia, 'Iowan Old Style', serif",
+    "regular": [
+      "/System/Library/Fonts/Supplemental/Georgia.ttf",
+      "C:/Windows/Fonts/georgia.ttf",
+      "/usr/share/fonts/truetype/dejavu/DejaVuSerif.ttf"
+    ],
+    "bold": [
+      "/System/Library/Fonts/Supplemental/Georgia Bold.ttf",
+      "C:/Windows/Fonts/georgiab.ttf",
+      "/usr/share/fonts/truetype/dejavu/DejaVuSerif-Bold.ttf"
+    ],
+    "value": {
+      "family": "'Helvetica Neue', Arial, sans-serif",
+      "bold": [
+        "/System/Library/Fonts/Supplemental/Arial Bold.ttf",
+        "C:/Windows/Fonts/arialbd.ttf",
+        "/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf"
+      ]
+    }
+  },
+  "stroke": {
+    "guide": 1,
+    "outline": 1.5,
+    "connector": 2,
+    "emphasis": 3
+  },
+  "radius": {
+    "s": 4,
+    "m": 8
+  },
+  "type": {
+    "min": 11,
+    "scale": [
+      11,
+      12,
+      14,
+      16,
+      20,
+      28,
+      40
+    ],
+    "fit_min": 10,
+    "fit_squeeze": 0.89
+  },
+  "arrow": {
+    "len_per_stroke": 6,
+    "half_width_ratio": 0.36
+  },
+  "icon": {
+    "min": 14,
+    "scale": [
+      16,
+      20,
+      24,
+      32,
+      48
+    ],
+    "stroke": "outline"
+  },
+  "page_gutter": 32,
+  "contrast": {
+    "text": 4.5,
+    "graphic": 3
+  },
+  "variants": {
+    "narrow": {
+      "icon": 16,
+      "pad": 12,
+      "label_pad": 1,
+      "margin": 3,
+      "gap": 3,
+      "grid": 1,
+      "node_font": 11,
+      "edge_font": 11,
+      "tab_font": 11,
+      "title_font": 14,
+      "row": 34,
+      "safety": 1.03,
+      "width": 343,
+      "stat_font": 28
+    },
+    "mid": {
+      "icon": 16,
+      "pad": 14,
+      "label_pad": 2,
+      "margin": 6,
+      "gap": 6,
+      "grid": 2,
+      "node_font": 12,
+      "edge_font": 12,
+      "tab_font": 11,
+      "title_font": 14,
+      "row": 38,
+      "safety": 1.04,
+      "width": 460,
+      "stat_font": 28
+    },
+    "medium": {
+      "icon": 20,
+      "pad": 16,
+      "label_pad": 3,
+      "margin": 12,
+      "gap": 16,
+      "grid": 2,
+      "node_font": 14,
+      "edge_font": 12,
+      "tab_font": 11,
+      "title_font": 16,
+      "row": 44,
+      "safety": 1.06,
+      "width": 600,
+      "stat_font": 28
+    },
+    "wide": {
+      "icon": 24,
+      "pad": 24,
+      "label_pad": 6,
+      "margin": 12,
+      "gap": 24,
+      "grid": 4,
+      "node_font": 16,
+      "edge_font": 14,
+      "tab_font": 12,
+      "title_font": 20,
+      "row": 46,
+      "safety": 1.08,
+      "width": 768,
+      "stat_font": 40
+    }
+  },
+  "social": {
+    "scale": 3,
+    "ratio_min": 1.0,
+    "ratio_max": 1.25,
+    "fill_from": 0.75,
+    "min_font": 12,
+    "max_bytes": 5000000,
+    "tiers": [
+      {
+        "node_font": 20,
+        "edge_font": 16,
+        "tab_font": 14,
+        "title_font": 20,
+        "icon": 32,
+        "row": 58,
+        "pad": 20,
+        "stat_font": 40
+      },
+      {
+        "node_font": 16,
+        "edge_font": 14,
+        "tab_font": 14,
+        "title_font": 20,
+        "icon": 24,
+        "row": 50,
+        "stat_font": 40
+      }
+    ],
+    "variant": {
+      "icon": 16,
+      "pad": 16,
+      "label_pad": 6,
+      "margin": 16,
+      "gap": 8,
+      "grid": 2,
+      "node_font": 14,
+      "edge_font": 12,
+      "tab_font": 12,
+      "title_font": 16,
+      "row": 44,
+      "safety": 1.05,
+      "width": 360,
+      "mode": "tb",
+      "compare_mode": "auto",
+      "text_margin": 16,
+      "port_gap": 80,
+      "label_clear": 8,
+      "label_gap": 14,
+      "row_gap": 24,
+      "stat_font": 40,
+      "stack_up_to": 3
+    },
+    "compact": [
+      {
+        "node_font": 12,
+        "edge_font": 12,
+        "tab_font": 12,
+        "pad": 12,
+        "icon": 16
+      }
+    ]
+  },
+  "cards": {
+    "min_text": 120
+  },
+  "steps": {
+    "min_column": 110
+  }
+}
