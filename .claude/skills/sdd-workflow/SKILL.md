@@ -61,7 +61,7 @@ Lane rules, all binding:
 9. **Challenge assumptions once for M/L.** During the existing governing-document MR review, a domain-matched independent reviewer posts the bounded `ASSUMPTION-CHALLENGE` defined in `${CLAUDE_PLUGIN_ROOT}/.claude/process/harness-quality-loop.md`; it preserves the verbatim request, adds no extra review round, and blocks implementation on unresolved in-scope findings. XS and S do not run this challenge. (→ RP-34)
 10. **Measure failed gates before changing the harness.** Append the compact failure record to the run's existing postmortem, then review matching repeat keys before proposing a durable rule; `${CLAUDE_PLUGIN_ROOT}/.claude/process/harness-quality-loop.md` defines the formats and decision rule. (→ RP-34)
 
-Feature numbering is sequential and immutable per target project (NNN = `001`, `002`, …). Once assigned, never renumber. Feature slug is short kebab-case (`weather-forecast`, `user-onboarding`).
+Feature numbering is sequential and immutable per target project (NNN = `001`, `002`, …). Once assigned, never renumber. Take the next NNN as the highest number found on `origin/main`, every remote branch and every open MR, plus one; a target project with CI also fails the pipeline on two `specs/NNN-*` directories sharing a number (→ RP-60). Feature slug is short kebab-case (`weather-forecast`, `user-onboarding`).
 
 If the target project does not yet have a `specs/` directory, the coordinator creates one as the first action of the first feature — and at the same time updates the target project's `AGENTS.md` (or equivalent) to note that SDD is now the convention there.
 
