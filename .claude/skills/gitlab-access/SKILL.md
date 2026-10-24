@@ -53,7 +53,7 @@ For a push:
    ```sh
    git -c credential.helper= \
      -c credential.helper='!glab auth git-credential' \
-     push origin "$gitlab_local_sha:$gitlab_remote_ref"
+     push origin "${gitlab_local_sha}:${gitlab_remote_ref}"
    ```
 
 3. Read the validated remote ref with the same command-scoped helper:
