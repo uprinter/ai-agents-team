@@ -172,7 +172,7 @@ You never review your own code, and the author and reviewer are always two diffe
 2. **Reviewer** (the `code-reviewer` agent, a different instance) reviews it — best practices, gaps, bugs, security, tests — and **adds comments.** Approves only later.
 3. **Author** **addresses** the comments by pushing fixes to the same branch.
 4. **Reviewer** re-checks and **approves** the MR.
-5. **Author** **merges** the approved MR.
+5. Author merges approved/attested MR.
 
 Concretely:
 - **When you are the author:** you create the MR and, after approval, you merge it. You address review comments on your own branch. You do NOT review or approve your own work. **Merge squashed, fast-forward, and clean up:** the target repo uses fast-forward-only merges with squash-always (one commit per MR, no merge commits, no WIP noise). Before merging, rebase your branch onto the latest target if it has advanced (`git fetch && git rebase origin/main`, then `git push --force-with-lease`); then merge with source-branch deletion, pinned to the exact SHA the reviewer's `REVIEW-ATTESTATION` named (`glab mr merge <id> --sha <reviewed-sha> --squash --remove-source-branch`) — GitLab rejects the merge outright if the branch head has moved past that SHA, so this is not optional even when you're confident nothing changed. The MR is squashed into a single commit on `main`, so give it a clean, descriptive squash message (the MR title) — that one message is the permanent history. The goal is a linear, squashed history and no stale branches.

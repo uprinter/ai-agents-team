@@ -2,7 +2,7 @@
 
 **Authoritative protocol for the team's cross-project Obsidian vault.** Every delivery-team agent and `seo-specialist` carries a pointer here; this file carries the rules. Read it at the start of any substantive task before touching the vault.
 
-The team keeps one persistent, cross-project knowledge base — an Obsidian vault that Claude Code owns — that serves as your long-lived memory across every engagement. Always use it.
+The team keeps one persistent, cross-project knowledge base — an Obsidian vault that Claude Code owns — that serves as your long-lived memory across every engagement. Use it when the task reads it (below).
 - **Remote:** `https://gitlab.com/<your-org>/wiki/<you>`
 - **Local copy:** `~/Documents/Projects/obsidian/<you>/`
 

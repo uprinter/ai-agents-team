@@ -19,7 +19,7 @@ Before any git operation, create and operate in your own `git worktree` rather t
 
 ## Check authentication first
 
-Run `glab auth status` as the first command of any task that will use GitLab. If it reports a failure, stop and report the one decisive line to the coordinator or the user; do not retry, wait, or continue to the next step with GitLab work pending (→ RP-51).
+Run `glab auth status` as the first command of any task that will use GitLab. If it reports a failure, repeat it once as described under Protect authentication; if it still fails, stop and report the one decisive line to the coordinator or the user, and do not wait or continue to the next step with GitLab work pending (→ RP-51).
 
 ## Protect authentication
 

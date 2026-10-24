@@ -3,9 +3,9 @@ name: team-wiki
 description: "The team's shared cross-project Obsidian knowledge base: where it lives, when to consult it, and how to contribute back. Preloaded into every team agent."
 ---
 
-## Shared knowledge base — the wiki (always consult; contribute back)
+## Shared knowledge base — the wiki (consult per size; contribute back)
 
-The team keeps one persistent, cross-project Obsidian vault as long-lived memory across every engagement — remote `https://gitlab.com/<your-org>/wiki/<you>`, local `~/Documents/Projects/obsidian/<you>/`. Always use it: reuse what it already knows instead of re-researching or re-deciding, cite what you use as `[[Page Title]]`, and file durable cross-project knowledge back into it.
+The team keeps one persistent, cross-project Obsidian vault as long-lived memory across every engagement — remote `https://gitlab.com/<your-org>/wiki/<you>`, local `~/Documents/Projects/obsidian/<you>/`. When the task reads it, reuse what it already knows instead of re-researching or re-deciding, cite what you use as `[[Page Title]]`, and file durable cross-project knowledge back into it.
 
 **The read is gated by size.** XS and lane-S delivery work, a review, a `/verify`, and a UX or feed run do not read the vault at all; lane M/L work, research, and venture work read `wiki/index.md` and the pages it names for the task's domain, never the vault's full `AGENTS.md` (→ RP-46). Contribute back only when the task produced cross-project knowledge that no existing page holds.
 
