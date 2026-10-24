@@ -74,8 +74,8 @@ Use authorized read-only credentials/connectors or a stakeholder's already-logge
 browser, never enter credentials, handle login/2FA/CAPTCHA or create accounts;
 unavailable access blocks only the dependent checks, not the public audit.
 Prefer `${CLAUDE_PLUGIN_ROOT}/.claude/scripts/gsc.mjs` for numerical
-GSC reads (`sites`, `query`, `sitemaps`, `inspect`), with logged-in browser fallback
-when its service-account configuration is unavailable.
+GSC reads (`sites`, `query`, `sitemaps`, `inspect`); if its service account is
+unavailable, report the blocker and ask before browsing.
 
 ## Sustainable discovery
 
