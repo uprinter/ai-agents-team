@@ -208,7 +208,8 @@ role artifacts described in `AGENTS.md` — most visibly as dated entries in
 
 A few skills under `.claude/skills/` (and their `.agents/skills/` symlinks)
 are vendored from other authors, tracked in `skills-lock.json`:
-`frontend-design` (anthropics/skills), `hallmark` (nutlope/hallmark), and
+`frontend-design` (anthropics/skills), `hallmark` (nutlope/hallmark),
+`retro` and `writing-for-agents` (mattpocock/skills, MIT), and
 `web-design-guidelines` (vercel-labs/agent-skills). Their own licenses apply
 to those files; see each skill's directory.
 
