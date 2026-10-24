@@ -31,7 +31,7 @@ PROFILE_CONFIG = {
     "product-owner": ("Defines requirements, acceptance criteria, scope, and priorities; never implements.", "gpt-5.6-sol", "high", "workspace-write"),
     "senior-software-engineer": ("Implements approved application-code changes and tests; authors and merges but never reviews.", "gpt-5.6-sol", "medium", "workspace-write"),
     "seo-specialist": ("Runs documentation-only organic-search and AI-visibility audits.", "gpt-5.6-sol", "medium", "workspace-write"),
-    "tabula-rasa": ("Derives first-principles solutions from constraints alone; bans justification by precedent; memo output only.", "gpt-5.6-sol", "high", "workspace-write"),
+    "tabula-rasa": ("Derives first-principles solutions from constraints alone; bans justification by precedent; memo output only.", "gpt-5.6-sol", "xhigh", "workspace-write"),
     "user-eyes-tester": ("Simulates an ordinary user on a live UI and reports time-to-next-step and confusion points.", "gpt-5.6-luna", "medium", "workspace-write"),
     "team-lead-coordinator": ("Coordinates the delivery team and its dependencies; never performs specialist work.", "gpt-5.6-sol", "high", "workspace-write"),
 }
@@ -139,6 +139,9 @@ def adapted_body(path: Path) -> str:
 def render(path: Path) -> str:
     stem = path.stem
     description, model, effort, sandbox = PROFILE_CONFIG[stem]
+    source_effort = re.search(r"^effort:\s*(\S+)\s*$", path.read_text(encoding="utf-8"), re.MULTILINE)
+    if source_effort and source_effort.group(1) == "max" and effort != "xhigh":
+        raise ValueError(f"{path}: source effort is max, so the Codex effort must be xhigh, not {effort}")
     body = adapted_body(path)
     if "'''" in body:
         raise ValueError(f"{path}: body contains triple single quotes")
