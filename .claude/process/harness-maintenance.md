@@ -76,3 +76,7 @@ Installed developer skills:
 - **`technical-seo`** — crawlability, indexing and AI retrieval: HTTP semantics, robots/sitemaps, canonicals, metadata, structured data, rendering parity, CDN/WAF access, provider-specific search/training controls and field-versus-lab verification, with dated official references. Mandatory for `senior-software-engineer` crawler-surface work (see that agent's "Crawler-Surface Work" section), and used by `code-reviewer` as the search-visibility dimension of crawler-surface-touching MR reviews.
 - **`k8s-debug`** — Kubernetes diagnostic instructions.
 - **`image-gen`** — General-purpose raster image generation via a direct Gemini image-model API call (no browser, no screenshot-cropping). Bundles `scripts/generate-ai.mjs`; requires `GEMINI_API_KEY` in the user's shell environment, never in a project repo.
+
+## Pre-push hook
+
+`.githooks/pre-push` blocks a push to `main` or `master` that carries more than one commit, and lists them. The author confirms with the user that all of them belong, then repeats the push with `HARNESS_PUSH_COUNT=<n>`, where `n` is the listed count. Pushes of other branches pass. The hook caught no incident yet; it exists because one push carried two commits the user had not yet seen go out. Enable it once per clone: `git config core.hooksPath .githooks`. Tests: `.claude/scripts/tests/test_pre_push.py`.

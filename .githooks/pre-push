@@ -1,0 +1,26 @@
+#!/bin/sh
+# Block a push to main that carries several commits, unless the count is confirmed.
+# Enable once per clone: git config core.hooksPath .githooks
+zero=0000000000000000000000000000000000000000
+while read -r local_ref local_sha remote_ref remote_sha; do
+  case "$remote_ref" in
+    refs/heads/main | refs/heads/master) ;;
+    *) continue ;;
+  esac
+  [ "$local_sha" = "$zero" ] && continue
+  if [ "$remote_sha" = "$zero" ]; then
+    count=$(git rev-list --count "$local_sha" --not --remotes="$1")
+    range="$local_sha --not --remotes=$1"
+  else
+    count=$(git rev-list --count "$remote_sha..$local_sha")
+    range="$remote_sha..$local_sha"
+  fi
+  [ "$count" -le 1 ] && continue
+  [ "${HARNESS_PUSH_COUNT:-}" = "$count" ] && continue
+  echo "pre-push: $count commits go to ${remote_ref#refs/heads/}:" >&2
+  # shellcheck disable=SC2086
+  git log --oneline $range >&2
+  echo "Ask the user whether all $count belong in this push, then repeat with HARNESS_PUSH_COUNT=$count." >&2
+  exit 1
+done
+exit 0
