@@ -101,16 +101,16 @@ The lane is set by what the change touches, never by how it is framed (→ RP-18
 
 | Lane | Trigger | Artifacts |
 |---|---|---|
-| **XS** | doc-only, comment-only, or a bugfix with no behavior change | a row in `tasks.md` |
+| **XS** | nothing user-visible: doc-only, comment-only, or a bugfix with no behavior change | a row in `tasks.md` |
 | **S** | presentation, copy, styling, a tuned value, a contained bugfix — and no contract, persisted data, infra/deploy topology, auth, money, legal/GDPR surface, or second deployed artifact | `spec.md` ≤120 lines, `tasks.md`, no `plan.md`, no architect spawn, one MR |
 | **M** | new behavior inside existing contracts, one deployed artifact | `spec.md` ≤250 + `plan.md` ≤250 |
 | **L** | any S exclusion | full pipeline, no budget |
 
 A lane above S must name an exclusion; tier down only with stakeholder approval (→ RP-26, RP-47). Partial supersession, lane-S branch rules, and batched `/verify` closure records (`specs/verify-log.md`, Core Operating Rule 12) are in `.claude/process/harness-maintenance.md` and `.claude/process/verify-log.md`.
 
-## Rule hygiene (added 2026-08-27)
+## Rule hygiene
 
-Agent definitions load in full on every spawn, so their length is a running cost on every task (→ RP-18). Four constraints, enforced when editing any agent definition here:
+Agent definitions load in full on every spawn, so their length is a running cost on every task (→ RP-18). Four constraints, enforced when editing an agent definition:
 
 1. **A rule body is ≤2 sentences plus a `(→ RP-nn)` citation.** The narrative goes in `.claude/process/rule-provenance.md`, never inline. An agent must be able to comply having read only the rule.
 2. **Adding a rule requires naming what it replaces**, generalizes, or — failing both — why it does not overlap an existing one. "It is new" is a claim to check against the file, not an exemption.

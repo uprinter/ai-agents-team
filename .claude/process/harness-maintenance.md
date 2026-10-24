@@ -22,7 +22,7 @@ Skills need no adaptation: OpenCode reads `.claude/skills/` and `.agents/skills/
 
 | Lane | Trigger | Artifacts |
 |---|---|---|
-| **XS** | doc-only, comment-only, or a bugfix with no behavior change | a row in `tasks.md` |
+| **XS** | nothing user-visible: doc-only, comment-only, or a bugfix with no behavior change | a row in `tasks.md` |
 | **S** | presentation, copy, styling, a tuned value, a contained bugfix — and no contract, persisted data, infra/deploy topology, auth, money, legal/GDPR surface, or second deployed artifact | `spec.md` ≤120 lines, five-section S template, **`tasks.md` (always)**, **no `plan.md`**, **no architect spawn**, **one MR**; UX runs only for a navigation or user-flow change (→ RP-46) |
 | **M** | new behavior inside existing contracts, one deployed artifact | `spec.md` ≤250 + `plan.md` ≤250 |
 | **L** | any S exclusion | full pipeline, no budget |
