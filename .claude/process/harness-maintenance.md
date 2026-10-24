@@ -27,7 +27,7 @@ Skills need no adaptation: OpenCode reads `.claude/skills/` and `.agents/skills/
 | **M** | new behavior inside existing contracts, one deployed artifact | `spec.md` ≤250 + `plan.md` ≤250 |
 | **L** | any S exclusion | full pipeline, no budget |
 
-- A lane above S must name an exclusion from the table; bookkeeping volume is not one. Tier down only with the stakeholder's explicit approval (→ RP-26). When the coordinator recommends the lighter lane and the stakeholder has not answered at dispatch time, the lighter lane stands (→ RP-47).
+- A lane above S must name an exclusion from the table; bookkeeping volume is not one. Tier down from a set lane only with the stakeholder's explicit approval; a lighter-lane recommendation at dispatch is not a tier-down (→ RP-26). When the coordinator recommends the lighter lane and the stakeholder has not answered at dispatch time, the lighter lane stands (→ RP-47).
 - Budgets are `/verify` gates. Over budget has two resolutions — cut it, or re-classify up a lane on the record. Never waive the number, and meet it by **moving** material to `specs/NNN-<slug>/evidence/`, not by deleting it.
 - **Lane S is one branch and one MR:** the PO authors `spec.md` and pushes without opening an MR; the engineer adds code and tests on the same branch and opens the single MR; a second engineer instance reviews spec and code together and attests; the author merges SHA-pinned. Architect and PO consultations are comments on that MR.
 - **Artifact type is never a reason to split an MR.** M defaults to two (governing docs, then implementation, per SDD non-negotiable 1); L splits by risk tier, never by filename.
