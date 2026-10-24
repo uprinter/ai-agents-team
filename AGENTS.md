@@ -89,10 +89,6 @@ Every skill is reachable from **both** `.agents/skills/` and `.claude/skills/`: 
 - **Single test verification, fail-fast tooling** — green pipeline on the reviewed SHA is the only test evidence; `glab auth status` first; 60 s MCP probe; 180 s teammate silence (→ RP-49, RP-51).
 - **Harness quality loop** — AC validation map in `tasks.md`; bounded assumption challenge on M/L (→ RP-34; `harness-quality-loop.md`).
 
-## Agents — where they live
-
-`.claude/agents/*.md` is the single source of truth. `.opencode/agent/*.md` and `.codex/agents/*.toml` are generated ports: edit the source, then run both sync scripts (see *Commands*). Never edit a generated file directly. Detail: `.claude/process/harness-maintenance.md`.
-
 ## Spec-Driven Development is the team standard
 
 All six delivery-team agents now mandate a **GitHub SpecKit-style** spec-driven workflow when deployed into a target project: `/specify` → `/plan` → `/tasks` → `/implement` → `/verify` → `/archive`, with feature artifacts under `<target-project>/specs/NNN-<feature-slug>/`. **No `specs/` directory ever lives in this config repo** — this repo is team definition only. `.claude/skills/sdd-workflow/SKILL.md` is the authoritative spec of the workflow.
@@ -114,11 +110,12 @@ A lane above S must name an exclusion; tier down only with stakeholder approval 
 
 ## Rule hygiene (added 2026-08-27)
 
-Agent definitions load in full on every spawn, so their length is a running cost on every task the team runs (→ RP-18). Three constraints, enforced when editing any agent definition here:
+Agent definitions load in full on every spawn, so their length is a running cost on every task (→ RP-18). Four constraints, enforced when editing any agent definition here:
 
 1. **A rule body is ≤2 sentences plus a `(→ RP-nn)` citation.** The narrative goes in `.claude/process/rule-provenance.md`, never inline. An agent must be able to comply having read only the rule.
 2. **Adding a rule requires naming what it replaces**, generalizes, or — failing both — why it does not overlap an existing one. "It is new" is a claim to check against the file, not an exemption.
 3. **A rule with no gate is a suggestion.** Name where it is checked (`/tasks`, `/verify`, the review attestation) or do not add it.
+4. **Size is budgeted.** `AGENTS.md` and each agent file stay within their entry in `.claude/scripts/size-budget.json`, enforced by `check_harness.py`; the `harness-cleaner` skill finds what to merge or remove.
 
 ## Editing agent definitions
 
@@ -130,7 +127,7 @@ Agent definitions load in full on every spawn, so their length is a running cost
 
 ## Commands
 
-There is no application to build or test. After editing an agent definition, regenerate both ports and validate Codex output:
+There is no application to build or test. After editing an agent definition, regenerate both ports (never edit a generated file) and validate Codex output:
 
 ```sh
 .opencode/sync-agents.py

@@ -31,6 +31,7 @@ PROFILE_CONFIG = {
     "product-owner": ("Defines requirements, acceptance criteria, scope, and priorities; never implements.", "gpt-5.6-sol", "high", "workspace-write"),
     "senior-software-engineer": ("Implements approved application-code changes and tests; authors and merges but never reviews.", "gpt-5.6-sol", "medium", "workspace-write"),
     "seo-specialist": ("Runs documentation-only organic-search and AI-visibility audits.", "gpt-5.6-sol", "medium", "workspace-write"),
+    "tabula-rasa": ("Derives first-principles solutions from constraints alone; bans justification by precedent; memo output only.", "gpt-5.6-sol", "high", "workspace-write"),
     "user-eyes-tester": ("Simulates an ordinary user on a live UI and reports time-to-next-step and confusion points.", "gpt-5.6-luna", "medium", "workspace-write"),
     "team-lead-coordinator": ("Coordinates the delivery team and its dependencies; never performs specialist work.", "gpt-5.6-sol", "high", "workspace-write"),
 }

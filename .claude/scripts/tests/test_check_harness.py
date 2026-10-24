@@ -435,5 +435,42 @@ class HarnessCheckTests(unittest.TestCase):
         self.assertEqual([], check_harness.check_target(self.root))
 
 
+class SizeBudgetTests(unittest.TestCase):
+    def setUp(self) -> None:
+        self.temporary = tempfile.TemporaryDirectory()
+        self.root = Path(self.temporary.name)
+        agents = self.root / ".claude" / "agents"
+        agents.mkdir(parents=True)
+        (agents / "a.md").write_text("x" * 100)
+        (self.root / ".claude" / "scripts").mkdir()
+        self.budget = self.root / check_harness.SIZE_BUDGET
+
+    def tearDown(self) -> None:
+        self.temporary.cleanup()
+
+    def test_no_budget_file_skips_check(self) -> None:
+        self.assertEqual(check_harness.validate_size_budget(self.root), [])
+
+    def test_growth_over_budget_fails(self) -> None:
+        self.budget.write_text('{".claude/agents/a.md": 90}')
+        errors = check_harness.validate_size_budget(self.root)
+        self.assertEqual(len(errors), 1)
+        self.assertIn("exceeds budget 90", errors[0])
+
+    def test_file_without_entry_and_stale_entry_fail(self) -> None:
+        self.budget.write_text('{".claude/agents/gone.md": 5}')
+        errors = check_harness.validate_size_budget(self.root)
+        self.assertEqual(len(errors), 2)
+
+    def test_ratchet_lowers_and_adds_but_never_raises(self) -> None:
+        self.budget.write_text('{".claude/agents/a.md": 150}')
+        check_harness.ratchet_size_budget(self.root)
+        self.assertIn('"a.md": 100'.replace('"a.md"', '".claude/agents/a.md"'), self.budget.read_text())
+        (self.root / ".claude" / "agents" / "a.md").write_text("x" * 120)
+        check_harness.ratchet_size_budget(self.root)
+        self.assertIn(": 100", self.budget.read_text())
+        self.assertEqual(len(check_harness.validate_size_budget(self.root)), 1)
+
+
 if __name__ == "__main__":
     unittest.main()
