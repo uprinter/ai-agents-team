@@ -12,6 +12,7 @@ verify log, which may contain entries written before the current grammar.
 from __future__ import annotations
 
 import argparse
+import json
 import re
 import subprocess
 import sys
@@ -24,6 +25,7 @@ FRONTMATTER = re.compile(r"\A---\n(.*?)\n---(?:\n|\Z)", re.DOTALL)
 FRONTMATTER_KEY = re.compile(r"^([A-Za-z][A-Za-z0-9_-]*):(?:[ \t]*(.*))?$", re.MULTILINE)
 REQUIRED_AGENT_KEYS = {"name", "description", "model"}
 OPTIONAL_AGENT_KEYS = {"tools", "color", "skills", "effort"}
+SIZE_BUDGET = Path(".claude") / "scripts" / "size-budget.json"
 FEATURE_DIR = re.compile(r"^\d{3}-[a-z0-9]+(?:-[a-z0-9]+)*$")
 AC_ID = re.compile(r"\bAC-\d+(?:\.\d+)*\b")
 AC_SECTION = re.compile(
@@ -68,6 +70,8 @@ OPENCODE_SKILL_BLOCK = re.compile(
     r"## Load these skills first\n\n(?P<body>.*?)(?:\n\n|\Z)",
     re.DOTALL,
 )
+# tabula-rasa takes no outside input by design (AGENTS.md, "The tabula-rasa agent").
+GITLAB_EXEMPT_AGENTS = {"tabula-rasa"}
 
 
 def validate_agent_names(root: Path) -> list[str]:
@@ -110,10 +114,11 @@ def validate_agent_names(root: Path) -> list[str]:
                     break
                 declared_skills.add(skill_line[4:].strip())
             break
-        if "gitlab-access" not in declared_skills:
-            errors.append(f"{relative}: skills must include gitlab-access")
-        if GITLAB_INLINE_TRIGGER not in text[frontmatter.end() :]:
-            errors.append(f"{relative}: body must include the GitLab access load trigger")
+        if path.stem not in GITLAB_EXEMPT_AGENTS:
+            if "gitlab-access" not in declared_skills:
+                errors.append(f"{relative}: skills must include gitlab-access")
+            if GITLAB_INLINE_TRIGGER not in text[frontmatter.end() :]:
+                errors.append(f"{relative}: body must include the GitLab access load trigger")
         names = NAME_LINE.findall(frontmatter_text)
         if len(names) != 1:
             errors.append(f"{relative}: frontmatter must contain exactly one name field")
@@ -198,6 +203,8 @@ def validate_generated_gitlab_wiring(root: Path) -> list[str]:
     errors: list[str] = []
     for source in sorted((root / ".claude" / "agents").glob("*.md")):
         stem = source.stem
+        if stem in GITLAB_EXEMPT_AGENTS:
+            continue
         codex_path = root / ".codex" / "agents" / f"{stem}.toml"
         if not codex_path.is_file():
             errors.append(f"{codex_path.relative_to(root)}: generated profile is missing")
@@ -220,6 +227,47 @@ def validate_generated_gitlab_wiring(root: Path) -> list[str]:
                     f"{opencode_path.relative_to(root)}: OpenCode skill loader must include gitlab-access"
                 )
     return errors
+
+
+def budgeted_sizes(root: Path) -> dict[str, int]:
+    paths = [root / "AGENTS.md", *sorted((root / ".claude" / "agents").glob("*.md"))]
+    return {path.relative_to(root).as_posix(): path.stat().st_size for path in paths if path.is_file()}
+
+
+def validate_size_budget(root: Path) -> list[str]:
+    budget_path = root / SIZE_BUDGET
+    if not budget_path.is_file():
+        return []
+    budget = json.loads(budget_path.read_text())
+    sizes = budgeted_sizes(root)
+    errors: list[str] = []
+    for relative, size in sizes.items():
+        limit = budget.get(relative)
+        if limit is None:
+            errors.append(f"{relative}: no entry in {SIZE_BUDGET}; run --ratchet-budget to add one")
+        elif size > limit:
+            errors.append(
+                f"{relative}: {size} bytes exceeds budget {limit}; merge or remove a rule, "
+                f"or raise the budget in {SIZE_BUDGET} with the reason in the commit message"
+            )
+    for relative in sorted(set(budget) - set(sizes)):
+        errors.append(f"{SIZE_BUDGET}: stale entry {relative}")
+    return errors
+
+
+def ratchet_size_budget(root: Path) -> list[str]:
+    """Add missing entries and lower entries that shrank; never raise one."""
+    budget_path = root / SIZE_BUDGET
+    budget = json.loads(budget_path.read_text()) if budget_path.is_file() else {}
+    sizes = budgeted_sizes(root)
+    changes: list[str] = []
+    for relative, size in sizes.items():
+        if relative not in budget or size < budget[relative]:
+            changes.append(f"{relative}: {budget.get(relative, 'new')} -> {size}")
+            budget[relative] = size
+    budget = {relative: limit for relative, limit in sorted(budget.items()) if relative in sizes}
+    budget_path.write_text(json.dumps(budget, indent=2) + "\n")
+    return changes
 
 
 def line_count(path: Path) -> int:
@@ -411,6 +459,7 @@ def check(root: Path) -> list[str]:
     errors.extend(validate_skill_mirrors(root))
     errors.extend(run_generated_port_checks(root))
     errors.extend(validate_generated_gitlab_wiring(root))
+    errors.extend(validate_size_budget(root))
     return errors
 
 
@@ -426,7 +475,16 @@ def main() -> int:
         "--feature",
         help="with --target-root, validate only the current NNN-slug feature and skip historical verify-log entries",
     )
+    parser.add_argument(
+        "--ratchet-budget",
+        action="store_true",
+        help="lower size-budget.json entries to current sizes and add missing ones; never raises a limit",
+    )
     args = parser.parse_args()
+    if args.ratchet_budget:
+        for change in ratchet_size_budget(args.root.resolve()) or ["no change"]:
+            print(change)
+        return 0
     if args.feature and not args.target_root:
         parser.error("--feature requires --target-root")
     root = (args.target_root or args.root).resolve()
