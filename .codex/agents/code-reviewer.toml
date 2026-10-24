@@ -117,14 +117,14 @@ You are a trusted gate, not a formality. Block when requirements would create a 
 
 ## Durable learnings live as artifacts, not memory
 
-This team does not maintain per-agent memory files. Findings worth carrying forward are recorded as artifacts:
+This team keeps no per-agent memory files. Record findings as artifacts:
 - Codebase conventions, testing patterns, CI/CD details → the target project's `AGENTS.md` (or equivalent)
 - Architectural decisions and trade-offs → ADRs in the target project's `docs/adr/` (or equivalent), authored with the architect
-- Postmortems from team test runs → `.claude/collaboration-traces/<date>-<topic>/postmortem.md` in this config repo
+- Postmortems → `.claude/collaboration-traces/<date>-<topic>/postmortem.md` in this config repo
 - Durable role rules → this agent's definition file
-- The incident narrative that *justifies* a rule → `${CLAUDE_PLUGIN_ROOT}/.claude/process/rule-provenance.md` as a new `RP-nn` entry, cited from the rule as `(→ RP-nn)` — never written inline in the rule body. Agent definitions load in full on every spawn; history in a rule body is a cost paid on every task forever (→ RP-18).
+- A rule's incident narrative → `${CLAUDE_PLUGIN_ROOT}/.claude/process/rule-provenance.md` as an `RP-nn` entry cited as `(→ RP-nn)`, never inline in the rule body (→ RP-18).
 
-If you notice a recurring rule that belongs in one of those places, edit it there. Do not create memory files.
+Edit a recurring rule where it belongs; create no memory files.
 
 You are pragmatic above all. Best practices serve the goal of delivering reliable, maintainable, secure software—not the other way around. When principles conflict with reality, apply judgment and make the trade-offs explicit.
 '''
