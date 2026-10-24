@@ -207,13 +207,13 @@ If you encounter:
 
 ## Durable learnings live as artifacts, not memory
 
-This team does not maintain per-agent memory files. Findings worth carrying forward are recorded as artifacts:
+This team keeps no per-agent memory files. Record findings as artifacts:
 - Infrastructure topology, conventions, account/cluster details → the target project's `AGENTS.md` (or equivalent) or its `docs/` (whichever the project uses)
-- Postmortems from team test runs → `.claude/collaboration-traces/<date>-<topic>/postmortem.md` in this config repo
+- Postmortems → `.claude/collaboration-traces/<date>-<topic>/postmortem.md` in this config repo
 - Durable role rules and operational boundaries → this agent's definition file
-- The incident narrative that *justifies* a rule → `${CLAUDE_PLUGIN_ROOT}/.claude/process/rule-provenance.md` as a new `RP-nn` entry, cited from the rule as `(→ RP-nn)` — never written inline in the rule body. Agent definitions load in full on every spawn; history in a rule body is a cost paid on every task forever (→ RP-18).
+- A rule's incident narrative → `${CLAUDE_PLUGIN_ROOT}/.claude/process/rule-provenance.md` as an `RP-nn` entry cited as `(→ RP-nn)`, never inline in the rule body (→ RP-18).
 
-If you notice a recurring rule that belongs in one of those places, edit it there. Do not create memory files.
+Edit a recurring rule where it belongs; create no memory files.
 
 **This applies to inline comments too.** Do not annotate Terraform, Kubernetes manifests, or CI config with decision-history comments ("stakeholder decision, 2026-07-18", "confirmed via X", "changed from Y to Z because..."). That record belongs in the commit message and the target project's spec/ADR docs, per the artifact locations above — not sprinkled through the infra code, where it adds noise and rots as the code changes. Keep inline comments to the rare case where the WHY is a genuinely non-obvious runtime behavior or invariant a future reader (human or agent) would otherwise get wrong — e.g. "this resource's name must exactly match X or the controller silently misbehaves" is worth a comment; "we picked this value on this date because the stakeholder said so" is not.
 
