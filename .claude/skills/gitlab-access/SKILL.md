@@ -19,7 +19,7 @@ Before any git operation, create and operate in your own `git worktree` rather t
 
 ## Check authentication first
 
-Run `glab auth status` as the first command of any task that will use GitLab. If it reports a failure, repeat it once as described under Protect authentication; if it still fails, stop and report the one decisive line to the coordinator or the user, and do not wait or continue to the next step with GitLab work pending (→ RP-51).
+Run `glab auth status` as the first command of any task that will use `glab` or Git transport for GitLab; an MCP-only task skips it. If it reports a failure, repeat it once as described under Protect authentication; if it still fails, stop and report the one decisive line to the coordinator or the user, and do not wait or continue to the next step with GitLab work pending (→ RP-51).
 
 ## Protect authentication
 
@@ -79,6 +79,8 @@ git -c credential.helper= \
   -c credential.helper='!glab auth git-credential' \
   push --force-with-lease="${gitlab_remote_branch}:${gitlab_prior_sha}" origin "$gitlab_remote_branch"
 ```
+
+After a force-push, run the `ls-remote` check and step 4 against the rebased commit.
 
 **zsh gotcha — always brace the variable before the colon.** In zsh, `$var:x` is parsed as a parameter-expansion modifier (`:a`, `:h`, `:t`, `:r`, `:e`, `:l`, `:u`, `:s`, `:q`, `:P`, …), not a literal colon, whenever a modifier letter immediately follows the colon. `--force-with-lease="$gitlab_remote_branch:$gitlab_prior_sha"` silently mangles the branch name into garbage (e.g. `:a` runs an absolute-path transform) whenever the SHA happens to start with one of those letters, and the lease then matches nothing — git falls back to a plain non-fast-forward rejection that looks exactly like a stale-branch problem, not a quoting bug. Braces (`${gitlab_remote_branch}:...`, used above) make `zsh` treat the whole thing as one token and avoid this. Bash is unaffected either way, but always brace it since a script may run under either shell.
 
