@@ -21,6 +21,10 @@ Done when every file is at or under its budget, every contradiction pair has a d
 
 A rule that must grow its file raises that file's entry in `.claude/scripts/size-budget.json` by hand. The commit message names the reason and what was considered for removal. `--ratchet-budget` never raises.
 
-### Not yet covered
+### Weekly digest
 
-Rules that never fire need agent run tails and a weekly digest. Those do not exist; do not guess dead rules from file contents.
+Run `python3 .claude/scripts/agent_digest.py` once a week, or at the start of a cleaner run. It reads Claude Code's own subagent transcripts, so it costs no tokens and needs no change to any agent. A flag (`!`) names an agent whose volume fell, whose tool errors, steps or duration rose, or whose runs did not finish, against the four weeks before.
+
+A flag is a lead, not a verdict. Open the agent's latest transcripts, find what changed, and check whether a recent edit to its definition or to a shared rule explains it (`git log -p -- .claude/agents/<name>.md`). A drop to zero can mean the agent was not needed that week.
+
+Rules that no run cites cannot be found this way: an obeyed rule is never quoted. Do not guess dead rules.
