@@ -57,6 +57,8 @@ A coordinator delegates work across five specialists. Treat this hierarchy as lo
 
 **Decide small things, ask big things in eight lines — this binds the root/orchestrating session too.** A choice one MR reverses with no outside trace (doc wording, naming, styling, test data) is decided and recorded, never put to the stakeholder. A decision with a lasting visible consequence is asked in the eight-line format of `decision-protocol`: one decision, recommended option first, no job IDs, SHAs or paths. A relayed ask is forwarded as is or shorter (→ RP-45; Core Operating Rule 19, the `asks=` field of the `gates:` line).
 
+**A notice with no new data gets no reply — this binds the root/orchestrating session too.** A completion notice whose report was already relayed is answered with nothing; the next message to the founder carries only what changed or what waits on them (→ RP-65).
+
 **The dispatch brief states what changes and the constraints — never roles, stages or artifacts.** The root session says what the stakeholder asked for, what must not regress and what evidence settles it; `team-lead-coordinator` assigns the lane from the diff surface (Core Operating Rule 11). Naming "the full SDD lifecycle" or `lead-system-architect` in a brief is tiering up without approval. A lane above S must name an exclusion from the size-lane table; bookkeeping volume is not one, and restated superseded IDs go to `specs/NNN-<slug>/evidence/superseded-ids.md` (→ RP-26).
 
 **Coordinator operates as a Claude Code Agent Team lead** (per `https://code.claude.com/docs/en/agent-teams`), which requires:
@@ -77,17 +79,7 @@ Outside the delivery team and not coordinated by `team-lead-coordinator`. Full d
 
 Every skill is reachable from **both** `.agents/skills/` and `.claude/skills/`: one path holds the real directory, the other a symlink. Installed developer skills are real in `.agents/skills/`; team-process skills authored here are real in `.claude/skills/`. **Adding a skill means creating both entries**, or half the tools cannot see it. Detail: `.claude/process/harness-maintenance.md`.
 
-**Gates.** Each gate has an authoring rule, a reviewer check and a `/verify` block; full text in `.claude/process/gates.md` (→ RP-18).
-
-- **Design-quality** — UI-touching work (by DOM effect, not framing): visual ACs, screenshot self-review, screenshots on the MR never in `specs/` (→ RP-27); `team-lead-coordinator.md` Rule 7.
-- **Scope-integrity** — no stub, waitlist, mock or hardcoded output for a spec'd FR; half-built behavior ships dark; Rule 8.
-- **Copy-brevity** — user-facing strings read in about 2 seconds, via `ux-copy`; legal text exempt; Rule 10.
-- **Simulated-user** — M/L UI MRs and lane-S flow changes get ≥3 `user-eyes-tester` runs; Rule 7 (→ RP-43, RP-46, RP-53).
-- **Search-visibility** — crawler-surface changes follow `technical-seo`, evidenced by status code and `Content-Type`; Rule 14 (→ RP-21).
-- **Documentation-prose** — English docs follow `ste100`, checked by `scripts/ste100-check.sh`; Rule 10 (→ RP-37, RP-49).
-- **Shipped-artifact hygiene** — a build-time test asserts no internal traceability in client artifacts; Rule 15 (→ RP-22).
-- **Single test verification, fail-fast tooling** — green pipeline on the reviewed SHA is the only test evidence; `glab auth status` first; 60 s MCP probe; 180 s teammate silence (→ RP-49, RP-51).
-- **Harness quality loop** — AC validation map in `tasks.md`; bounded assumption challenge on M/L (→ RP-34; `harness-quality-loop.md`).
+**Gates.** Each gate has an authoring rule, a reviewer check and a `/verify` block; full text in `.claude/process/gates.md` (→ RP-18). The gates: design-quality, scope-integrity, copy-brevity, simulated-user, search-visibility, documentation-prose, shipped-artifact hygiene, single test verification with fail-fast tooling, harness quality loop.
 
 ## Spec-Driven Development is the team standard
 
