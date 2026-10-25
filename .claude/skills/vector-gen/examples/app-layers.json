@@ -1,0 +1,26 @@
+{
+  "type": "layers",
+  "title": "Application layers",
+  "claim": "The application is built in layers. Network sits at the bottom of the cloud part, with data and compute above it. The services sit on one level on top and run on the cloud.",
+  "no_social": true,
+  "groups": [
+    {
+      "label": "Services",
+      "tone": "cool",
+      "layers": [
+        {
+          "chips": ["Sign-in", "Billing", "Search", "Email", "Reports", "Webhooks"]
+        }
+      ]
+    },
+    {
+      "label": "Cloud",
+      "tone": "warm",
+      "layers": [
+        {"title": "Compute", "text": "Containers and workers", "step": "3"},
+        {"title": "Data", "text": "Database, cache, backups", "step": "2"},
+        {"title": "Network", "text": "Private network, gateways, firewall", "step": "1", "base": true}
+      ]
+    }
+  ]
+}

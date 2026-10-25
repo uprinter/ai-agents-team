@@ -18,9 +18,9 @@ may switch that off with "no_social": true. Exit 1 if any gate fails.
 Needs Chromium for Playwright: uv run --with playwright playwright install chromium
 """
 import argparse, json, pathlib, re, sys
-from vg_lib import tokens, sequence, flow, compare, check, social, cards, steps, hub, cycle, matrix, funnel, swimlanes
+from vg_lib import tokens, sequence, flow, compare, check, social, cards, steps, hub, cycle, matrix, funnel, swimlanes, layers
 
-TYPES = {"sequence": sequence, "flow": flow, "compare": compare, "cards": cards, "steps": steps, "hub": hub, "cycle": cycle, "matrix": matrix, "funnel": funnel, "swimlanes": swimlanes}
+TYPES = {"sequence": sequence, "flow": flow, "compare": compare, "cards": cards, "steps": steps, "hub": hub, "cycle": cycle, "matrix": matrix, "funnel": funnel, "swimlanes": swimlanes, "layers": layers}
 
 
 def min_display_width(svg):
@@ -78,6 +78,7 @@ def main():
         d = pathlib.Path(__file__).parent / "icons"
         icons = json.loads((d / "lucide.json").read_text())["icons"]
         brands = json.loads((d / "brands.json").read_text())["brands"]
+        brands.update(json.loads((d / "brands-extra.json").read_text())["brands"])
         q = (a.spec or "").lower()
         for n, i in icons.items():
             if q in n or any(q in t.lower() for t in i["tags"]):
@@ -128,6 +129,7 @@ def main():
         brands = re.search(r'data-brands="([^"]+)"', svg)
         if brands:
             meta = json.loads((pathlib.Path(__file__).parent / "icons" / "brands.json").read_text())["brands"]
+            meta.update(json.loads((pathlib.Path(__file__).parent / "icons" / "brands-extra.json").read_text())["brands"])
             print("Brand logos in this figure are the owners' trademarks. Use them only to name the product, and check the guidelines:")
             for slug in brands.group(1).split(","):
                 print(f"   - {meta[slug]['title']}: {meta[slug].get('guidelines') or 'no guidelines link in the Simple Icons data'}")
