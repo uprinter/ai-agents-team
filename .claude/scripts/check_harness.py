@@ -26,6 +26,8 @@ FRONTMATTER_KEY = re.compile(r"^([A-Za-z][A-Za-z0-9_-]*):(?:[ \t]*(.*))?$", re.M
 REQUIRED_AGENT_KEYS = {"name", "description", "model"}
 OPTIONAL_AGENT_KEYS = {"tools", "color", "skills", "effort"}
 SIZE_BUDGET = Path(".claude") / "scripts" / "size-budget.json"
+RULE_PROVENANCE = Path(".claude") / "process" / "rule-provenance.md"
+RP_HEADING = re.compile(r"^##\s+(?P<id>RP-\d+)\b")
 FEATURE_DIR = re.compile(r"^\d{3}-[a-z0-9]+(?:-[a-z0-9]+)*$")
 AC_ID = re.compile(r"\bAC-\d+(?:\.\d+)*\b")
 AC_SECTION = re.compile(
@@ -65,13 +67,13 @@ GITLAB_INLINE_TRIGGER = (
     "If it is not preloaded, read and follow "
     "`${CLAUDE_PLUGIN_ROOT}/.claude/skills/gitlab-access/SKILL.md` directly"
 )
+# tabula-rasa takes no outside input by design (AGENTS.md, "The tabula-rasa agent").
+GITLAB_EXEMPT_AGENTS = {"tabula-rasa"}
 CODEX_GITLAB_TRIGGER = "`$gitlab-access` from `.agents/skills/gitlab-access/SKILL.md`."
 OPENCODE_SKILL_BLOCK = re.compile(
     r"## Load these skills first\n\n(?P<body>.*?)(?:\n\n|\Z)",
     re.DOTALL,
 )
-# tabula-rasa takes no outside input by design (AGENTS.md, "The tabula-rasa agent").
-GITLAB_EXEMPT_AGENTS = {"tabula-rasa"}
 
 
 def validate_agent_names(root: Path) -> list[str]:
@@ -270,6 +272,24 @@ def ratchet_size_budget(root: Path) -> list[str]:
     return changes
 
 
+def validate_rule_provenance(root: Path) -> list[str]:
+    path = root / RULE_PROVENANCE
+    if not path.is_file():
+        return []
+    first_seen: dict[str, int] = {}
+    errors: list[str] = []
+    for number, line in enumerate(path.read_text(encoding="utf-8").splitlines(), start=1):
+        heading = RP_HEADING.match(line)
+        if not heading:
+            continue
+        rp = heading["id"]
+        if rp in first_seen:
+            errors.append(f"{RULE_PROVENANCE}:{number}: duplicate heading {rp} (first at line {first_seen[rp]})")
+        else:
+            first_seen[rp] = number
+    return errors
+
+
 def line_count(path: Path) -> int:
     return len(path.read_text(encoding="utf-8").splitlines())
 
@@ -460,6 +480,7 @@ def check(root: Path) -> list[str]:
     errors.extend(run_generated_port_checks(root))
     errors.extend(validate_generated_gitlab_wiring(root))
     errors.extend(validate_size_budget(root))
+    errors.extend(validate_rule_provenance(root))
     return errors
 
 

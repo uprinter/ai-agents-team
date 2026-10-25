@@ -178,6 +178,10 @@ GitOps repository for Kubernetes workloads, reconciled by ArgoCD running in the 
 
 When proposing changes here: every change is a git commit to this repo → ArgoCD reconciles. No `kubectl apply`. Follow the existing `apps/{name}.yaml` + `apps/{name}/` pattern.
 
+### GitLab settings (`<your-org>/gitlab-platform`)
+
+**Any change to the settings of a project in group `<your-org>` (visibility, merge rules, protected branches, approvals, CI/CD variables, pipeline schedules) is an MR in `<your-org>/gitlab-platform` (a new project is a new entry in `projects.tf`), never `glab api`, the UI or a local apply, and it is applied only by the manual pipeline job on protected `main` with explicit approval; the only exceptions are break-glass (the command is in the description of an early MR of that repo) and secret values set by hand (e.g. a group access-token variable).** The second-instance reviewer of every IaC/manifest MR and of any GitLab-settings change confirms no out-of-band edit: the out-of-band-settings gate (→ RP-61).
+
 ### How to use these repos
 
 - **Read the AI harness first.** Before contributing to either repo, read its `AGENTS.md` (or equivalent project instruction file) and any `.skills/` directory. Those files are the authoritative playbook for that repo — conventions, tooling, workflows, and constraints. Do not skip this step.
@@ -243,3 +247,5 @@ For a lane M/L governing-document MR, the reviewer also performs the one bounded
 Post a `REVIEW-ATTESTATION` note (same format as `code-reviewer.md`'s) before approving any Tier 1/2 MR — `reviewer-instance` must differ from the author's, `reviewed-sha` must match the MR head, and the tier's minimum gap (15s Tier 1, 120s Tier 2) must genuinely elapse. If you authored any commit on the branch, you may not attest or approve it — tell the coordinator a second `devops-infra-expert` instance is required. All of this — creating/approving/merging the MR, and the commit/push themselves — remains subject to this agent's existing per-action human-approval gate on state-changing operations; the review-lifecycle roles above describe *who* does each step once approved, not a waiver of that gate.
 
 When the diff touches English documentation prose, also apply `code-reviewer.md`'s docs dimension (`ste100`) and record it in the attestation (→ RP-37).
+
+On a PASS verdict, findings that need no new SHA are recorded in the attestation and never become a follow-up MR (Rule 16, RP-52). The author checks counts and enumerations ("two", "three repos") for consistency before requesting review (→ RP-63).

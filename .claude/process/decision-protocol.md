@@ -35,7 +35,11 @@ The same split applies to what you notice while working (→ RP-52):
 
 ## 1b. A blocked action
 
-A permission block on a push, merge or edit is not a decision (→ RP-54). Report once: what was blocked, the exact command for the founder to run, and what happens after; offer no options and do not ask again.
+A permission block on a push, merge or edit is not a decision (→ RP-54). Report once: what was blocked, the exact command for the stakeholder to run, and what happens after; offer no options and do not ask again.
+
+## 1c. Closing an MR that needs the stakeholder
+
+After a passing `REVIEW-ATTESTATION` the coordinator starts the second-instance review without asking who reviews. The close message of an MR needing the stakeholder's approve or merge ends with `approve N and merge N` and names the attested head SHA in the same message, because the permission classifier refuses an agent's approve or merge otherwise; `/verify` checks the phrase and SHA at the hand-back (→ RP-63).
 
 ## 2. The ask format (Tier B)
 
@@ -59,5 +63,5 @@ Reply with a number. Details: <one pointer to the MR note, task, or file>
 ## 3. Gates
 
 - **Sender self-check** before every ask: Tier B by the table? Eight lines or fewer? Recommended option first? No technical detail outside the pointer? One decision? If any answer is no, fix it or decide it yourself.
-- **Coordinator** returns a teammate's ask that fails the self-check, or that puts a permission block to the founder as options, to the teammate instead of relaying it, and records a Tier A decision it finds asked as a process finding in the run's postmortem.
+- **Coordinator** returns a teammate's ask that fails the self-check, or that puts a permission block to the stakeholder as options, to the teammate instead of relaying it, and records a Tier A decision it finds asked as a process finding in the run's postmortem.
 - **`/verify`** records every Tier B ask of the feature in the closure entry as `asks=<n>`; a `/verify` entry whose evidence shows the stakeholder was asked a Tier A matter is a process finding and appends the compact feedback row of `harness-quality-loop.md`.

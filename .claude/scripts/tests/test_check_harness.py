@@ -472,5 +472,35 @@ class SizeBudgetTests(unittest.TestCase):
         self.assertEqual(len(check_harness.validate_size_budget(self.root)), 1)
 
 
+class RuleProvenanceTests(unittest.TestCase):
+    def setUp(self) -> None:
+        self.temporary = tempfile.TemporaryDirectory()
+        self.root = Path(self.temporary.name)
+        self.path = self.root / ".claude" / "process" / "rule-provenance.md"
+        self.path.parent.mkdir(parents=True)
+
+    def tearDown(self) -> None:
+        self.temporary.cleanup()
+
+    def test_unique_headings_pass(self) -> None:
+        self.path.write_text("## RP-01 - a\ntext\n## RP-02 - b\n", encoding="utf-8")
+        self.assertEqual(check_harness.validate_rule_provenance(self.root), [])
+
+    def test_duplicate_heading_is_reported_with_both_lines(self) -> None:
+        self.path.write_text("## RP-61 - a\n## RP-62 - b\n## RP-61 - c\n", encoding="utf-8")
+        errors = check_harness.validate_rule_provenance(self.root)
+        self.assertEqual(len(errors), 1)
+        self.assertIn("RP-61", errors[0])
+        self.assertIn(":3:", errors[0])
+        self.assertIn("line 1", errors[0])
+
+    def test_citation_in_body_is_not_a_heading(self) -> None:
+        self.path.write_text("## RP-01 - a\nsee ## RP-01 inline (→ RP-01)\n", encoding="utf-8")
+        self.assertEqual(check_harness.validate_rule_provenance(self.root), [])
+
+    def test_missing_file_is_ignored(self) -> None:
+        self.assertEqual(check_harness.validate_rule_provenance(self.root), [])
+
+
 if __name__ == "__main__":
     unittest.main()
