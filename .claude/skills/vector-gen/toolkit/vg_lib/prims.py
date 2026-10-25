@@ -11,6 +11,7 @@ from .measure import text_width
 _ICON_DIR = pathlib.Path(__file__).resolve().parent.parent / "icons"
 _ICONS = json.loads((_ICON_DIR / "lucide.json").read_text())["icons"]
 _BRANDS = json.loads((_ICON_DIR / "brands.json").read_text())["brands"]
+_BRANDS.update(json.loads((_ICON_DIR / "brands-extra.json").read_text())["brands"])  # hand-added logos
 
 LAYERS = ("guide", "container", "edge", "node", "label")
 DIGITS = re.compile(r"(\d[\d.,]*\d|\d)")
@@ -28,6 +29,7 @@ class Canvas:
         self.icon_kinds = set()
         self.label_boxes = []  # (left, right, top, bottom) of edge labels
         self.spans = []  # (left, right, text) of every text, for the margin rule
+        self.links = False  # the figure carries links: it is a group of links, not one image, and its ids are prefixed per variant
         self.W = self.H = 0
 
     # ---- tokens and measure -------------------------------------------------------------
@@ -46,7 +48,7 @@ class Canvas:
 
     def uid(self, p):
         self._n += 1
-        return f"{p}{self._n}"
+        return f"{self.vname + '-' if self.links else ''}{p}{self._n}"
 
     def radius_for(self, w, h):
         """Radius rule: a sixth of the short side, snapped to the radius scale."""
@@ -77,7 +79,7 @@ class Canvas:
         self.layers[layer].append(a + "/>")
         return id
 
-    def node(self, x, y, w, h, lines, group="nodes", accent=False, cue=None, dashed=False, dim=False, sw="outline", size=None, fit_width=None, icon=None):
+    def node(self, x, y, w, h, lines, group="nodes", accent=False, cue=None, dashed=False, dim=False, sw="outline", size=None, fit_width=None, icon=None, underline=False, href=None):
         """A labelled box. Radius comes from the radius rule, text is optically centred.
         With an icon, icon and label form one block, centred in the box, icon above the label."""
         r = self.radius_for(w, h)
@@ -94,10 +96,13 @@ class Canvas:
             top = self.snap(y + (h - block) / 2)
             self.icon(icon, self.snap(x + (w - isz) / 2), top, isz, fill="muted" if dim else "ink", group=group.split(":")[0] + "-icons", inside=id)
             y0 = top + isz + gap + size * 0.92
+        n0 = len(self.layers["node"])
         for i, line in enumerate(lines):
             self.text(x + w / 2, y0 + i * lh, line, size, fill="muted" if dim else "ink", halo=False,
-                      role="node-text", inside=id, layer="node", cont=i > 0,
+                      role="node-text", inside=id, layer="node", cont=i > 0, underline=underline,
                       squeeze=fit_width if fit_width and self.tw(line, size) > fit_width else None)
+        if href:  # only the name is the link, never the box: a boxed link reads as a bigger action than opening a page
+            self.layers["node"][n0:] = [f'<a href="{escape(href, quote=True)}">' + "".join(self.layers["node"][n0:]) + "</a>"]
         return id
 
     def _brand_icon(self, slug, x, y, size, fill, group, inside):
@@ -111,9 +116,11 @@ class Canvas:
         self.icon_sizes.append(size)
         self.brand_notes[slug] = b.get("guidelines")
         extra = f' data-in="{inside}"' if inside else ""
+        vw, vh = b.get("viewBox", [24, 24])
+        k = size / max(vw, vh)  # a logo that is not square is fitted into the icon box and centred
         self.layers["node"].append(
             f'<g data-role="icon" data-kind="brand" data-name="{slug}" data-size="{size}" data-x="{x:g}" data-y="{y:g}" '
-            f'data-group="{group}"{extra} transform="translate({x:g} {y:g}) scale({size / 24:g})" fill="{self.color(fill)}">'
+            f'data-group="{group}"{extra} transform="translate({x + (size - vw * k) / 2:g} {y + (size - vh * k) / 2:g}) scale({k:g})" fill="{self.color(fill)}">'
             f'<path d="{b["d"]}"/></g>')
 
     def icon_gap(self):
@@ -121,7 +128,7 @@ class Canvas:
         return max(self.snap(self.v["icon"] / 4, up=True), 5)
 
     def text(self, x, y, s, size, weight=400, fill="ink", anchor="middle", halo=True, role="label",
-             inside=None, layer="label", data_for=None, squeeze=None, halo_w=4, cont=False):
+             inside=None, layer="label", data_for=None, squeeze=None, halo_w=4, cont=False, underline=False):
         a = (f'<text data-role="{role}" x="{x:g}" y="{y:g}" font-size="{size}" font-weight="{weight}" '
              f'fill="{self.color(fill)}" text-anchor="{anchor}"')
         runs = [(part, i % 2 == 1) for i, part in enumerate(DIGITS.split(s)) if part] if role not in VALUE_ROLES else [(s, True)]
@@ -140,6 +147,8 @@ class Canvas:
             a += f' data-in="{inside}"'
         if role in VALUE_ROLES:
             a += f' font-family="{escape(self.t["font"]["value"]["family"], quote=True)}"'
+        if underline:
+            a += ' text-decoration="underline"'
         if cont:
             a += ' data-cont="1"'
         if data_for:
@@ -249,9 +258,9 @@ class Canvas:
                     raise ValueError(f"text '{s}' comes within {m}px of the canvas edge in variant {self.vname}; shorten it")
         body = "".join("".join(self.layers[k]) for k in LAYERS)
         return (f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {self.W:g} {self.H:g}" width="{self.W:g}" '
-                f'height="{self.H:g}" font-family="{escape(self.t["font"]["family"], quote=True)}" role="img" '
+                f'height="{self.H:g}" font-family="{escape(self.t["font"]["family"], quote=True)}" role="{"group" if self.links else "img"}" '
                 f'aria-label="{escape(self.claim, quote=True)}" data-variant="{self.vname}" '
                 f'data-min-px="{self.t["type"]["min"]}" data-grid="{self.v["grid"]}"'
                 + (f' data-min-icon-px="{self.t["icon"]["min"]}" data-min-icon="{min(self.icon_sizes)}"' if self.icon_sizes else "")
                 + (f' data-brands="{",".join(sorted(self.brand_notes))}"' if self.brand_notes else "") + ">"
-                f'<title>{escape(self.title)}</title><rect width="{self.W:g}" height="{self.H:g}" fill="{c("bg")}"/>{body}</svg>')
+                f'{"" if self.links else "<title>" + escape(self.title) + "</title>"}<rect width="{self.W:g}" height="{self.H:g}" fill="{c("bg")}"/>{body}</svg>')

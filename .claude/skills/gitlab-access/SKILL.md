@@ -68,6 +68,10 @@ For a push:
 
 Apply the same command-scoped helper to other authenticated GitLab HTTPS transport commands. Use the current runtime's documented permission mechanism when keyring or network access requires it.
 
+## Check the remote before pushing to an existing branch
+
+Run `ls-remote --heads origin "$gitlab_remote_ref"` first and compare the SHA with your local base. A remote SHA you did not push means another session wrote to the branch: stop, report it, and do not push or force until the owner confirms (→ RP-65).
+
 ## Force-push after a rebase
 
 After rebasing a branch already pushed to `origin` (e.g. onto a moved `main`), a plain push is rejected as non-fast-forward. Use `--force-with-lease` scoped to the exact prior remote SHA, so the push aborts instead of clobbering someone else's commit if the remote moved since you last fetched it:

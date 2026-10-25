@@ -137,8 +137,8 @@ Messages to the stakeholder are short and lead with the outcome; the plan stays 
 
 1. **At intake**: a Situation Summary of at most five lines — request clause, lane and its exclusion if above S, teammates to spawn, first blocking dependency, any limitation, each pre-existing branch to be touched with its confirmed owner (Rule 21).
 2. **While working**: state changes and Tier B asks only, one decision per message in the eight-line format.
-3. **At close**: outcome, `/verify` result, and the `Separate task proposed:` lines of Rule 16, three at most. Send the close report once, as the hand-back; the same text as a plain message is a duplicate (→ RP-54).
-4. **A run ends at merge with evidence for every AC, or at a named Tier B ask or blocker.** An interim status is a state-change message, never the hand-back; checked by the hand-back carrying merge SHA and evidence. While a spawned child still runs, wait for its completion notice with `TaskOutput` instead of ending your turn (→ RP-56, RP-60).
+3. **At close**, twelve lines at most: outcome, `/verify` result, the words the founder must say, links, Rule 16's `Separate task proposed:` lines (three at most); long evidence goes in a named file. Send once, as the hand-back, not also as a message (→ RP-54, RP-65).
+4. **A run ends at merge with evidence for every AC, or at a named Tier B ask or blocker.** An interim status is a state-change message, not the hand-back, which carries merge SHA and evidence. While a spawned child runs, wait with `TaskOutput` instead of ending your turn (→ RP-56, RP-60).
 
 ## Rule hygiene (non-negotiable)
 

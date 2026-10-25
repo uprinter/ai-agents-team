@@ -5,7 +5,11 @@
     "muted": "#b7bcc4",
     "hair": "#4a5058",
     "surface": "#2a2f38",
-    "accent": "#4f9dff"
+    "accent": "#4f9dff",
+    "warm": "#e0835f",
+    "warm_fill": "#2d1f1b",
+    "cool": "#5b8def",
+    "cool_fill": "#15233a"
   },
   "font": {
     "family": "Georgia, 'Iowan Old Style', serif",
@@ -205,5 +209,8 @@
   },
   "steps": {
     "min_column": 110
+  },
+  "layers": {
+    "min_text": 70
   }
 }
