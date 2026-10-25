@@ -26,7 +26,7 @@ Icons: a node takes `"icon": "NAME"` for a line icon (Lucide, ISC) or `"icon": "
 3. **Build.** Write the spec (`examples/` holds one per type), run `uv run .claude/skills/vector-gen/toolkit/vg.py build SPEC --out DIR [--tokens OVERRIDE]`. Done when every variant prints `PASS`. A `FAIL` names the gate; fix the spec or shorten the label. Never loosen a gate to pass.
 4. **Look.** Read each variant PNG yourself. Done when you can state, per image, what you checked in `references/craft-rules.md` principles.
 5. **Critic.** Run the round in `references/critic.md`. Done on `NO DEFECTS` or after three rounds with open findings listed. For a figure that goes into a LinkedIn post, add the feed read of the same file (`feed-scroller` on the draft and `NAME-social.png`).
-6. **Ship.** For the site, place the SVGs and the `<picture>` snippet from `DIR/NAME.picture.html`. For a post, upload `NAME-social.png`. Attach the PNGs to the MR. A fix that generalises goes into the toolkit and `references/craft-rules.md`.
+6. **Ship.** For the site, place the SVGs and the `<picture>` snippet from `DIR/NAME.picture.html`. For a post, upload `NAME-social.png`. Attach the PNGs to the MR. Commit the spec and the token override in the target project, beside the figure's evidence record: a figure rebuilds only from a committed spec, never from a scratchpad. A fix that generalises goes into the toolkit and `references/craft-rules.md`.
 
 Needs `uv` and Chromium for Playwright (`uv run --with playwright playwright install chromium`).
 

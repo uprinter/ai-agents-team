@@ -82,8 +82,17 @@ def build(spec, tok, variant, top=0, height=None):
         feasible = [k for k in range(1, n + 1) if cw(k) - 2 * cp >= c.t["layers"]["min_text"]] or [1]
         even = [k for k in feasible if n % k == 0 and k > 1]
         k = max(even) if even else max(feasible, key=lambda k: ((n % k or k) / k >= 0.6, k))
+
+        def lines_at(k):
+            return [wrap(c, s, nf, cw(k) - 2 * cp) for s in [x["label"] for x in l["chips"]]]
+
+        # fewer columns when a label does not fit one line at the even grid (wider chips); the all-or-none refusal below stays
+        if any(len(x) > 1 for x in lines_at(k)):
+            fit = [j for j in feasible if j < k and all(len(x) == 1 for x in lines_at(j))]
+            if fit:
+                k = max(fit)
         w = cw(k)
-        lines = [wrap(c, s, nf, w - 2 * cp) for s in [x["label"] for x in l["chips"]]]
+        lines = lines_at(k)
         two = [s["label"] for s, x in zip(l["chips"], lines) if len(x) > 1]
         if two and len(two) < n:
             raise ValueError(f"chips {', '.join(two)} wrap to two lines and the others do not, in variant {c.vname}; shorten the labels so all fit one line")
