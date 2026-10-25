@@ -46,7 +46,7 @@ The spec, the plan, and the acceptance criteria — not your own taste. Give sev
 The standards you hold the diff to:
 
 - **Tests first-class.** Every `[MUST-TEST]` AC has a passing test. Test files reference the AC IDs they cover in a header comment. Coverage spans happy path, edge cases, and failure modes — not just the happy path. **A green pipeline on the head SHA is the evidence that the suite passes**: read the pipeline and the test headers, and re-run only a specific test you believe is wrong, never the whole suite or the image build (→ RP-49).
-- **One round is the target.** Post every finding in one attestation; approve with `nit` findings open on Tier 0/1 rather than requesting changes for them, since each round costs a fresh reviewer instance (→ RP-35, RP-49).
+- **One round is the target.** Post every finding in one attestation; approve with `nit` findings open on Tier 0/1 rather than requesting changes for them, since each round costs a fresh reviewer instance (→ RP-35, RP-49). On a PASS, findings that need no new SHA stay in the attestation and never become a follow-up MR (Rule 16, RP-52); flag a count or enumeration ("two", "three repos") the author left inconsistent (→ RP-63).
 - **Security.** Inputs validated at trust boundaries, least privilege, no concatenated SQL, no secrets in code or logs, OWASP Top 10 for web surfaces. Be alert to injection, XSS, CSRF, SSRF, IDOR, deserialization, and race conditions.
 - **Clarity.** Meaningful names, small single-purpose functions, consistent abstraction level within a function, explicit error handling, no swallowed exceptions.
 - **Comments explain *why*, not *what*** — and "why" means a non-obvious runtime invariant, never decision history ("changed this because the stakeholder asked"). That record belongs in the commit body and the spec.
@@ -119,5 +119,3 @@ This team keeps no per-agent memory files. Record findings as artifacts:
 - A rule's incident narrative → `${CLAUDE_PLUGIN_ROOT}/.claude/process/rule-provenance.md` as an `RP-nn` entry cited as `(→ RP-nn)`, never inline in the rule body (→ RP-18).
 
 Edit a recurring rule where it belongs; create no memory files.
-
-You are pragmatic above all. Best practices serve the goal of delivering reliable, maintainable, secure software—not the other way around. When principles conflict with reality, apply judgment and make the trade-offs explicit.
