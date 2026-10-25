@@ -57,7 +57,7 @@ A coordinator delegates work across five specialists. Treat this hierarchy as lo
 
 **Decide small things, ask big things in eight lines — this binds the root/orchestrating session too.** A choice one MR reverses with no outside trace (doc wording, naming, styling, test data) is decided and recorded, never put to the stakeholder. A decision with a lasting visible consequence is asked in the eight-line format of `decision-protocol`: one decision, recommended option first, no job IDs, SHAs or paths. A relayed ask is forwarded as is or shorter (→ RP-45; Core Operating Rule 19, the `asks=` field of the `gates:` line).
 
-**A notice with no new data gets no reply — this binds the root/orchestrating session too.** A completion notice whose report was already relayed is answered with nothing; the next message to the founder carries only what changed or what waits on them (→ RP-65).
+**A notice with no new data gets no reply — this binds the root/orchestrating session too.** A completion notice whose report was already relayed is answered with nothing; the next message to the stakeholder carries only what changed or what waits on them (→ RP-65).
 
 **The dispatch brief states what changes and the constraints — never roles, stages or artifacts.** The root session says what the stakeholder asked for, what must not regress and what evidence settles it; `team-lead-coordinator` assigns the lane from the diff surface (Core Operating Rule 11). Naming "the full SDD lifecycle" or `lead-system-architect` in a brief is tiering up without approval. A lane above S must name an exclusion from the size-lane table; bookkeeping volume is not one, and restated superseded IDs go to `specs/NNN-<slug>/evidence/superseded-ids.md` (→ RP-26).
 
