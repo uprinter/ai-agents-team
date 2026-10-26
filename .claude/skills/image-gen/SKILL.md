@@ -54,7 +54,7 @@ node ./scripts/generate-ai.mjs \
   [--ref <path-to-reference-image>]... \
   [--count 3] \
   [--name candidate] \
-  [--model gemini-nano-banana-2.1]
+  [--model <model id>]
 ```
 
 - `--prompt` — required. Be specific and exhaustive: subject, composition, exact
@@ -69,9 +69,14 @@ node ./scripts/generate-ai.mjs \
 - `--count` — how many independent candidates to generate (the model returns one
   image per call, so this loops the request rather than trusting a batch
   parameter).
-- `--model` — override if a newer/different Gemini image model id is current;
-  check `https://ai.google.dev/gemini-api/docs/image-generation` for the current
-  recommended model rather than assuming the default stays right forever.
+- `--model` — default is `DEFAULT_MODEL` in `scripts/generate-ai.mjs`, the one
+  place the id lives. Check the current ids at
+  `https://ai.google.dev/gemini-api/docs/models` and the dated deprecations at
+  `https://ai.google.dev/gemini-api/docs/changelog` before assuming the default
+  is still right; change `DEFAULT_MODEL` there.
+- `finishReason: IMAGE_RECITATION` — the model refused this prompt, not the
+  model id or the key. A bare prompt ("a red circle") triggers it; rephrase with
+  subject, style and palette. Run smoke tests with a descriptive prompt.
 
 ## When to reach for this vs. something else
 
@@ -80,9 +85,9 @@ node ./scripts/generate-ai.mjs \
   page layout — those are better served by the `design` skill or the
   `frontend-design`/`hallmark` skills.
 - If the target output must be a true vector (editable SVG paths), this script
-  won't give you that — it returns raster images. Investigate a vector-native
-  generation API (e.g. Recraft) separately if that requirement is hard, or
-  accept raster and vectorize afterward only if actually needed.
+  won't give you that — it returns raster images. Diagrams and
+  infographics come from the `vector-gen` skill; accept raster and vectorize
+  afterward only if actually needed.
 
 ## Known limitation to flag to the user
 

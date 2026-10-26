@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 // generate-ai.mjs — general-purpose raster image generation via the Gemini image
-// model (Gemini Developer API, "Nano Banana" / gemini-nano-banana-2.1), no
+// model (Gemini Developer API, "Nano Banana"), no
 // browser, no screenshots, no project coupling.
 //
 // Zero dependencies: Node standard library only (native fetch, Node 18+).
@@ -14,7 +14,7 @@
 //
 // CLI:
 //   node generate-ai.mjs --prompt "<text>" --out-dir <dir> [--ref <path>]... \
-//                         [--count 1] [--name gen] [--model gemini-nano-banana-2.1]
+//                         [--count 1] [--name gen] [--model <id>]
 //
 // Reads the API key from the GEMINI_API_KEY environment variable — set it in your
 // shell profile (e.g. ~/.zshrc: `export GEMINI_API_KEY=...`), never in a project
