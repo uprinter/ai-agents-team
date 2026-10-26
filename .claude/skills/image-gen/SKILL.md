@@ -54,7 +54,7 @@ node ./scripts/generate-ai.mjs \
   [--ref <path-to-reference-image>]... \
   [--count 3] \
   [--name candidate] \
-  [--model gemini-2.5-flash-image]
+  [--model gemini-nano-banana-2.1]
 ```
 
 - `--prompt` — required. Be specific and exhaustive: subject, composition, exact
