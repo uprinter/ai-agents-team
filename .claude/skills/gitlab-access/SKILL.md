@@ -68,6 +68,10 @@ For a push:
 
 Apply the same command-scoped helper to other authenticated GitLab HTTPS transport commands. Use the current runtime's documented permission mechanism when keyring or network access requires it.
 
+## Merge an MR
+
+`glab mr approve` returns 401 on the shared GitLab identity; this is expected, because the reviewer's `REVIEW-ATTESTATION` is the approval. Merge with `glab mr merge <N> --sha <head> --yes` and confirm `state: merged`.
+
 ## Check the remote before pushing to an existing branch
 
 Run `ls-remote --heads origin "$gitlab_remote_ref"` first and compare the SHA with your local base. A remote SHA you did not push means another session wrote to the branch: stop, report it, and do not push or force until the owner confirms (→ RP-65).
