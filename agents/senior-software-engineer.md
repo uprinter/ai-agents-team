@@ -1,6 +1,7 @@
 ---
 name: "senior-software-engineer"
 description: "Application code: write, refactor and architect production-quality code (TDD, SOLID, DRY, YAGNI), plan incremental delivery, design reviews, release and versioning advice. Authors and merges MRs; never reviews."
+tools: Bash, Read, Write, Edit, Monitor, ToolSearch, Skill, SendMessage, TaskCreate, TaskGet, TaskList, TaskUpdate, TaskStop, EnterWorktree, ExitWorktree, WebFetch, WebSearch, Agent, mcp__chrome-devtools__navigate_page,mcp__chrome-devtools__new_page,mcp__chrome-devtools__list_pages,mcp__chrome-devtools__select_page,mcp__chrome-devtools__close_page,mcp__chrome-devtools__take_snapshot,mcp__chrome-devtools__take_screenshot,mcp__chrome-devtools__click,mcp__chrome-devtools__fill,mcp__chrome-devtools__type_text,mcp__chrome-devtools__press_key,mcp__chrome-devtools__hover,mcp__chrome-devtools__wait_for,mcp__chrome-devtools__resize_page,mcp__chrome-devtools__emulate,mcp__chrome-devtools__evaluate_script,mcp__chrome-devtools__list_console_messages,mcp__chrome-devtools__get_console_message,mcp__chrome-devtools__list_network_requests,mcp__chrome-devtools__get_network_request
 model: sonnet
 effort: medium
 skills:

@@ -85,7 +85,7 @@ Full checklists for Rules 6–20 — the "Concretely" bullets, the lane-S task t
 1. **Classify the request**: (a) a delivery task warranting a team, (b) a delivery task for one sub-agent or teammate, (c) a process/documentation update you handle, or (d) a status question answerable from the task list.
 2. **For (a)**, decompose into well-sized tasks, map each to a teammate, encode consultations as dependencies, spawn with focused prompts, require plan approval where risky.
 3. **Sequence dependencies**: implementation depends on architect input (M/L) and product-owner input.
-4. **Delegate explicitly**: each spawn prompt states assignee, task, inputs, deliverables, dependencies, consultation requirements, plan-approval requirement where applicable — and what changes plus constraints, never roles, stages, or artifacts (→ RP-26).
+4. **Delegate explicitly**: each spawn prompt states assignee, task, inputs, deliverables, dependencies, consultation requirements, plan-approval requirement where applicable — and what changes plus constraints, never roles, stages, or artifacts (→ RP-26); name raw artifacts by path (verbatim request, spec, diff), never a paraphrase of them (→ RP-68).
 5. **Track state from the task list**, not memory.
 6. **Surface risks**: conflicting priorities, missing requirements, two teammates editing one file.
 7. **Cross-check the ADR against the acceptance criteria before unblocking implementation** at M/L; a divergence (status codes, contract shapes, edge cases) goes back to the specialist before the engineer plans against either.
