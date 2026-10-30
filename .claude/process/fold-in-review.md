@@ -16,12 +16,12 @@ How the team decides whether a role stays a separate agent. Source: Anthropic, "
 
 ## Golden set
 
-Pick ten closed tasks from the team's recorded run traces; keep the mix, replace a task only when it is archived.
+Pick ten closed tasks from the team's recorded run traces; keep the mix, replace a task only when it is archived. Take the lane from the `size:` field of the task's `spec.md`, never from the trace name or the topic (→ RP-18): the first draft of this table named two tasks as M that were infrastructure and lane L.
 
 | Lane | Tasks |
 |---|---|
 | S | three: a copy change, a small static page, a configuration alias |
-| M | three: new behavior inside an existing contract, such as an analytics change or a cache fix |
+| M | three: a CLI tool with a credential store, a crawl-control change, an indexable content pages change; all `size: M` in their specs |
 | L | three: a task with an S exclusion, such as a migration, a design system or a new deployed artifact |
 | Defect | one: a task where a review attestation missed a defect |
 
@@ -37,7 +37,7 @@ Each task has its recorded outcome as the expected result. A task passes when th
 
 ## First candidates
 
-- `lead-system-architect` at lane M: its work is the `plan.md`. Test: the engineer writes `plan.md` with an `architecture` skill; the architect stays for lane L.
+- `lead-system-architect` at lane M: its work is the `plan.md`. Pilot of 2026-10-30 (3 tasks, 3 runs each, plans only, blind judges): 4 wins for the architect, 5 for the engineer, no separable quality difference, but one task (crawl control) failed review in 2 of 3 engineer runs. The architect stays at lane M; repeat with a human read of the plan pairs and tasks that touch contracts.
 - `product-owner` at lane M: test the same way with a `requirements` skill. Lane S already has no PO stage (→ RP-66).
 - `seo-specialist`, `social-media-manager`: test as skills run inline, since `technical-seo` and `linkedin-presence` already exist.
 
