@@ -70,7 +70,7 @@ Apply the same command-scoped helper to other authenticated GitLab HTTPS transpo
 
 ## Merge an MR
 
-`glab mr approve` returns 401 on the shared GitLab identity; this is expected, because the reviewer's `REVIEW-ATTESTATION` is the approval. Merge with `glab mr merge <N> --sha <head> --yes` and confirm `state: merged`.
+After a push to an already approved MR, `glab mr approve` can return 401 and register nothing; run `glab mr unapprove`, then `approve` (→ RP-28). `/verify` audits the GitLab approval object, not the note. Merge with `glab mr merge <N> --sha <head> --squash --remove-source-branch`, never a bare `--yes`, and confirm `state: merged`.
 
 ## Check the remote before pushing to an existing branch
 
