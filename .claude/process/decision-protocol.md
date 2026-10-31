@@ -37,9 +37,9 @@ The same split applies to what you notice while working (→ RP-52):
 
 A permission block on a push, merge or edit is not a decision (→ RP-54). Report once: what was blocked, the exact command for the stakeholder to run, and what happens after; offer no options and do not ask again.
 
-## 1c. Closing an MR that needs the stakeholder
+## 1c. Merging an MR
 
-After a passing `REVIEW-ATTESTATION` the coordinator starts the second-instance review without asking who reviews. The close message of an MR needing the stakeholder's approve or merge ends with `approve N and merge N` and names the attested head SHA in the same message, because the permission classifier refuses an agent's approve or merge otherwise; `/verify` checks the phrase and SHA at the hand-back (→ RP-63).
+After a passing `REVIEW-ATTESTATION` the coordinator starts the second-instance review without asking who reviews. When the reviewer approves and CI is green, the author merges SHA-pinned and the close message reports the merge. The stakeholder is not asked to approve or merge; a refusal by the permission classifier is a blocker under §1b (→ RP-72).
 
 ## 2. The ask format (Tier B)
 

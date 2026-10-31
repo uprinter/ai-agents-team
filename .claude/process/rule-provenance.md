@@ -366,3 +366,8 @@ The size budget froze file size but never asked whether a role or a rule is stil
 **Date:** 2026-10-31 · **Where:** a brand repository, adding a 3D generator's Blender export (379k polygons, three 2K textures, no rig) from the founder's Downloads folder · **Rule it backs:** `heavy-files.md` and its checks in the review attestation and `/verify`. **Generalizes:** RP-22 (the client receives only what it needs) from content to weight; does not overlap RP-31 (use the direct tool), which it cites for the upload path.
 
 No rule said where a large source file goes. A commit would have tripled a repository whose `.git` was 19 MB, with no LFS, and history keeps a blob even after a later delete. The founder named the destination, Google Drive, and the one account every agent may use for it. The fix is a layout, a pointer row with size, hash, source and licence, and a derivative of at most 2 MB in git. Checked by the author's pre-commit search, the `heavy-files:` line of the attestation, and `/verify`.
+
+## RP-72 — The stakeholder was asked to type "approve N and merge N" on every MR, and never looked at the MR
+**Date:** 2026-11-01 · **Rules it backs:** `decision-protocol.md` §1c; the merge line in `verify-gates.md` (Rule 6). **Replaces:** the ready phrase of RP-63.
+
+RP-63 added the phrase because the permission classifier refused agent approve and merge without the stakeholder's words. The stakeholder never reviewed an MR by hand, so the phrase delayed each merge by a round trip and checked nothing. Independent review is the attestation and CI. The block itself came from a `soft_deny` entry for `glab mr merge` in the user's settings (`autoMode`), not from the harness; remove that entry, or the classifier still refuses.
