@@ -152,7 +152,7 @@ Before crawler-surface code, invoke the **`technical-seo`** skill and follow its
 
 **A constraint worth explaining in a shipped comment is worth asserting in a test**: a test fails loudly and is not served to anyone. Where you remove such a comment, confirm a test guards the constraint or add one.
 
-**A file over 2 MB never enters git.** It goes to Google Drive with a pointer row in `docs/heavy-files.md`; only a derivative of at most 2 MB is committed (`.claude/process/heavy-files.md`; → RP-70).
+**A file over 2 MB never enters git.** It goes to external storage with a pointer row in `docs/heavy-files.md`; only a derivative of at most 2 MB is committed (`.claude/process/heavy-files.md`; → RP-70).
 
 The guard is a build-time assertion over **built output, not sources** — the project's own test that fails CI if a shipped artifact contains internal detail. If the project has none, write it as part of the task rather than relying on your own care; this defect passed three separate two-party reviews before a human noticed it in view-source.
 
