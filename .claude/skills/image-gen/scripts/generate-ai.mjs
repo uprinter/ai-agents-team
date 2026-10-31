@@ -14,7 +14,7 @@
 //
 // CLI:
 //   node generate-ai.mjs --prompt "<text>" --out-dir <dir> [--ref <path>]... \
-//                         [--count 1] [--name gen] [--model <id>]
+//                         [--count 1] [--name gen] [--model <id>] [--background <colour>] [--meta]
 //
 // Reads the API key from the GEMINI_API_KEY environment variable — set it in your
 // shell profile (e.g. ~/.zshrc: `export GEMINI_API_KEY=...`), never in a project
@@ -22,6 +22,8 @@
 
 import fs from 'node:fs';
 import path from 'node:path';
+import crypto from 'node:crypto';
+import { fileURLToPath } from 'node:url';
 
 const DEFAULT_MODEL = 'gemini-nano-banana-2.1';
 const API_BASE = 'https://generativelanguage.googleapis.com/v1beta/models';
@@ -60,9 +62,14 @@ function parseArgs(argv) {
     else if (a === '--count') args.count = Number(next());
     else if (a === '--name') args.name = next();
     else if (a === '--model') args.model = next();
+    else if (a === '--background') args.background = next();
+    else if (a === '--meta') args.meta = true;
     else throw new Error(`Unknown argument: ${a}`);
   }
   if (!args.prompt) throw new Error('--prompt is required');
+  if (args.background) {
+    args.prompt += `\n\nBackground: one flat solid ${args.background} colour edge to edge, no gradient, no shadow, no texture, no vignette, and none of that colour inside the subject.`;
+  }
   if (!args.outDir) throw new Error('--out-dir is required');
   if (!Number.isInteger(args.count) || args.count < 1) {
     throw new Error('--count must be a positive integer');
@@ -138,7 +145,9 @@ async function generateOne({ apiKey, model, prompt, referenceParts }) {
   if (!base64Data) {
     throw new Error('Gemini API image part had no base64 data.');
   }
-  return { buffer: Buffer.from(base64Data, 'base64'), mimeType };
+  const { candidates, ...rest } = json;
+  const meta = { finishReason: candidates?.[0]?.finishReason, ...rest };
+  return { buffer: Buffer.from(base64Data, 'base64'), mimeType, meta };
 }
 
 function extForMime(mimeType) {
@@ -155,7 +164,7 @@ async function main() {
   fs.mkdirSync(args.outDir, { recursive: true });
 
   for (let i = 1; i <= args.count; i++) {
-    const { buffer, mimeType } = await generateOne({
+    const { buffer, mimeType, meta } = await generateOne({
       apiKey,
       model: args.model,
       prompt: args.prompt,
@@ -166,10 +175,24 @@ async function main() {
     const outPath = path.join(args.outDir, filename);
     fs.writeFileSync(outPath, buffer);
     console.log(`wrote ${outPath} (${buffer.byteLength} bytes)`);
+    if (args.meta) {
+      const sha = (b) => crypto.createHash('sha256').update(b).digest('hex');
+      const record = {
+        file: filename,
+        sha256: sha(buffer),
+        model: args.model,
+        prompt: args.prompt,
+        refs: args.ref.map((r) => ({ path: r, sha256: sha(fs.readFileSync(r)) })),
+        response: meta,
+        time: new Date().toISOString(),
+      };
+      fs.writeFileSync(outPath + '.json', JSON.stringify(record, null, 2) + '\n');
+    }
   }
 }
 
-if (import.meta.url === `file://${process.argv[1]}`) {
+// realpath on both sides: a run through the .claude/skills symlink must still start main
+if (fs.realpathSync(fileURLToPath(import.meta.url)) === fs.realpathSync(process.argv[1])) {
   main().catch((err) => {
     console.error(`generate-ai.mjs failed: ${err.message}`);
     process.exit(1);

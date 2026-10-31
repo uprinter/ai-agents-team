@@ -1,0 +1,7 @@
+# Tools for the `mark` chain (references/logo-craft.md). Install: brew bundle --file=.claude/skills/vector-gen/toolkit/Brewfile
+# vtracer (MIT) has no formula; it runs as a Python library: uv run --with vtracer
+# fontTools and skia-pathops (union of paths) also run through uv: uv run --with fonttools --with skia-pathops
+brew "potrace"   # GPL-2.0, one-colour trace, run as a separate program
+brew "svgo"      # MIT, shrinks the final SVG
+brew "resvg"     # MPL-2.0, SVG render without a browser
+cask "inkscape"  # GPL-3.0, manual boolean and clean-up, external program only

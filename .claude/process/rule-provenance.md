@@ -352,6 +352,11 @@ Another session added six commits to a shared MR branch, renumbered the feature 
 
 The engineer wrote `spec.md` from the stakeholder's one-line request and noted that the product owner would confirm the criteria as an MR comment. No task assigned that comment; the reviewer flagged it as Important but approved, and the MR merged without it. A step with no owner and no check is a suggestion, and lane S has no product-owner stage. When the request states the whole change, the request is the acceptance criteria.
 
+## RP-67 — A model-made logo was not a working file
+**Date:** 2026-10-28 · **Where:** a product logo trial with an image model · **Rule it backs:** the `mark` route in `vector-gen`; the accepted-image rule in `image-gen`. **Generalizes:** RP-59 (a graphic ships from a committed spec and a critic round) to logos and tiles.
+
+The model gave a good idea (a mascot detail flowing into a letter, a star by the i) but not a usable file: no transparency or vector, lettering with uncontrolled weight and spacing, no 16 or 24 px tile, no way to repeat the result. The harness keeps the model for the idea and moves the craft to code: trace by layer, lettering from a font, hand-drawn tile, measured size gates and a recognition test. The accepted image is the source, edited by reference and recorded with its prompt and sha256. Checked by the `mark` build `PASS`, a critic round ending `NO DEFECTS`, and `/verify` reading the committed spec and the image-gen record.
+
 ## RP-68 — The harness had no measure of whether a role earns its handoff
 **Date:** 2026-10-29 · **Where:** this repo, after reading Anthropic's "when to fold subagents into your main agent loop" · **Rules it backs:** `fold-in-review.md`; the raw-artifact sentence in `team-lead-coordinator.md` Coordination Methodology 4; the `tools:` allowlists of `senior-software-engineer`, `devops-infra-expert` and `code-reviewer`; the stale-rule probe in `harness-cleaner`. **Generalizes:** RP-18 (size is budgeted) from bytes to value.
 

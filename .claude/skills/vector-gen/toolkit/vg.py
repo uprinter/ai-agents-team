@@ -8,6 +8,8 @@
   uv run vg.py icons [QUERY]        list or search the vendored icon names (Lucide, ISC)
   uv run vg.py tokens PALETTE.md [--mode dark|light] [--font sans] [--accent HEX] [--out OVERRIDE.json]
                                     a token override from a dataviz-style palette file, one palette for charts and diagrams
+  uv run --with fonttools vg.py mark SPEC.json --out DIR [--tokens PROJECT_TOKENS.json]
+                                    a logo or tile: layers, wordmark from font outlines, renders at 16-96px, size gates
   uv run vg.py check FILE.svg [--width PX] [--tokens PROJECT_TOKENS.json] [--out PNG]
                                     partial gates for an SVG that was not built here (hand-drawn or exported)
 
@@ -18,7 +20,7 @@ may switch that off with "no_social": true. Exit 1 if any gate fails.
 Needs Chromium for Playwright: uv run --with playwright playwright install chromium
 """
 import argparse, json, pathlib, re, sys
-from vg_lib import tokens, sequence, flow, compare, check, social, cards, steps, hub, cycle, matrix, funnel, swimlanes, layers
+from vg_lib import tokens, sequence, flow, compare, check, social, cards, steps, hub, cycle, matrix, funnel, swimlanes, layers, mark
 
 TYPES = {"sequence": sequence, "flow": flow, "compare": compare, "cards": cards, "steps": steps, "hub": hub, "cycle": cycle, "matrix": matrix, "funnel": funnel, "swimlanes": swimlanes, "layers": layers}
 
@@ -34,9 +36,52 @@ def min_display_width(svg):
     return w, need
 
 
+def render_png(svg, px, path, background=None):
+    """Render svg square-fitted into px x px with Chromium, transparent unless background is set."""
+    from playwright.sync_api import sync_playwright
+    page_html = f'<body style="margin:0;background:{background or "transparent"}"><div style="width:{px}px;height:{px}px">{svg.replace("<svg ", f"<svg width=\"{px}\" height=\"{px}\" ", 1)}</div></body>'
+    with sync_playwright() as p:
+        b = p.chromium.launch()
+        pg = b.new_page(viewport={"width": px, "height": px})
+        pg.set_content(page_html)
+        pg.screenshot(path=str(path), omit_background=background is None)
+        b.close()
+
+
+def run_mark(a):
+    from PIL import Image
+    spec = json.loads(pathlib.Path(a.spec).read_text())
+    tok = tokens.load(a.tokens)
+    out = pathlib.Path(a.out); out.mkdir(parents=True, exist_ok=True)
+    name = pathlib.Path(a.spec).stem
+    try:
+        svg, fills = mark.build(spec, tok)
+        bare, _ = mark.build(spec, tok, background=False)
+    except ValueError as e:
+        print(f"[mark] FAIL  {e}"); return 1
+    (out / f"{name}.svg").write_text(svg)
+    sizes = spec.get("sizes", [16, 24, 32, 48, 96])
+    ims = {}
+    for px in sizes:
+        render_png(bare, px, out / f"{name}-{px}.png")
+        ims[px] = Image.open(out / f"{name}-{px}.png").convert("RGBA")
+    errs = mark.gates(fills, ims, not spec.get("wordmark"))
+    sheet_bg = spec.get("sheet_background", "#ffffff")
+    sheet = Image.new("RGBA", (sum(p + 16 for p in sizes) + 16, max(sizes) + 32), sheet_bg)
+    x = 16
+    for px, im in ims.items():
+        sheet.alpha_composite(im, (x, 16)); x += px + 16
+    sheet.save(out / f"{name}-sizes.png")
+    print(f"[mark] {len(fills)} flat colours, sizes {', '.join(map(str, sizes))}  ->  {'PASS' if not errs else 'FAIL'}")
+    for e in errs:
+        print("   -", e)
+    print(f"Wrote {name}.svg and {name}-sizes.png. Gates are partial: look at the sizes sheet at 1:1 and run the recognition test in references/logo-craft.md.")
+    return 1 if errs else 0
+
+
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument("cmd", choices=["build", "icons", "check", "tokens"])
+    ap.add_argument("cmd", choices=["build", "icons", "check", "tokens", "mark"])
     ap.add_argument("spec", nargs="?")
     ap.add_argument("--out")
     ap.add_argument("--tokens")
@@ -74,6 +119,10 @@ def main():
             print("   -", e)
         print("Partial check: palette, stroke and type scales, contrast, text size, text overlap and canvas edge. Arrowheads, grid, equal sizes and icon rules need a figure built by vg.py build.")
         sys.exit(1 if errs else 0)
+    if a.cmd == "mark":
+        if not a.spec or not a.out:
+            ap.error("mark needs SPEC and --out")
+        sys.exit(run_mark(a))
     if a.cmd == "icons":
         d = pathlib.Path(__file__).parent / "icons"
         icons = json.loads((d / "lucide.json").read_text())["icons"]
