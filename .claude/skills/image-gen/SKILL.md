@@ -54,7 +54,9 @@ node ./scripts/generate-ai.mjs \
   [--ref <path-to-reference-image>]... \
   [--count 3] \
   [--name candidate] \
-  [--model <model id>]
+  [--model <model id>] \
+  [--background <colour>] \
+  [--meta]
 ```
 
 - `--prompt` — required. Be specific and exhaustive: subject, composition, exact
@@ -69,6 +71,13 @@ node ./scripts/generate-ai.mjs \
 - `--count` — how many independent candidates to generate (the model returns one
   image per call, so this loops the request rather than trusting a batch
   parameter).
+- `--background` — adds the instruction for one flat solid background colour,
+  edge to edge. Use it when the image goes on to tracing or cut-out: a flat
+  background keeps the subject separable by colour.
+- `--meta` — writes `<file>.json` beside each image: the final prompt, model,
+  response metadata (`finishReason`, usage), the sha256 of the image and of each
+  reference, and the time. Keep it with the image; the record is how the image is
+  reproduced or audited.
 - `--model` — default is `DEFAULT_MODEL` in `scripts/generate-ai.mjs`, the one
   place the id lives. Check the current ids at
   `https://ai.google.dev/gemini-api/docs/models` and the dated deprecations at
@@ -77,6 +86,14 @@ node ./scripts/generate-ai.mjs \
 - `finishReason: IMAGE_RECITATION` — the model refused this prompt, not the
   model id or the key. A bare prompt ("a red circle") triggers it; rephrase with
   subject, style and palette. Run smoke tests with a descriptive prompt.
+
+## An accepted image is the source
+
+Once a person accepts an image, it is the source file. Change it with a new call
+that passes it as `--ref` and says "change only X, keep everything else", never
+by rewriting the original prompt and generating again: a new generation gives a
+different image. Record the accepted file's sha256 (`--meta` does) before the
+first edit.
 
 ## When to reach for this vs. something else
 
@@ -87,7 +104,9 @@ node ./scripts/generate-ai.mjs \
 - If the target output must be a true vector (editable SVG paths), this script
   won't give you that — it returns raster images. Diagrams and
   infographics come from the `vector-gen` skill; accept raster and vectorize
-  afterward only if actually needed.
+  afterward only if actually needed. A logo or symbol from a raster idea goes
+  through the `mark` form of `vector-gen` (`references/logo-craft.md`): trace,
+  reduce to flat colours, set the lettering from a font in code.
 
 ## Known limitation to flag to the user
 

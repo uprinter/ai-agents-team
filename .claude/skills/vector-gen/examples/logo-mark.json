@@ -1,0 +1,32 @@
+{
+  "type": "mark",
+  "title": "Example mark",
+  "claim": "A square badge with a bright centre reads as one shape at 16 px.",
+  "view": [96, 96],
+  "layers": [
+    {"name": "badge", "d": "M12 12H84V84H12Z", "fill": "accent"},
+    {"name": "centre", "d": "M36 36H60V60H36Z", "fill": "ink"}
+  ],
+  "tile": {
+    "grid": 16,
+    "palette": {"a": "#4f9dff", "b": "#f9f9f9"},
+    "rows": [
+      "................",
+      "................",
+      "..aaaaaaaaaaaa..",
+      "..aaaaaaaaaaaa..",
+      "..aaaaaaaaaaaa..",
+      "..aaaaaaaaaaaa..",
+      "..aaaabbbbaaaa..",
+      "..aaaabbbbaaaa..",
+      "..aaaabbbbaaaa..",
+      "..aaaabbbbaaaa..",
+      "..aaaaaaaaaaaa..",
+      "..aaaaaaaaaaaa..",
+      "..aaaaaaaaaaaa..",
+      "..aaaaaaaaaaaa..",
+      "................",
+      "................"
+    ]
+  }
+}

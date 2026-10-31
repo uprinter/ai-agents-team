@@ -15,6 +15,7 @@ A fresh agent looks at the renders and names what a designer would fix. It has n
 1. Run the critic on every variant PNG in one call.
 2. Fix every DEFECT, and POLISH items that cost little, in the spec, token override or toolkit. Treat low-confidence findings as questions: check them in the render yourself. A fix that generalises goes into the toolkit and `craft-rules.md`, so the next figure gets it free.
 3. Rebuild, gates green, run the critic again with a fresh agent.
-4. Stop on `NO DEFECTS` or after three rounds. After three rounds, ship with the open findings listed in the report.
+4. A finding that undoes a fix an earlier round asked for is settled against the source (the spec, the vector or the claim), not by the newest critic; record which way it went.
+5. Stop on `NO DEFECTS` or after three rounds. After three rounds, ship with the open findings listed in the report.
 
 The completion criterion is `NO DEFECTS` from an agent that did not draw the figure, on every variant. A critic always finds something to polish; only DEFECT counts against shipping.

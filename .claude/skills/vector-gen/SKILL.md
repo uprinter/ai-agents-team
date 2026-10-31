@@ -14,6 +14,7 @@ Craft comes from rules encoded once (`toolkit/`), measured gates, and a critic w
 | sequence, flow, before/after, cards or statistics, steps or timeline, hub, cycle, matrix, funnel, swimlanes, layers, with or without icons | `toolkit/vg.py` (below); the form is the spec `"type"`: `sequence`, `flow`, `compare`, `cards`, `steps`, `hub`, `cycle`, `matrix`, `funnel`, `swimlanes`, `layers` |
 | the same figure as an image for a LinkedIn post | automatic: `build` also writes `NAME-social.png` (1080px wide, 1:1 to 4:5); details in `references/craft-rules.md`, "Feed image" |
 | another diagram or infographic form (timeline with dates, Venn, treemap) | add a form module beside `vg_lib/flow.py`, built on `vg_lib/prims.py` and `vg_lib/layout.py`, register it in `vg.py`, then follow the steps below |
+| logo, symbol, tile (traced layers, a wordmark from font outlines, sizes 16-96) | `vg.py mark SPEC --out DIR`, spec `"type": "mark"`; the chain is `references/logo-craft.md` |
 | chart | `dataviz` skill, then steps 4-5 |
 | illustration, photo, cover art | not drawn here; `image-gen` makes raster, text goes on in code |
 
@@ -34,4 +35,5 @@ Needs `uv` and Chromium for Playwright (`uv run --with playwright playwright ins
 
 - `references/craft-rules.md` - scales, element rules, variants, gates, sources.
 - `references/critic.md` - critic brief and loop.
-- `examples/` - `agent-flow.json` and `cache-aside.json` (sequence), `pipeline.json`, `pipeline-icons.json` and `retry-loop.json` (flow, the last with a back edge), `cache-aside-icons.json` (sequence with icons), `queue-compare.json` (compare), `agent-cards.json` and `agent-stats.json` (cards), `review-steps.json` (steps), `skill-hub.json` (hub), `harness-loop.json` (cycle), `priority-matrix.json` (matrix), `signup-funnel.json` (funnel), `release-lanes.json` (swimlanes), `app-layers.json` (layers: tinted groups, bars and a grid of independent modules). `agent-flow` and `queue-compare` are too dense for the feed image and switch it off.
+- `references/logo-craft.md` - model image to working mark: trace, lettering, tile, size gates, tools and licences.
+- `examples/` - `agent-flow.json` and `cache-aside.json` (sequence), `pipeline.json`, `pipeline-icons.json` and `retry-loop.json` (flow, the last with a back edge), `cache-aside-icons.json` (sequence with icons), `queue-compare.json` (compare), `agent-cards.json` and `agent-stats.json` (cards), `review-steps.json` (steps), `skill-hub.json` (hub), `harness-loop.json` (cycle), `priority-matrix.json` (matrix), `signup-funnel.json` (funnel), `release-lanes.json` (swimlanes), `logo-mark.json` (mark: layers, a wordmark and a tile), `app-layers.json` (layers: tinted groups, bars and a grid of independent modules). `agent-flow` and `queue-compare` are too dense for the feed image and switch it off.
