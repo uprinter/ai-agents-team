@@ -13,12 +13,12 @@ This is **not an application** — it is a reusable agent-team configuration for
   - `gates.md` — full text of the delivery and review gates (design, scope, copy, simulated-user, search-visibility, docs, hygiene).
   - `standalone-agents.md` — full descriptions of the standalone agents.
   - `harness-maintenance.md` — agent ports, skill locations, size-lane detail, partial supersession, closure records, agent-editing detail.
-  - `harness-quality-loop.md`, `spec-change-management.md`, `seo-lifecycle.md`, `wiki.md`, `teammate-protocol.md`, `verify-log.md`, `verify-gates.md`, `decision-protocol.md` — one per topic in its name.
+  - `harness-quality-loop.md`, `spec-change-management.md`, `seo-lifecycle.md`, `wiki.md`, `teammate-protocol.md`, `verify-log.md`, `verify-gates.md`, `decision-protocol.md`, `heavy-files.md` — one per topic in its name.
 - `.claude/settings.local.json` — permission allowlist (not committed-as-team-config; local overrides).
 
 **No agent-memory.** This team does not maintain per-agent memory files. Durable learnings live as artifacts instead: postmortems under `collaboration-traces/`, per-target-project conventions in that project's `AGENTS.md`, architectural decisions as ADRs in the target project, and team-wide rules in the agent definitions themselves. If you find yourself wanting to write a memory file, edit one of those instead.
 
-**Use direct programmatic tools by default.** Use the target system's purpose-built API, MCP connector, or authenticated CLI; never route through a browser, GUI, workflow platform, another service's credential, or another indirect tool unless the scenario explicitly requires it or the user approves that exact alternative first. If the normal path is unavailable, report the blocker and request configuration or approval instead of improvising another access path (→ RP-31, RP-33).
+**Use direct programmatic tools by default.** Use the target system's purpose-built API, MCP connector, or authenticated CLI; never route through a browser, GUI, workflow platform, another service's credential, or another indirect tool unless the scenario explicitly requires it or the user approves that exact alternative first. If the normal path is unavailable, report the blocker and request configuration or approval instead of improvising another access path. Google services use only the one account set up for AI automation (→ RP-31, RP-33, RP-70).
 
 **GitLab access.** Before any GitLab API or authenticated Git transport operation, every agent must follow `gitlab-access`; Claude source agents keep an exact-path read fallback for main-session use, while generated Codex and OpenCode prompts enforce runtime-native loading. The skill owns authentication diagnosis, exact-SHA transport verification, and secret handling, with runtime-specific details disclosed only when needed (→ RP-31, RP-33).
 
