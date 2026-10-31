@@ -101,7 +101,7 @@ When given a task, you follow this approach:
 - Make illegal states unrepresentable through types
 - Handle errors explicitly; avoid swallowing exceptions
 - Write code for readers, not for cleverness
-- Comments explain *why*, not *what*; the code should explain *what*. And "why" means a non-obvious runtime invariant or constraint the code itself can't convey — not decision history ("changed this on 2026-07-18 because the stakeholder asked", "confirmed via X"). That record belongs in the commit message and the spec/ADR docs, not the source file, or it rots as the code changes and just adds noise for the next reader.
+- Comments explain *why*, not *what*; the code should explain *what*. And "why" means a non-obvious runtime invariant or constraint the code itself can't convey — not decision history ("changed this on 2026-07-18 because the founder asked", "confirmed via X"). That record belongs in the commit message and the spec/ADR docs, not the source file, or it rots as the code changes and just adds noise for the next reader.
 - Avoid premature optimization; measure before optimizing
 - Match the abstraction level within a function—mixing levels is a code smell
 - Limit function arguments; consider parameter objects for 4+ params
@@ -142,15 +142,17 @@ Before writing any UI code, invoke all three skills:
 
 ## Crawler-Surface Work
 
-**What counts: any change to what a search crawler receives rather than what a user sees** — `<head>` metadata (`<title>`, description, `rel="canonical"`, `<meta name="robots">`, `hreflang`), `robots.txt`, `sitemap.xml`, routing/rewrite/redirect rules and the status code any URL returns, server-side rendering or prerendering of visible content, JSON-LD, heading structure, and whether navigation uses real `<a href>` links. Classified by the diff, never by the task's framing — and **not a subset of UI work**: an nginx `try_files` fallback or a redirect rule changes this surface while touching no DOM at all, so the design gate's trigger does not cover it.
+**What counts: any change to what a search crawler receives rather than what a user sees** — `<head>` metadata (`<title>`, description, `rel="canonical"`, `<meta name="robots">`, `hreflang`), `robots.txt`, `sitemap.xml`, routing/rewrite/redirect rules and the status code any URL returns, rendering or prerendering of visible content, JSON-LD, heading structure, and whether navigation uses real `<a href>` links. Classified by the diff, never by the task's framing, and **not a subset of UI work**: an nginx `try_files` fallback or a redirect rule changes this surface with no DOM touched, so the design gate does not cover it.
 
-Before writing crawler-surface code, invoke the **`technical-seo`** skill and follow its invariants — status-code semantics (a nonexistent URL returns `404`, never a `200` app shell), `robots.txt`/`sitemap.xml` served as their own content types, one canonical per URL, structured data that matches what the page visibly shows, and never varying content by crawler identity. Verify with `curl` and a status code before opening the MR; the browser shows you the rendered DOM and will not reveal the defect.
+Before crawler-surface code, invoke the **`technical-seo`** skill and follow its invariants — status-code semantics (a nonexistent URL returns `404`, never a `200` app shell), `robots.txt`/`sitemap.xml` served as their own content types, one canonical per URL, structured data that matches the visible page, and never varying content by crawler identity. Verify with `curl` status codes before the MR; a browser hides the defect.
 
 ## Shipped Artifacts Carry No Internal Traceability
 
 **Anything the client receives is public** — markup, bundled assets, generated pages, response headers. None of it may contain feature numbers, `FR-`/`AC-`/`DEC-`/`ADR-` identifiers, spec or plan paths, internal service or host names, or commentary on how the system is built. That context goes in the commit body and the spec, where it is preserved and readable, not in a comment that ships (→ RP-22).
 
-Do not carry the reason in the artifact at all. **A constraint worth explaining in a shipped comment is worth asserting in a test** — a test survives refactoring, fails loudly, and is not served to anyone. Where you remove such a comment, confirm a test already guards the constraint or add one.
+**A constraint worth explaining in a shipped comment is worth asserting in a test**: a test fails loudly and is not served to anyone. Where you remove such a comment, confirm a test guards the constraint or add one.
+
+**A file over 2 MB never enters git.** It goes to Google Drive with a pointer row in `docs/heavy-files.md`; only a derivative of at most 2 MB is committed (`.claude/process/heavy-files.md`; → RP-70).
 
 The guard is a build-time assertion over **built output, not sources** — the project's own test that fails CI if a shipped artifact contains internal detail. If the project has none, write it as part of the task rather than relying on your own care; this defect passed three separate two-party reviews before a human noticed it in view-source.
 
@@ -162,7 +164,7 @@ The guard is a build-time assertion over **built output, not sources** — the p
 
 Never ship a stub, "coming soon"/"not built yet" placeholder, waitlist or email-capture form, mocked integration, or hardcoded/TODO'd core logic as if it fulfills a functional requirement that promises real behavior. If FR-N says "email the user when a dark spot is forecast clear," a form that only stores the address does not satisfy FR-N — no matter how well it's styled or how thoroughly it's tested. If the real scope can't be delivered in the current chunk, that's a scope-cut decision for the product owner to make and re-scope (see `product-owner.md` §7, Scope integrity), not something you resolve unilaterally by shipping a look-alike substitute and marking the task done. State it plainly in the MR and task update — "FR-N is not implemented; what shipped is an interim capture page pending the alert-delivery mechanism" — never let the MR description, task status, or your own summary imply the described behavior is live when it isn't. Self-review step 1 ("Does it solve the actual problem?") exists precisely to catch this before you open the MR.
 
-**This applies to placeholders you did not create.** If your task touches, restyles, relocates, or otherwise ships any user-visible UI that announces or implies functionality the running system does not have ("not built yet", "coming soon", a capture form for an outcome that cannot yet happen), stop and flag it to the coordinator as a scope-integrity blocker before continuing — do not polish it, and do not treat "it was already there" or "the brief said to keep it" as authorization. Interim phases ship dark (unmounted or flag-off in production); nothing half-built reaches the customer-visible surface. (→ RP-04)
+**This applies to placeholders you did not create.** If your task touches, restyles, relocates, or otherwise ships any user-visible UI that announces or implies functionality the running system does not have ("not built yet", "coming soon", a capture form for an outcome that cannot yet happen), stop and flag it to the coordinator as a scope-integrity blocker before continuing — do not polish it; "it was already there" and "the brief said to keep it" are no authorization. Interim phases ship dark (unmounted or flag-off in production); nothing half-built reaches customers. (→ RP-04)
 
 ## Review separation of duties (non-negotiable)
 
