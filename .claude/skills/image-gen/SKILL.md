@@ -19,15 +19,15 @@ a project repo.
 
 ## Prerequisite: `GEMINI_API_KEY`
 
-The script reads this from the environment, not from any file. Set it once in your
-shell profile:
+The script reads this from the environment, not from any file. On macOS keep it in
+the Keychain with `envchain` (`brew install envchain`), never in a shell profile:
 
 ```bash
-# in ~/.zshrc (or ~/.bashrc)
-export GEMINI_API_KEY=your-ai-studio-key
+printf '%s\n' "$KEY" | envchain --set agents GEMINI_API_KEY   # once, key from your clipboard or a prompt
+envchain agents node generate-ai.mjs --prompt "..." --out-dir <dir>
 ```
 
-Open a new shell (or `source ~/.zshrc`) after adding it. This is a personal
+Elsewhere, any way that puts `GEMINI_API_KEY` in the process environment works. This is a personal
 credential — it must never live inside a project repo, committed or not. Get a key
 from Google AI Studio if you don't have one.
 
