@@ -1,6 +1,6 @@
 # Decision protocol — decide small things, ask big things briefly
 
-**Authoritative protocol for every decision an agent puts to the stakeholder.** Every agent and the root session carry a pointer here through the `decision-protocol` skill; this file carries the rules. It exists because the team asked the stakeholder to settle small, reversible matters in long technical messages (→ RP-45).
+**Authoritative protocol for every decision an agent puts to the founder.** Every agent and the root session carry a pointer here through the `decision-protocol` skill; this file carries the rules. It exists because the team asked the founder to settle small, reversible matters in long technical messages (→ RP-45).
 
 ## 1. Classify the decision first
 
@@ -13,15 +13,15 @@ A decision is **ask** only when it has a long-term, visible consequence. The ask
 | infra or deploy topology, project settings | test data, fixture shape, test naming |
 | auth, secrets, money, legal or GDPR surface | which of two equivalent tools, commands, or orderings to use |
 | anything deleted, force-pushed, or otherwise irreversible | what evidence to cite and how to record a deviation |
-| content that goes live under the stakeholder's name or brand | accepting a check deviation that changed no shipped artifact and no persisted state |
+| content that goes live under the founder's name or brand | accepting a check deviation that changed no shipped artifact and no persisted state |
 | scope: adding, dropping, or tiering down a requested feature | one more retry, one more probe, one more read of a log |
-| a choice the stakeholder explicitly reserved | any choice that one MR can reverse without a trace outside the repo |
+| a choice the founder explicitly reserved | any choice that one MR can reverse without a trace outside the repo |
 
 Rules of the split:
 
 - **Reversibility decides ties.** If one MR reverses it and nothing outside the repository remembers it, it is Tier A.
-- **Tier A is recorded, never asked.** Write the choice and its one-line reason in the artifact that already exists for it: a `tasks.md` row, an MR note, a `verify-log` evidence bullet, a `DEC-n` line in `spec.md`. The stakeholder reads it there if they want to.
-- **A Tier A decision never becomes Tier B because it is in a log the stakeholder owns.** The stakeholder's name on the log is the normal state of every artifact; it is not a reservation.
+- **Tier A is recorded, never asked.** Write the choice and its one-line reason in the artifact that already exists for it: a `tasks.md` row, an MR note, a `verify-log` evidence bullet, a `DEC-n` line in `spec.md`. The founder reads it there if they want to.
+- **A Tier A decision never becomes Tier B because it is in a log the founder owns.** The founder's name on the log is the normal state of every artifact; it is not a reservation.
 - **Uncertainty about the tier is not a Tier B question.** Apply the reversibility rule and move on.
 
 ## 1a. Found work
@@ -35,11 +35,11 @@ The same split applies to what you notice while working (→ RP-52):
 
 ## 1b. A blocked action
 
-A permission block on a push, merge or edit is not a decision (→ RP-54). Report once: what was blocked, the exact command for the stakeholder to run, and what happens after; offer no options and do not ask again.
+A permission block on a push, merge or edit is not a decision (→ RP-54). Report once: what was blocked, the exact command for the founder to run, and what happens after; offer no options and do not ask again.
 
 ## 1c. Merging an MR
 
-After a passing `REVIEW-ATTESTATION` the coordinator starts the second-instance review without asking who reviews. When the reviewer approves and CI is green, the author merges SHA-pinned and the close message reports the merge. The stakeholder is not asked to approve or merge; a refusal by the permission classifier is a blocker under §1b (→ RP-72).
+After a passing `REVIEW-ATTESTATION` the coordinator starts the second-instance review without asking who reviews. When the reviewer approves and CI is green, the author merges SHA-pinned and the close message reports the merge. The founder is not asked to approve or merge, except to look at a new user-visible element running locally before merge (→ RP-73); a refusal by the permission classifier is a blocker under §1b (→ RP-72).
 
 ## 2. The ask format (Tier B)
 
@@ -55,13 +55,13 @@ Reply with a number. Details: <one pointer to the MR note, task, or file>
 ```
 
 - **The recommended option is always first and always marked.** An ask with no recommendation goes back to the sender.
-- **No technical detail in the ask.** Job IDs, SHAs, timestamps, file paths, line numbers, rule IDs, AC IDs stay in the pointer target. The one exception is an identifier the stakeholder must act on themself, such as a button to press.
+- **No technical detail in the ask.** Job IDs, SHAs, timestamps, file paths, line numbers, rule IDs, AC IDs stay in the pointer target. The one exception is an identifier the founder must act on themself, such as a button to press.
 - **No traps, caveats, or second questions.** If a later state change would need another decision, handle it under this protocol when it happens.
 - **Several decisions at once:** ask the one that blocks first. Send the next after the answer. Independent decisions that fit the eight lines together may share a message, each with its own number set.
-- **A relay never expands.** When the root session or the coordinator passes a teammate's ask to the stakeholder, it forwards the block as is or shortens it. It never adds background, never restates the options, never appends its own second question.
+- **A relay never expands.** When the root session or the coordinator passes a teammate's ask to the founder, it forwards the block as is or shortens it. It never adds background, never restates the options, never appends its own second question.
 
 ## 3. Gates
 
 - **Sender self-check** before every ask: Tier B by the table? Eight lines or fewer? Recommended option first? No technical detail outside the pointer? One decision? If any answer is no, fix it or decide it yourself.
-- **Coordinator** returns a teammate's ask that fails the self-check, or that puts a permission block to the stakeholder as options, to the teammate instead of relaying it, and records a Tier A decision it finds asked as a process finding in the run's postmortem.
-- **`/verify`** records every Tier B ask of the feature in the closure entry as `asks=<n>`; a `/verify` entry whose evidence shows the stakeholder was asked a Tier A matter is a process finding and appends the compact feedback row of `harness-quality-loop.md`.
+- **Coordinator** returns a teammate's ask that fails the self-check, or that puts a permission block to the founder as options, to the teammate instead of relaying it, and records a Tier A decision it finds asked as a process finding in the run's postmortem.
+- **`/verify`** records every Tier B ask of the feature in the closure entry as `asks=<n>`; a `/verify` entry whose evidence shows the founder was asked a Tier A matter is a process finding and appends the compact feedback row of `harness-quality-loop.md`.
