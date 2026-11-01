@@ -73,6 +73,7 @@ If those preconditions aren't met, the coordinator falls back to the regular `Ag
 Outside the delivery team and not coordinated by `team-lead-coordinator`. Full descriptions: `.claude/process/standalone-agents.md`.
 
 - `seo-specialist` (agent) — organic search and AI visibility audits per `seo-lifecycle.md`; writes docs only.
+- `taste-critic` (agent) — screenshot-only judge of visual taste (hierarchy, rhythm, finish, fit); reports only.
 - `user-eyes-tester` (agent) — first-time-user UI test from screenshots; reports only.
 
 ## Skills — where they live
