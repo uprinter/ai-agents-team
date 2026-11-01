@@ -16,14 +16,14 @@ Three things fall out of moving the record:
 ## NNN-<slug> — PASSED <date> · lane <XS|S|M|L> · <n> MR(s) (!iid, …)
 ## NNN-<slug> — BLOCKED <date> · lane <X> · <n> MR(s) (!iid) — <one-line reason>
 
-gates: lane=<X> budget=<lines>/<limit> tasks.md=<yes|no> status=<Active|…> mrs=<n>/<expected> worktrees=<clean|n left> design=<pass|n/a> ux=<pass|n/a> copy=<pass|n/a> live=<pass|n/a> ci=<pass|n/a> tier=<0|1|2> gap=<elapsed>/<floor>|n/a asks=<n>
+gates: lane=<X> budget=<lines>/<limit> tasks.md=<yes|no> status=<Active|…> mrs=<n>/<expected> worktrees=<clean|n left> design=<pass|n/a> look=<founder-ok|n/a> ux=<pass|n/a> copy=<pass|n/a> live=<pass|n/a> ci=<pass|n/a> tier=<0|1|2> gap=<elapsed>/<floor>|n/a asks=<n>
 ```
 
 **The `NNN-` prefix applies whenever the entry closes a numbered `specs/NNN-<slug>/` feature.** A standalone XS docs/cleanup MR that never went through `/specify` has no feature number to carry, so its header is the bare `<slug>` — e.g. `## offline-manifest-validation — PASSED …`, not `## NNN-offline-manifest-validation`. Do not invent a number to force the prefix; an absent prefix on a non-featured entry is not a defect.
 
 **The `ci`, `tier`, and `gap` fields are mandatory on every entry, not optional additions.** `ci` is `pass`/`n/a` per §4 of the cover list below — `n/a` means checked and genuinely not applicable (no pipeline configured), never "skipped". `tier` is the review tier from `team-lead-coordinator.md`'s tier table (`0`, `1`, or `2`); `gap` is the measured attestation-to-approval-eligible interval against that tier's floor, or `n/a` for Tier 0 (no floor exists). When an entry covers more than one MR at different tiers, key both fields per MR IID rather than picking one: `tiers=!53:0,!54:2 gap=!53:n/a,!54:285.7s/120s`.
 
-**The entry is what makes `/verify` complete** — no entry, no "done." Both lines are fixed. Every `gates:` field is answered explicitly, including `n/a`; an omitted field reads as unchecked, which is the failure this line exists to prevent (→ RP-20). A field that is not passing is a blocker, not a note — resolve it, or record the human's explicit waiver inline (`budget=125/120 waived-by-stakeholder`).
+**The entry is what makes `/verify` complete** — no entry, no "done." Both lines are fixed. Every `gates:` field is answered explicitly, including `n/a`; an omitted field reads as unchecked, which is the failure this line exists to prevent (→ RP-20). A field that is not passing is a blocker, not a note — resolve it, or record the human's explicit waiver inline (`budget=125/120 waived-by-founder`).
 
 The header never varies. The bullets below it are **at most 8, one or two sentences each**, for every lane: an XS or S entry may be four lines; an L entry uses all eight and puts anything longer in `specs/NNN-<slug>/evidence/verify.md`, cited by link (→ RP-48). State evidence **you derived yourself**, with the identifier you actually ran a command to obtain — never a teammate's self-report, and never an identifier recalled rather than re-derived.
 
@@ -42,7 +42,7 @@ Cover, in this order, omitting only what genuinely does not apply:
 ```markdown
 ## 029-signup-copy-round-2 — PASSED 2026-08-24 · lane S · 1 MR (!79)
 
-gates: lane=S budget=112/120 tasks.md=yes status=Active mrs=1/1 worktrees=clean design=pass ux=pass copy=pass live=pass ci=pass tier=1 gap=142s/15s asks=0
+gates: lane=S budget=112/120 tasks.md=yes status=Active mrs=1/1 worktrees=clean design=pass look=n/a ux=pass copy=pass live=pass ci=pass tier=1 gap=142s/15s asks=0
 
 - **Branch base / merge cleanliness:** `git diff f5e464d..30c66bf --stat` shows exactly the 7 files in T1–T7's scope. No unrelated content rode along.
 - **Attestation:** note `3722231165`, reviewer-instance `engineer-reviewer`, distinct from the only committer `engineer-author`; `reviewed-sha 683efdf4…` equals the SHA the merge was pinned to; posted before approval.
