@@ -16,9 +16,9 @@
 //   node generate-ai.mjs --prompt "<text>" --out-dir <dir> [--ref <path>]... \
 //                         [--count 1] [--name gen] [--model <id>] [--background <colour>] [--meta]
 //
-// Reads the API key from the GEMINI_API_KEY environment variable — set it in your
-// shell profile (e.g. ~/.zshrc: `export GEMINI_API_KEY=...`), never in a project
-// repo. The key is never printed, logged, or written to any output file.
+// Reads the API key from the GEMINI_API_KEY environment variable — on macOS supply it
+// per command from the Keychain (`envchain agents node generate-ai.mjs ...`), never
+// from a project repo. The key is never printed, logged, or written to any output file.
 
 import fs from 'node:fs';
 import path from 'node:path';
@@ -39,8 +39,8 @@ function readApiKey() {
   const key = process.env.GEMINI_API_KEY;
   if (!key || !key.trim()) {
     throw new Error(
-      'GEMINI_API_KEY is not set in your environment. Add "export GEMINI_API_KEY=<your key>" ' +
-        'to your shell profile (e.g. ~/.zshrc) and open a new shell, then retry. This key is ' +
+      'GEMINI_API_KEY is not set in your environment. On macOS store it with ' +
+        '`envchain --set agents GEMINI_API_KEY` and run this script as `envchain agents node ...`. This key is ' +
         'a personal credential, not project config — never put it in a repo.'
     );
   }
