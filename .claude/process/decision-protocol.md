@@ -30,7 +30,7 @@ The same split applies to what you notice while working (→ RP-52):
 
 - **Trivial and inside the change's own files** (a typo, a stale comment, a mismatched name, a formatting slip): fix it in the same MR, record it in one `tasks.md` row, do not mention it in the closing message.
 - **Trivial and outside the change's files:** leave it; do not report it.
-- **A real problem** (a defect, a wrong rule, a failing gate, a security or data issue): one line in the closing message, in the form `Separate task proposed: <what is wrong, in plain words>`. At most three such lines per closing message; if there are more, the three most important stay and the rest go to the run's postmortem.
+- **A real problem** (a defect, a wrong rule, a failing gate, a security or data issue): one line in the closing message, in the form `Separate task proposed: <what is wrong, in plain words>`. At most three such lines per closing message, and none in a STOP or mid-task report; the dispatch brief says so and `/verify` flags repeats (→ RP-77); if there are more, the three most important stay and the rest go to the run's postmortem.
 - Never offer to fix it now, never dispatch it, never widen the current MR with it (Core Operating Rule 16).
 
 ## 1b. A blocked action

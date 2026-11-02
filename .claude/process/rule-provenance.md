@@ -371,3 +371,34 @@ No rule said where a large source file goes. A commit would have tripled a repos
 **Date:** 2026-11-01 · **Rules it backs:** `decision-protocol.md` §1c; the merge line in `verify-gates.md` (Rule 6). **Replaces:** the ready phrase of RP-63.
 
 RP-63 added the phrase because the permission classifier refused agent approve and merge without the stakeholder's words. The stakeholder never reviewed an MR by hand, so the phrase delayed each merge by a round trip and checked nothing. Independent review is the attestation and CI. The block itself came from a `soft_deny` entry for `glab mr merge` in the user's settings (`autoMode`), not from the harness; remove that entry, or the classifier still refuses.
+
+## RP-73 — A new button shipped without the stakeholder's look and without a DESIGN.md pattern
+**Date:** 2026-11-01 · **Where:** `project-a` feature 094, "Route in Google Maps" button, merged in !279 and reverted in !280 after the stakeholder saw it locally · **Rules it backs:** the design-quality gate in `gates.md`; Core Operating Rule 7. **Narrows:** RP-72 (no stakeholder words on merge). **Generalizes:** RP-64 (the five-declaration tweak) as the exemption.
+
+RP-72 removed the stakeholder from every merge because the stakeholder never read MRs. For a new visible element that was wrong: engineer and reviewer screenshots are the only evidence, and the stakeholder alone judges the look. Lane S skips the product owner and architect, and the spec said only "uses the card's existing button style", so the button was text where `DESIGN.md` prescribes a bare icon that brightens on hover. `web-design-guidelines` checks accessibility and layout, not fit to `DESIGN.md`. Now a new visible element waits for the stakeholder's look at the local app (`look=stakeholder-ok`), its spec names the `DESIGN.md` pattern, and the reviewer checks against it. Merge stays free of stakeholder words; tweaks of at most five declarations and non-visual changes are exempt.
+
+
+## RP-74 — Every formal design check passed and the page still looked wrong
+**Date:** 2026-11-01 · **Where:** `project-a` feature 094 (RP-73) and earlier UI MRs · **Rules it backs:** `taste-critic.md` (whole file). **Does not replace:** the design-quality gate or the simulated-user gate.
+
+The design gate checks rules and `user-eyes-tester` checks whether a visitor finds the next step; neither judges whether the page looks good, and the author's own self-review is the weakest judge of taste. The stakeholder said the result "is not right, not beautiful" while all checks passed. `taste-critic` is a separate fresh-eyes instance with screenshots only, no spec and no rationale, so it cannot be argued into liking the page; it is advisory and feeds the stakeholder's look, it does not replace it.
+
+**Update 2026-11-01:** the design-quality gate now runs a new user-visible element through `taste-critic` before the stakeholder's look (`gates.md`, Core Operating Rule 7, `verify-gates.md`). It rides the existing `look=` field, so the `gates:` line is unchanged. The verdict is advisory: a ranked `bad` or `off` spot is fixed in the MR or shown to the stakeholder with the summary. Exempt: a tweak of at most five CSS declarations, non-visual changes, and diagrams built by `vector-gen`.
+
+
+## RP-75 — A route icon went through 17 rounds because it was integrated before the stakeholder saw a sheet
+**Date:** 2026-11-02 · **Where:** `project-a` feature 095 (route icon on the night card) · **Rules it backs:** the sheet-first sentence in the design-quality gate (`gates.md`), `senior-software-engineer.md` "Frontend and UI Work" item 5, `code-reviewer.md` Design, Core Operating Rule 7, the `sheet=` field of the `gates:` line. **Narrows:** nothing; it is ordered before RP-73 (`look=` still stands for the integrated element) and RP-74 (`taste-critic` before the stakeholder's look).
+
+The icon was integrated, reviewed and run through `ux` before the stakeholder saw any artwork, and variants differed only in stroke weight, so each round fixed the wrong thing. The stakeholder's reference image was reinterpreted instead of followed. The stakeholder approved exactly four changes at the close; this is the first. Rule: a new or changed icon, heading-row or layout change, or new control is shown as a render sheet (each variant large and at real size, on the real card background, beside the reference, clearly different) before integration; the engineer then integrates exactly the approved artwork. Gate: the attestation records the approved sheet and that the shipped SVG equals it; `/verify` blocks closure without `sheet=<stakeholder-ok|n/a>`.
+
+
+## RP-76 — Reviewers judged design from MR screenshots because the browser MCP failed with EPERM
+**Date:** 2026-11-02 · **Where:** `project-a` feature 095 · **Rules it backs:** the real-render and `ux` sentences in the design-quality and simulated-user gates (`gates.md`), engineer and reviewer design wording, the Fail fast on tooling section of `team-lead-coordinator.md`, `harness-maintenance.md`. **Narrows:** RP-51 (a failed browser probe stops the dispatch, but never makes a `ux` run or design check wait) and RP-46 (`ux` still runs; only the route is fixed).
+
+The browser MCP failed with EPERM on Chrome's `DevToolsActivePort` for every agent, so reviewers saw only MR screenshots and `ux` waited as `ux=blocked` for an approval round trip. Rule: when the browser MCP is blocked, the project's documented headless screenshot command (playwright from a scratchpad install, local dev server, 320/375 px and desktop) is the approved route, and `ux` from annotation-free screenshots (3 runs, different personas, one at 375 px) is pre-approved. The attestation names the route and that the live app was not opened. The sandbox setting for `DevToolsActivePort` stays the stakeholder's and is not edited by agents.
+
+
+## RP-77 — The same "Separate task proposed:" lines were repeated in about 15 STOP reports
+**Date:** 2026-11-02 · **Where:** `project-a` feature 095 · **Rules it backs:** Core Operating Rule 16, `decision-protocol.md` §1a, `senior-software-engineer.md`, `verify-gates.md`. **Narrows:** Rule 16 and RP-52, which already said "at close, three at most"; this makes it mechanical and adds no parallel rule.
+
+Engineers repeated the lines in every STOP report, so the stakeholder read the same proposals about 15 times. Rule: mid-task and STOP reports carry none; only the closing report does, once; the dispatch brief says so, and `/verify` counts the lines across the run's reports and flags repeats or lines outside the closing report.
