@@ -68,6 +68,10 @@ For a push:
 
 Apply the same command-scoped helper to other authenticated GitLab HTTPS transport commands. Use the current runtime's documented permission mechanism when keyring or network access requires it.
 
+## Read an MR's review state
+
+Run `python3 ${CLAUDE_PLUGIN_ROOT}/.claude/scripts/mr_state.py <project> <N>` before starting a reviewer, an approval or a merge. Its last line `NEXT` is `review`, `approval-only` or `merge-ready`. `approved: true` from the approvals API is not evidence: a project with no approval rule returns it with an empty `approved_by` (→ RP-78).
+
 ## Merge an MR
 
 After a push to an already approved MR, `glab mr approve` can return 401 and register nothing; run `glab mr unapprove`, then `approve` (→ RP-28). `/verify` audits the GitLab approval object, not the note. Merge with `glab mr merge <N> --sha <head> --squash --remove-source-branch`, never a bare `--yes`, and confirm `state: merged`.
