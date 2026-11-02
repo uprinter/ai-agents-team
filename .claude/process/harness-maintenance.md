@@ -57,6 +57,7 @@ Rule: `team-lead-coordinator.md` Core Operating Rule 12. Format and worked examp
 - Each agent file also embeds a short **"Durable learnings live as artifacts, not memory"** section pointing learnings at `collaboration-traces/`, the target project's `AGENTS.md`, ADRs, or this agent's definition. The role-specific bullets differ; the spirit is identical. Keep them aligned if you edit one.
 - **Seven agents preload the `team-wiki` and `gitlab-access` skills, and all eight preload `decision-protocol`.** The wiki protocol lives in `.claude/process/wiki.md`; its pointer lives in `.claude/skills/team-wiki/SKILL.md`.
 - **Never create project-specific artifacts here.** No `specs/`, no source code, no Dockerfiles, no application configs. If a request seems to imply adding such artifacts, push back: those belong in the target project.
+- A target project's `AGENTS.md` carries the screenshot command for blocked browser MCP: headless Chromium via playwright from a scratchpad install, run against the local dev server at 320/375 px and desktop (→ RP-76).
 
 ## Skills — where they live
 
