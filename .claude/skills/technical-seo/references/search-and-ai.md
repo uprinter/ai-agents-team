@@ -72,6 +72,23 @@ benefit (useful visible FAQs can still serve readers).
 These newer help pages qualify the older AI-features guide; preserve the newer
 specific behavior rather than treating one overview as complete forever.
 
+## Independent research
+
+Observational evidence, not provider guidance; cite it as `[documented]` research
+with its scope, never as a guaranteed effect. Read 2026-11-04.
+
+[Chen and Koudas, arXiv:2610.15033](https://arxiv.org/html/2610.15033v1) studied
+ChatGPT, Gemini and Perplexity citations over 90 days (English, US market),
+comparing pages within the same site:
+- Each URL ChatGPT cited was in its own search results; about 97% of those
+  retrieved pages were absent from Google's top 50 and 99% from Bing's top 30.
+  OAI-SearchBot access and the engine's own retrieval matter more than Google/Bing rank.
+- Pages whose main text needs JavaScript got about 10.6% fewer Gemini citations
+  (significant); ChatGPT and Perplexity effects were not significant.
+- Query match in the title and best paragraph was the only robust page-level effect;
+  FAQ blocks, schema, length, headings, lists and tables showed none within sites.
+- Two same-day ChatGPT runs shared about 15% of cited pages; citations drift over weeks.
+
 ## Measurement limits
 
 - Google AI data remains part of overall Web reporting as well as its dedicated

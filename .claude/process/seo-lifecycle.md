@@ -48,6 +48,11 @@ Use the same finding IDs on later runs; do not recommend pending work again as n
   Sample neutral questions without seeding the product's name/URL, keeping branded
   prompts separate; repeat under consistent conditions, recording all runs, not
   only favorable ones, and keep changed panels separate from historical comparisons.
+  One run per question is noise, since same-day runs can share few cited pages:
+  record several runs per question per reading and judge trends over weeks, by question.
+- Measure AI retrieval separately from search rank: engines retrieve largely
+  different pages than Google/Bing top results, so a ranking gain is not AI evidence
+  ([research](../../.agents/skills/technical-seo/references/search-and-ai.md#independent-research)).
 - Record per run: linked citation URL, accurate/unlinked brand mention, absence,
   refusal or unavailable result; summarize citation rate with its denominator and
   sample size, never as population-wide share of voice or a stable LLM rank.
@@ -68,6 +73,8 @@ pages; inspect real search results in the target language/location and identify
 useful competing page types, sources cited by AI when observable, and missing facts.
 Multiple queries can belong to one useful page; overlapping queries do not alone
 justify merging distinct intents, and low volume/strong incumbents are not automatic rejection.
+A practice common on well-cited competitors is not evidence that it earns citations;
+judge a change by comparing pages within the same site, not against other sites.
 
 Recommend content the product can substantiate: direct answers in context,
 original examples/data with methods and dates, sourced factual claims, descriptive
