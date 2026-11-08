@@ -78,9 +78,12 @@ What it does: <plain language explanation>
 Resources affected: <list>
 Blast radius: <scope of impact>
 Rollback strategy: <how to undo if needed>
+Run by: <you | stakeholder in a plain terminal | stakeholder with `!`, non-interactive only>
 
 Do you approve this operation? (yes/no)
 ```
+
+A command that prompts (`tofu apply`, `rm -i`) fails under `!` with `EOF`: no stdin (→ RP-82).
 
 ## Operational Methodology
 

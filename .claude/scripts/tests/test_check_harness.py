@@ -471,6 +471,21 @@ class SizeBudgetTests(unittest.TestCase):
         self.assertIn(": 100", self.budget.read_text())
         self.assertEqual(len(check_harness.validate_size_budget(self.root)), 1)
 
+    def test_ratchet_with_paths_touches_only_those_entries(self) -> None:
+        (self.root / ".claude" / "agents" / "b.md").write_text("x" * 50)
+        self.budget.write_text('{".claude/agents/a.md": 150, ".claude/agents/b.md": 150}')
+        check_harness.ratchet_size_budget(self.root, [".claude/agents/a.md"])
+        text = self.budget.read_text()
+        self.assertIn('".claude/agents/a.md": 100', text)
+        self.assertIn('".claude/agents/b.md": 150', text)
+
+    def test_agent_missing_from_agents_md_fails(self) -> None:
+        (self.root / "AGENTS.md").write_text("The team has `a` only.")
+        (self.root / ".claude" / "agents" / "b.md").write_text("x")
+        errors = check_harness.validate_agent_listing(self.root)
+        self.assertEqual(len(errors), 1)
+        self.assertIn("`b`", errors[0])
+
 
 class RuleProvenanceTests(unittest.TestCase):
     def setUp(self) -> None:

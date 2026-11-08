@@ -13,4 +13,6 @@ description: "How to decide and how to ask: decide small reversible matters your
 
 **Found work follows the same split** (`decision-protocol.md` §1a): trivial and inside the files you change — fix it in the same MR and record it, do not report it; a real problem — one `Separate task proposed:` line at close, three at most; never a mid-task offer or a list of small improvements (→ RP-52).
 
+**A report goes once.** A wake with no new data (an expired monitor, a repeated notice) ends the turn with no message; a follow-up report carries only what changed since your last one, never the settled facts again (merged SHA, applied state, earlier checks) (→ RP-65, RP-79).
+
 **Before you send any ask, read `${CLAUDE_PLUGIN_ROOT}/.claude/process/decision-protocol.md`** — it carries the full tier table, the format, and the gates (sender self-check, coordinator return, `/verify` `asks=` count) (→ RP-45).
