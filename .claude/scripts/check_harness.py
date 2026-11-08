@@ -257,13 +257,28 @@ def validate_size_budget(root: Path) -> list[str]:
     return errors
 
 
-def ratchet_size_budget(root: Path) -> list[str]:
-    """Add missing entries and lower entries that shrank; never raise one."""
+def validate_agent_listing(root: Path) -> list[str]:
+    """Every agent definition is named in AGENTS.md, so the root session can route to it."""
+    agents_md = root / "AGENTS.md"
+    if not agents_md.is_file():
+        return []
+    text = agents_md.read_text(encoding="utf-8")
+    return [
+        f"AGENTS.md: agent `{path.stem}` is not named; list it under the team table or Standalone agents"
+        for path in sorted((root / ".claude" / "agents").glob("*.md"))
+        if f"`{path.stem}`" not in text
+    ]
+
+
+def ratchet_size_budget(root: Path, only: list[str] | None = None) -> list[str]:
+    """Add missing entries and lower entries that shrank; never raise one. `only` limits it to those paths."""
     budget_path = root / SIZE_BUDGET
     budget = json.loads(budget_path.read_text()) if budget_path.is_file() else {}
     sizes = budgeted_sizes(root)
     changes: list[str] = []
     for relative, size in sizes.items():
+        if only and relative not in only:
+            continue
         if relative not in budget or size < budget[relative]:
             changes.append(f"{relative}: {budget.get(relative, 'new')} -> {size}")
             budget[relative] = size
@@ -480,6 +495,7 @@ def check(root: Path) -> list[str]:
     errors.extend(run_generated_port_checks(root))
     errors.extend(validate_generated_gitlab_wiring(root))
     errors.extend(validate_size_budget(root))
+    errors.extend(validate_agent_listing(root))
     errors.extend(validate_rule_provenance(root))
     return errors
 
@@ -498,12 +514,14 @@ def main() -> int:
     )
     parser.add_argument(
         "--ratchet-budget",
-        action="store_true",
-        help="lower size-budget.json entries to current sizes and add missing ones; never raises a limit",
+        nargs="*",
+        metavar="PATH",
+        help="lower size-budget.json entries to current sizes and add missing ones; never raises a limit. "
+        "Pass paths (e.g. .claude/agents/x.md) to touch only those entries",
     )
     args = parser.parse_args()
-    if args.ratchet_budget:
-        for change in ratchet_size_budget(args.root.resolve()) or ["no change"]:
+    if args.ratchet_budget is not None:
+        for change in ratchet_size_budget(args.root.resolve(), args.ratchet_budget) or ["no change"]:
             print(change)
         return 0
     if args.feature and not args.target_root:
