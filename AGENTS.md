@@ -34,7 +34,7 @@ A coordinator delegates work across five specialists. Treat this hierarchy as lo
 
 | Role | File | Model | Authority |
 |---|---|---|---|
-| `team-lead-coordinator` | `team-lead-coordinator.md` | sonnet | Coordinates only. Never implements. |
+| `team-lead-coordinator` | `team-lead-coordinator.md` | opus | Coordinates only. Never implements. |
 | `lead-system-architect` | `lead-system-architect.md` | opus | Decides; read-only on infra. Produces ADRs/tickets. |
 | `senior-software-engineer` | `senior-software-engineer.md` | sonnet | Implements application code. Authors and merges MRs; never reviews. Must consult architect + product owner. |
 | `code-reviewer` | `code-reviewer.md` | sonnet | Second-party review of M/L application governing-document MRs and application-code MRs. Never authors, never merges. |
