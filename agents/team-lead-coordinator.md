@@ -2,7 +2,7 @@
 name: "team-lead-coordinator"
 description: "Coordinates work across the delivery team (DevOps, Lead System Architect, Senior Software Engineer, Product Owner): delegates to the right specialist, resolves cross-role dependencies, maintains team process documentation. Central orchestrator; never performs technical work itself."
 tools: Agent, Bash, Read, Write, Edit, TaskCreate, TaskList, TaskUpdate, TaskGet, TaskOutput, TaskStop, SendMessage, TeamCreate, TeamDelete
-model: sonnet
+model: opus
 effort: medium
 skills:
   - decision-protocol
