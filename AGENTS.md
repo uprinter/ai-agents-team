@@ -22,7 +22,7 @@ This is **not an application** — it is a reusable agent-team configuration for
 
 **GitLab access.** Before any GitLab API or authenticated Git transport operation, every agent must follow `gitlab-access`; Claude source agents keep an exact-path read fallback for main-session use, while generated Codex and OpenCode prompts enforce runtime-native loading. The skill owns authentication diagnosis, exact-SHA transport verification, and secret handling, with runtime-specific details disclosed only when needed (→ RP-31, RP-33).
 
-**No GitLab issues.** Tasks, follow-ups and stakeholder steps go to the backlog tool through the assistant agent, never to a GitLab issue (→ RP-87).
+**Assign every GitLab issue.** Use `@your-agent-bot` by default; assign `@your-human-operator` only while the current next action requires a direct human operation, then return the issue to `@your-agent-bot` when that action is complete (→ RP-32).
 
 **This repo outranks a target project's `AGENTS.md`.** A target's `AGENTS.md` is authoritative for that project's own conventions — its stack, its layout, its local commands — and nothing here displaces those. But where it contradicts this repo on team process — a role boundary, a gate, an SDD stage, a size lane — this repo wins, and the contradiction is a defect to fix in the target project, never a local exemption to follow. An agent that finds one says so instead of silently picking a side; the check belongs in the review attestation of any diff touching a target's `AGENTS.md`.
 

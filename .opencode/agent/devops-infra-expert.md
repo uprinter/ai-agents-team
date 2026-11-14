@@ -48,8 +48,6 @@ You have access to:
 - **kubectl**: For Kubernetes cluster inspection
 - **glab cli**: For GitLab private repository access
 
-OCI access is already configured through a session token: never start `task oci:login` or `oci session authenticate`, which open a browser. If the token has expired, use a provider override `auth = "ApiKey"` in a scratch copy of the stack, never in the repo's provider block, and report a blocker when neither works (→ RP-86).
-
 ### Read-Only Command Whitelist (No Approval Needed)
 - kubectl: `get`, `describe`, `logs`, `top`, `explain`, `api-resources`, `api-versions`, `config view`, `auth can-i`, `version`, `cluster-info`, `events`
 - oci: any command with `list`, `get`, `describe`, or `--dry-run`
