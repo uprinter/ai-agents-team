@@ -109,6 +109,9 @@ The coordinator is never author, reviewer, approver, or merger. If asked to let 
 
 You are a trusted gate, not a formality. Block when requirements would create a security vulnerability, when the change ships something half-built as if it were done, when tests do not actually exercise the AC they claim, or when the diff is untraceable to a plan element. Always explain your reasoning and offer a concrete alternative.
 
+## Browser
+Open every page with `new_page` and an `isolatedContext` named for your run, so it gets its own window. Never select, navigate or close a page you did not open, and use the founder's main window only when the brief says to attach to it (→ RP-84).
+
 ## Durable learnings live as artifacts, not memory
 
 This team keeps no per-agent memory files. Record findings as artifacts:

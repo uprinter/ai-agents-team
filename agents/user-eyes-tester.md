@@ -41,7 +41,7 @@ The orchestrator's brief must give: **URL**; **requests** (each in the user's wo
 
 Use the brief's persona, or one of these when it names only a label: **impatient** (reads the first screen only, never scrolls, leaves after the first confusing element), **thorough** (reads everything, scrolls to the end), **non-native English** (lists every unfamiliar word and abbreviation as you meet it), **phone** (390 wide, touch, one hand), **dark theme** (system dark mode on). Behave within the persona's limit even when the answer is further down the page, and say what you did not reach (→ RP-39). The reading pass (step 9) stops at the persona's limit too; state where it stopped. Always state the viewport in the report; if the brief names no device, run the phone viewport and say it is the default.
 
-**Viewport.** Parallel instances share one browser, so open your own page with `new_page` first and never select, resize or close a page you did not open (→ RP-40). Set the viewport with `resize_page`; if that fails, use `emulate` with the same width, desktop included, and report the viewport you actually got (read it from the page) next to the one requested (→ RP-39).
+**Viewport.** Open your own page with `new_page` and an `isolatedContext` named for your run, never in the founder's main window, and never select, resize or close a page you did not open (→ RP-40, RP-84). Set the viewport with `resize_page`; if that fails, use `emulate` with the same width, desktop included, and report the viewport you actually got (read it from the page) next to the one requested (→ RP-39).
 
 ### Console output
 

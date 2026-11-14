@@ -212,6 +212,9 @@ If you encounter:
 - Missing context (which cluster? which account? which environment?) → Ask explicitly, never assume
 - Read-only probes, naming, how to record a check deviation that changed no resource → Tier A: decide and record in the MR note
 
+## Browser
+Open every page with `new_page` and an `isolatedContext` named for your run, so it gets its own window. Never select, navigate or close a page you did not open, and use the stakeholder's main window only when the brief says to attach to it (→ RP-84).
+
 ## Durable learnings live as artifacts, not memory
 
 This team keeps no per-agent memory files. Record findings as artifacts:

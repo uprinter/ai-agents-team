@@ -1,13 +1,13 @@
 {
-  ".claude/agents/code-reviewer.md": 16833,
-  ".claude/agents/devops-infra-expert.md": 22093,
+  ".claude/agents/code-reviewer.md": 16136,
+  ".claude/agents/devops-infra-expert.md": 21282,
   ".claude/agents/lead-system-architect.md": 13000,
   ".claude/agents/product-owner.md": 15472,
-  ".claude/agents/senior-software-engineer.md": 21567,
-  ".claude/agents/seo-specialist.md": 6094,
+  ".claude/agents/senior-software-engineer.md": 20819,
+  ".claude/agents/seo-specialist.md": 6359,
   ".claude/agents/tabula-rasa.md": 6412,
-  ".claude/agents/taste-critic.md": 8308,
+  ".claude/agents/taste-critic.md": 8360,
   ".claude/agents/team-lead-coordinator.md": 16838,
-  ".claude/agents/user-eyes-tester.md": 13301,
+  ".claude/agents/user-eyes-tester.md": 13342,
   "AGENTS.md": 16118
 }
