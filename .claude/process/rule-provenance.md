@@ -426,3 +426,23 @@ A homepage fix, lane S, went through three MRs and three stakeholder looks. The 
 **Date:** 2026-11-08 · **Where:** `project-c`, narrowing a DNS service account's policy · **Rules it backs:** the `Run by:` line of the approval block and the sentence after it in `devops-infra-expert.md`.
 
 The author's permission system denied the `tofu apply` of the identity stack, so the stakeholder had to run it. The command was handed over with the `!` prefix, which runs in the session without stdin: `tofu apply` printed the plan, asked for `yes`, and failed with `Error: error asking for approval: EOF`. The same happened to `rm -ri` earlier in the session. Each failure cost one round trip and a second hand-off, and the apply stayed pending the whole time. Rule: the approval block names who runs the command and how, and a command that prompts goes to a plain terminal; `!` carries only non-interactive commands. Gate: the `Run by:` field is part of the approval block, so the stakeholder and the coordinator's return check see a prompting command marked for `!` before it is sent.
+
+## RP-84 — Browser tests could run in the stakeholder's own Chrome window
+**Date:** 2026-11-14 · **Rules it backs:** the `Browser` rule of every agent with `mcp__chrome-devtools__*` tools; the viewport and own-page lines of `user-eyes-tester` and `taste-critic`. **Generalizes:** RP-40's "own page" rule, which keeps parallel instances apart but not the stakeholder's window.
+
+When the `chrome-devtools` MCP runs with `--autoConnect`, it attaches to the Chrome the stakeholder is working in, so a plain `new_page` opens a tab among their tabs and `select_page` can land on one of theirs. Rule: open pages with `new_page` and a named `isolatedContext`, and touch no page you did not open; the stakeholder's main window is used only when they ask to attach to it. Gate: the review attestation and the agent's report name the context used; a run that selected a page it did not open is invalid.
+
+## RP-85 — CI jobs landed on shared runners and the quota blocked pipelines
+**Date:** 2026-10-17 · **Rules it backs:** the "CI runs on the stakeholder's own runner" section of `gitlab-access`.
+
+Shared-runner minutes ran out and blocked pipelines (`ci_quota_exceeded`). The stakeholder runs a group runner tagged `own` that takes tagged jobs only, so an untagged job never runs on it. Rule: every job in a `.gitlab-ci.yml` carries `tags: [own]`, and a quota error is answered by fixing tags, never by waiting or waiving jobs. Gate: the reviewer checks the tags on every changed `.gitlab-ci.yml`.
+
+## RP-86 — An agent started an interactive cloud login on an account that was already configured
+**Date:** 2026-11-13 · **Rules it backs:** the OCI authentication line in `devops-infra-expert.md`.
+
+The agent ran an interactive login that opens a browser, although access was already set up through a session token. The token had expired; the work finished through a scratch copy of the stack with a provider override `auth = "ApiKey"`. Rule: use the configured access, fall back to the ApiKey override in a scratch copy, never edit the repo's provider block, and report a blocker when neither works. Gate: the diff of an OCI or tofu change shows no provider-auth edit.
+
+## RP-87 — GitLab issues were created for tasks that belong in the backlog tool
+**Date:** 2026-11-10 · **Rules it backs:** the "No GitLab issues" paragraph of `AGENTS.md`. **Replaces:** the "Assign every GitLab issue" paragraph (RP-32 stays as history).
+
+RP-32 told agents to assign every GitLab issue, and the coordinator still filed tasks and stakeholder steps as issues. The stakeholder corrected it twice: tasks live in the backlog tool. Rule: no agent creates a GitLab issue for any purpose; a task, follow-up or step list is a backlog card made through the assistant agent. Gate: `/verify` finds no issue created in the engagement window.

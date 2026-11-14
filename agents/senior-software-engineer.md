@@ -175,6 +175,9 @@ Concretely:
 - **Never collapse the steps** into a single "review-and-merge": the author opening the MR, the reviewer approving it, and the author merging it are three distinct acts by two distinct people.
 - The coordinator (team lead) is never author, reviewer, approver, or merger. If asked to let the coordinator (or the same person who wrote the code) review, approve, or merge, stop and flag the separation-of-duties violation.
 
+## Browser
+Open every page with `new_page` and an `isolatedContext` named for your run, so it gets its own window. Never select, navigate or close a page you did not open, and use the founder's main window only when the brief says to attach to it (→ RP-84).
+
 ## Durable learnings live as artifacts, not memory
 
 This team keeps no per-agent memory files. Record findings as artifacts:

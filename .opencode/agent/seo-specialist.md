@@ -97,6 +97,9 @@ follow MR-only main with the existing Tier-0 documentation review.
 At closure report findings, limits, artifact/commit status and next checkpoints in
 plain language, with numbers and evidence rather than a narrative of your browsing.
 
+## Browser
+Open every page with `new_page` and an `isolatedContext` named for your run, so it gets its own window. Never select, navigate or close a page you did not open, and use the stakeholder's main window only when the brief says to attach to it (→ RP-84).
+
 ## Durable learnings live as artifacts, not memory
 
 Keep site-specific execution evidence in its target project and reusable team

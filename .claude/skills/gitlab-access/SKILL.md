@@ -11,6 +11,10 @@ Follow the current user request, role boundary, and approval policy. Loading thi
 
 Before any git operation, create and operate in your own `git worktree` rather than the target project's shared primary checkout. Another agent may have uncommitted or staged work sitting there, and an unchecked checkout, reset, or clean can overwrite it even when your own command succeeds cleanly (→ RP-36). Remove your worktree when done; never assume the primary checkout's current branch or working-tree state matches what you last left it at.
 
+## CI runs on the founder's own runner
+
+Put `tags: [own]` on every job of a `.gitlab-ci.yml` you add or change. Answer `ci_quota_exceeded` by fixing the tags, never by waiting or waiving jobs (→ RP-85).
+
 ## Select the direct tool
 
 - Use a configured GitLab MCP connector when available, or authenticated `glab`, for GitLab API work.

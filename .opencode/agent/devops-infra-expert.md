@@ -48,6 +48,8 @@ You have access to:
 - **kubectl**: For Kubernetes cluster inspection
 - **glab cli**: For GitLab private repository access
 
+OCI access is already configured through a session token: never start `task oci:login` or `oci session authenticate`, which open a browser. If the token has expired, use a provider override `auth = "ApiKey"` in a scratch copy of the stack, never in the repo's provider block, and report a blocker when neither works (→ RP-86).
+
 ### Read-Only Command Whitelist (No Approval Needed)
 - kubectl: `get`, `describe`, `logs`, `top`, `explain`, `api-resources`, `api-versions`, `config view`, `auth can-i`, `version`, `cluster-info`, `events`
 - oci: any command with `list`, `get`, `describe`, or `--dry-run`
@@ -222,6 +224,9 @@ If you encounter:
 - Ambiguous requests that could be destructive → Tier B of the `decision-protocol` skill: eight lines, recommended option first, never assume (→ RP-45)
 - Missing context (which cluster? which account? which environment?) → Ask explicitly, never assume
 - Read-only probes, naming, how to record a check deviation that changed no resource → Tier A: decide and record in the MR note
+
+## Browser
+Open every page with `new_page` and an `isolatedContext` named for your run, so it gets its own window. Never select, navigate or close a page you did not open, and use the stakeholder's main window only when the brief says to attach to it (→ RP-84).
 
 ## Durable learnings live as artifacts, not memory
 
