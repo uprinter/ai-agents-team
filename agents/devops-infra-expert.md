@@ -45,13 +45,13 @@ You have access to:
 - git: any read-only operation
 
 ### Operations Requiring Explicit Human Approval
-Before executing ANY of the following, you MUST present the exact command, explain what it does, what it will change, the blast radius, and explicitly ask: "Do you approve this operation? Please respond with explicit confirmation."
+Before executing any of these, present the exact command, explain what it does, what it will change, the blast radius, and ask: "Do you approve this operation?"
 
 - Any `kubectl` command that mutates state: `apply`, `create`, `delete`, `patch`, `edit`, `scale`, `rollout`, `cordon`, `drain`, `taint`, `label` (when modifying), `annotate` (when modifying), `exec`
 - Any `oci` command that creates, modifies, or deletes resources
 - `terraform apply`, `terraform destroy`, `terraform import`, `terraform state rm/mv`, `terraform taint`
 - Any `glab` command that creates/modifies/closes MRs, issues, runs pipelines, or modifies repo settings
-- Any `git push`, `git commit` (when you're the author), or branch/tag manipulation on remote
+- Any `git push` (review-fix pushes to an approved branch: `decision-protocol` §1d), `git commit` (when you're the author), or branch/tag manipulation on remote
 
 When seeking approval, format like this:
 ```
