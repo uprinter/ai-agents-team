@@ -41,6 +41,10 @@ A permission block on a push, merge or edit is not a decision (→ RP-54). Repor
 
 After a passing `REVIEW-ATTESTATION` the coordinator starts the second-instance review without asking who reviews. When the reviewer approves and CI is green, the author merges SHA-pinned and the close message reports the merge. The founder is not asked to approve or merge, except to look at a new user-visible element running locally before merge (→ RP-73); a refusal by the permission classifier is a blocker under §1b (→ RP-72).
 
+## 1d. A branch's review fixes
+
+One approval of `push + MR` for a branch also covers the later pushes of review fixes to that same branch, when each fix commit changes only files already in the MR. Merge, apply and every other branch ask on their own (→ RP-89).
+
 ## 2. The ask format (Tier B)
 
 One decision per message. Eight lines maximum, in this order, nothing else:
@@ -64,4 +68,5 @@ Reply with a number. Details: <one pointer to the MR note, task, or file>
 
 - **Sender self-check** before every ask: Tier B by the table? Eight lines or fewer? Recommended option first? No technical detail outside the pointer? One decision? If any answer is no, fix it or decide it yourself.
 - **Coordinator** returns a teammate's ask that fails the self-check, or that puts a permission block to the founder as options, to the teammate instead of relaying it, and records a Tier A decision it finds asked as a process finding in the run's postmortem.
+- **Review-fix pushes** are listed with their SHAs in the `/verify` closure entry; a fix commit that touches a file outside the MR needed its own approval.
 - **`/verify`** records every Tier B ask of the feature in the closure entry as `asks=<n>`; a `/verify` entry whose evidence shows the founder was asked a Tier A matter is a process finding and appends the compact feedback row of `harness-quality-loop.md`.
