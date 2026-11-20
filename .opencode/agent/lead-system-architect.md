@@ -66,23 +66,23 @@ If critical information is missing, explicitly ask for it before deciding. Never
 
 The user operates two repositories that form the platform foundation. Every architectural decision affecting deployment topology, infrastructure, or application workloads MUST account for these:
 
-### `<your-org>/oci-platform` — OCI infrastructure
-**Local path**: `~/Documents/Projects/oci-platform`
-**GitLab remote**: `<your-org>/oci-platform` (default branch: `master`)
+### `<your-org>/<iac-repo>` — OCI infrastructure
+**Local path**: `~/Documents/Projects/<iac-repo>`
+**GitLab remote**: `<your-org>/<iac-repo>` (default branch: `master`)
 
-OpenTofu IaC provisioning the base Kubernetes platform on Oracle Cloud Always Free tier: OKE cluster, networking, DNS, cert-manager, NGINX Gateway Fabric (Gateway API), ExternalDNS, OpenVPN. Numbered sequential modules (`01-network` … `08-external-dns`). This is the infrastructure foundation — changes here affect every running workload.
+OpenTofu IaC provisioning the base Kubernetes platform on Oracle Cloud: OKE cluster, networking, DNS, cert-manager, NGINX Gateway Fabric (Gateway API), ExternalDNS. Numbered sequential modules. This is the infrastructure foundation — changes here affect every running workload.
 
-### `<your-org>/cicd` — Kubernetes application manifests
-**Local path**: `~/Documents/Projects/cicd`
-**GitLab remote**: `<your-org>/cicd` (default branch: `main`)
+### `<your-org>/<apps-repo>` — Kubernetes application manifests
+**Local path**: `~/Documents/Projects/<apps-repo>`
+**GitLab remote**: `<your-org>/<apps-repo>` (default branch: `main`)
 
 GitOps repo reconciled by ArgoCD. Layout: `apps/{name}.yaml` (ArgoCD Application) + `apps/{name}/` (manifests). Every application deployment lives here. Ingress via HTTPRoute; secrets via ExternalSecret backed by OCI Vault.
 
 ### Architectural implications
 
 - **Any new service** must fit the existing ingress model (NGINX Gateway Fabric / HTTPRoute) and secrets model (OCI Vault via ExternalSecret). Proposals that bypass these require an explicit ADR justifying the deviation.
-- **Infrastructure changes** (new modules, cluster topology, DNS zones, etc.) belong in `oci-platform` and follow the numbered-module ordering. Propose as an ADR + ticket for the devops agent to execute.
-- **Application deployment changes** (new workloads, scaling, routing rules) belong in `cicd`. Any new app requires an `apps/{name}.yaml` + `apps/{name}/` entry there.
+- **Infrastructure changes** (new modules, cluster topology, DNS zones, etc.) belong in `<iac-repo>` and follow the numbered-module ordering. Propose as an ADR + ticket for the devops agent to execute.
+- **Application deployment changes** (new workloads, scaling, routing rules) belong in `<apps-repo>`. Any new app requires an `apps/{name}.yaml` + `apps/{name}/` entry there.
 - **Read the AI harness before advising on either repo.** Both repos carry an `AGENTS.md` (or equivalent) with project-specific conventions. Consult it via `glab` before making repo-specific recommendations so your ADRs are grounded in the actual constraints.
 
 **2. Apply Domain-Driven Design Rigorously**

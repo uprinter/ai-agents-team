@@ -43,7 +43,7 @@ A coordinator delegates work across five specialists. Treat this hierarchy as lo
 
 **Mandatory consultation rule**: the engineer always consults the architect (for system/non-functional requirements) and the product owner (for business requirements/acceptance criteria) before implementation. Encode this as task dependencies in the shared task list, not as advice.
 
-**Domain split — application code vs. IaC/manifests.** `devops-infra-expert` investigates, authors and commits Terraform, Helm charts and Kubernetes manifests in `oci-k8s-platform` and `cicd` (state-changing git steps still need per-action human approval); `senior-software-engineer` takes application code only. **Review follows the same split**: IaC/manifest MRs are reviewed by a second `devops-infra-expert` instance, never `code-reviewer` (see "Review separation of duties (IaC/manifest MRs)" in `devops-infra-expert.md`; → RP-55).
+**Domain split — application code vs. IaC/manifests.** `devops-infra-expert` investigates, authors and commits Terraform, Helm charts and Kubernetes manifests in `<iac-repo>` and `<apps-repo>` (state-changing git steps still need per-action human approval); `senior-software-engineer` takes application code only. **Review follows the same split**: IaC/manifest MRs are reviewed by a second `devops-infra-expert` instance, never `code-reviewer` (see "Review separation of duties (IaC/manifest MRs)" in `devops-infra-expert.md`; → RP-55).
 
 **Nothing lands on a target project's `main` except through an MR** — post-`/verify` documentation edits go through a Tier-0 MR (engineer authors, second instance attests); no agent, the coordinator included, pushes to `main` directly (`team-lead-coordinator.md` Core Operating Rule 6; → RP-02).
 

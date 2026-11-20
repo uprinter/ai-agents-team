@@ -72,7 +72,7 @@ paragraphs and plain words over dense legal-brochure prose.
 Before (rewritten in this codebase's history to sound reassuring — but a
 non-technical user has to read four sentences to find "leave your email"):
 
-> "Observing Planner is new and still changing. Leave your address and I'll
+> "This app is new and still changing. Leave your address and I'll
 > write when something worth knowing changes — including if clear-sky
 > alerts start working. One email to confirm, then a few updates a year,
 > written by me. Nothing here is automatic — clear-sky alerts don't exist

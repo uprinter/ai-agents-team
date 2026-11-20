@@ -44,11 +44,11 @@ Cover, in this order, omitting only what genuinely does not apply:
 
 gates: lane=S budget=112/120 tasks.md=yes status=Active mrs=1/1 worktrees=clean design=pass sheet=n/a look=n/a ux=pass copy=pass live=pass ci=pass tier=1 gap=142s/15s asks=0
 
-- **Branch base / merge cleanliness:** `git diff f5e464d..30c66bf --stat` shows exactly the 7 files in T1–T7's scope. No unrelated content rode along.
-- **Attestation:** note `3722231165`, reviewer-instance `engineer-reviewer`, distinct from the only committer `engineer-author`; `reviewed-sha 683efdf4…` equals the SHA the merge was pinned to; posted before approval.
-- **Merge:** SHA-pinned squash `30c66bf` on `main`, source branch deleted.
-- **CI:** pipeline 2783672056, 9/9 green on `30c66bf3`.
-- **Live confirmation:** devops-infra-expert confirmed the cicd manifest bumps for proxy/spa/preview reconciled to `30c66bf3` and ArgoCD synced, then read production uncached — label hidden via `.visually-hidden` with `for`/`id` intact, disclosure line absent, fine print exactly "Unsubscribe anytime — deletes your address."
+- **Branch base / merge cleanliness:** `git diff 9f8e7d6..a1b2c3d --stat` shows exactly the 7 files in T1–T7's scope. No unrelated content rode along.
+- **Attestation:** note `1000000001`, reviewer-instance `engineer-reviewer`, distinct from the only committer `engineer-author`; `reviewed-sha 5e6f7a8b…` equals the SHA the merge was pinned to; posted before approval.
+- **Merge:** SHA-pinned squash `a1b2c3d` on `main`, source branch deleted.
+- **CI:** pipeline 2000000002, 9/9 green on `a1b2c3d4`.
+- **Live confirmation:** devops-infra-expert confirmed the GitOps manifest bumps for proxy/spa/preview reconciled to `a1b2c3d4` and ArgoCD synced, then read production uncached — label hidden via `.visually-hidden` with `for`/`id` intact, disclosure line absent, fine print exactly "Unsubscribe anytime — deletes your address."
 - **Accepted caveat:** T10's manual screen-reader pass substituted with Chrome accessibility-tree evidence; accepted by team lead, scoped to this MR only (plain label-for association, no custom widget), explicitly not a precedent. Rationale in !79's description.
 - **Open follow-ups:** none.
 ```
