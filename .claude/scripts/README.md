@@ -1,9 +1,10 @@
 # gsc.mjs — Google Search Console CLI
 
 Read-only, dependency-free Node CLI for the `seo-specialist` agent's `Bash` tool.
-It signs its own service-account JWT and talks to the Search Console REST APIs
-directly with `fetch` — no `googleapis`, no `package.json`. It requests only the
-`webmasters.readonly` scope, so no subcommand can change a live property.
+It gets a one-hour service-account token (keyless through your gcloud login, or
+from a JSON key) and talks to the Search Console REST APIs directly with `fetch`
+— no `googleapis`, no `package.json`. It requests only the `webmasters.readonly`
+scope, so no subcommand can change a live property.
 
 ## One-time setup (Google Cloud + Search Console)
 
@@ -15,34 +16,53 @@ directly with `fetch` — no `googleapis`, no `package.json`. It requests only t
    REST paths, not two products, so there is nothing further to enable for
    `inspect`. Skipping this step is the single most common failure: every
    call fails with `SERVICE_DISABLED` until it's done, even with a
-   perfectly correct key and property permissions.
+   perfectly correct sign-in and property permissions.
 2. **Create a service account** in that project:
    Google Cloud Console → *IAM & Admin* → *Service Accounts* → *Create Service Account*.
    No IAM roles need to be granted on the project — Search Console access is
    granted separately, in step 4.
-3. **Create and download a JSON key** for that service account: open the
-   service account → *Keys* tab → *Add Key* → *Create new key* → type **JSON**.
-   Save it somewhere outside any git repo, e.g. `~/.gcp/service-account.json`.
+3. **Choose how the script signs in as that service account.**
+   - **Keyless (preferred, and the only way where an organization policy
+     blocks service-account keys):** grant your own user
+     `roles/iam.serviceAccountTokenCreator` on that one service account (the
+     project Owner role does not include it), enable the *IAM Service Account
+     Credentials API* in the project, and run `gcloud auth login` once. The
+     script takes your gcloud token and asks Google for a one-hour token of
+     the service account, limited to the read-only Search Console scope.
+   - **Key file:** open the service account → *Keys* tab → *Add Key* →
+     *Create new key* → type **JSON**. Save it outside any git repo, e.g.
+     `~/.gcp/service-account.json`. A key does not expire, so prefer keyless.
 4. **Add the service account as a user on the property** in
    [Search Console](https://search.google.com/search-console): open the
    property → *Settings* → *Users and permissions* → *Add user* → paste the
-   service account's `client_email` (from the JSON key) → permission level
-   **Restricted** is sufficient, since this tool never writes anything.
-5. **Set the environment variable** to the key's path:
+   service account's email → permission level **Restricted** is sufficient,
+   since this tool never writes anything. No API exists for this step; the
+   property owner does it by hand, once per property.
+5. **Set one environment variable:**
    ```sh
-   export GSC_SERVICE_ACCOUNT_KEY=~/.gcp/service-account.json
+   export GSC_IMPERSONATE_SERVICE_ACCOUNT=reader@your-project.iam.gserviceaccount.com   # keyless
+   export GSC_SERVICE_ACCOUNT_KEY=~/.gcp/service-account.json                           # key file
    ```
-   Put this in `~/.zshenv`, not `~/.zshrc` and not any project repo.
-   `.zshrc` only loads in interactive shells, so an export placed there is
-   invisible to a non-interactive Bash tool call — exactly the failure mode
-   an agent invoking this script hits. `~/.zshenv` loads for every shell,
-   interactive or not. The key file itself must never be committed.
+   When both are set, the keyless one wins. Put the line in `~/.zshenv`, not
+   `~/.zshrc` and not any project repo. `.zshrc` only loads in interactive
+   shells, so an export placed there is invisible to a non-interactive Bash
+   tool call — exactly the failure mode an agent invoking this script hits.
+   `~/.zshenv` loads for every shell, interactive or not. A key file must
+   never be committed.
 
 Verify with the auth smoke test:
 
 ```sh
 node .claude/scripts/gsc.mjs sites
 ```
+
+An empty list means the sign-in works and the service account is not yet a
+user on any property (step 4).
+
+In keyless mode the script depends on your gcloud session. A Google Workspace
+account must sign in again when its session ends; the length is set by the
+Workspace administrator. The script then fails with `Reauthentication failed`.
+Run `gcloud auth login` and retry.
 
 ## Subcommands
 
