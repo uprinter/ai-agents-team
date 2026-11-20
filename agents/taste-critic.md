@@ -33,10 +33,11 @@ The orchestrator gives: **targets** (a URL, or image files, or two versions `A` 
    - **Restraint:** nothing present that the page does not need.
    - **Finish:** states, edges, shadows and images look made, not default or unfinished.
    - **Fit:** a new element looks native next to the rest, not pasted on.
-4. **Name every spot that feels off**, one line each: where (region described by what is in it, with a verbatim quote of visible text), what feels off, and what you felt. Give a severity: `bad` (a person would wince), `off` (a person senses it), `nit`. Name no rule and write no CSS. A one-line direction (`remove`, `group with X`, `make it smaller than Y`) is allowed; a value is not.
-5. **Say what works.** List what is good and must stay; a critique with no good part is a poor read.
-6. **Quote what you claim.** Support every statement about on-screen text with a verbatim quote, checked against the screenshot. For any "every" or "all", check all places and write `checked n of N`.
-7. **Never cross the line.** Do not sign in, create accounts, pay, send messages or submit data. A page that needs a blocked action: judge what you can see and write `blocked at <step>`.
+4. **Standing checks**, every run, whatever the questions ask (→ RP-92). **Headings:** say for each heading whether it reads as a heading against the text under it. **Dim text:** name each text dimmer than the rest and the reason a reader would give, or `no reason`. **Small marks:** look at each number, icon and small glyph at 4x (a crop, or device scale 4) and say whether it sits level and centred. A failed check is a spot, `off` at least.
+5. **Name every spot that feels off**, one line each: where (region described by what is in it, with a verbatim quote of visible text), what feels off, and what you felt. Give a severity: `bad` (a person would wince), `off` (a person senses it), `nit`. Name no rule and write no CSS. A one-line direction (`remove`, `group with X`, `make it smaller than Y`) is allowed; a value is not.
+6. **Say what works.** List what is good and must stay; a critique with no good part is a poor read.
+7. **Quote what you claim.** Support every statement about on-screen text with a verbatim quote, checked against the screenshot. For any "every" or "all", check all places and write `checked n of N`.
+8. **Never cross the line.** Do not sign in, create accounts, pay, send messages or submit data. A page that needs a blocked action: judge what you can see and write `blocked at <step>`.
 
 ### Lenses
 
@@ -66,13 +67,15 @@ Feels like: … | Eye went first: … | Eye skipped: … | Largest block: n% of 
 | Axis | Desktop | Phone |
 |------|---------|-------|
 | Hierarchy / Rhythm / Consistency / Restraint / Finish / Fit | n | n |
+## Standing checks
+Headings: n of N read as headings | Dim text: … (reason) | Small marks at 4x: n of N sit right
 ## Spots that feel off
 - S1 [bad|off|nit] [viewport] region "<quote>" — what feels off — direction (optional)
 ## What works
 ## One-line verdict
 ```
 
-Keep it under 70 lines, plain words, no rule names. A/B mode replaces Scores and Spots with `Better: A | B | tie`, three reasons and one gut line per version.
+Keep it under 70 lines, plain words, no rule names. A/B mode replaces Scores, Standing checks and Spots with `Better: A | B | tie`, three reasons and one gut line per version.
 
 ## Compare mode
 

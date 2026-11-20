@@ -144,42 +144,42 @@ A command that prompts (`tofu apply`, `rm -i`) fails under `!` with `EOF`: no st
 
 The user operates two GitLab repos under the `<your-org>` group. Treat them as the source of truth for their infrastructure; when answering questions about *their* setup, consult these via `glab` rather than guessing from generic best practices.
 
-### `<your-org>/oci-platform` (default branch: `master`)
-**Local path**: `~/Documents/Projects/oci-platform`
+### `<your-org>/<iac-repo>` (default branch: `master`)
+**Local path**: `~/Documents/Projects/<iac-repo>`
 
-OpenTofu IaC (note: **OpenTofu**, not Terraform; **Taskfile**, not Makefile) that provisions a free Kubernetes cluster on Oracle Cloud Always Free tier.
+OpenTofu IaC (note: **OpenTofu**, not Terraform; **Taskfile**, not Makefile) that provisions the Kubernetes cluster on Oracle Cloud (OKE).
 
-- Layout: numbered, sequential modules at the repo root — `01-network`, `02-identity`, `03-oke`, `04-dns`, `05-vpn`, `06-cert-manager`, `07-nginx-gateway`, `08-external-dns` — applied in order via `task oci-platform:install-<name>`. Reusable modules live in `modules/`.
+- Layout: numbered, sequential modules at the repo root, applied in order via `task <iac-repo>:install-<name>`. Reusable modules live in `modules/`.
 - Backend: each module configures its own OpenTofu backend; see `backend.tf.template`.
-- Stack: OKE (1 worker), Load Balancer, NAT Gateway, OpenVPN instance for private API access, OCI DNS zones, cert-manager, NGINX Gateway Fabric (Gateway API), ExternalDNS.
-- Tooling required locally: `task`, `tofu`, `oci`, `kubectl`, `openssl`, OpenVPN client.
+- Stack: OKE, Load Balancer, OCI DNS zones, cert-manager, NGINX Gateway Fabric (Gateway API), ExternalDNS.
+- Tooling required locally: `task`, `tofu`, `oci`, `kubectl`.
 
 When proposing changes here: it's OpenTofu — use `tofu plan` / `tofu apply` semantics, and respect the numbered-module ordering (later modules depend on earlier ones).
 
-### `<your-org>/cicd` (default branch: `main`)
-**Local path**: `~/Documents/Projects/cicd`
+### `<your-org>/<apps-repo>` (default branch: `main`)
+**Local path**: `~/Documents/Projects/<apps-repo>`
 
-GitOps repository for Kubernetes workloads, reconciled by ArgoCD running in the OKE cluster from `oci-platform`.
+GitOps repository for Kubernetes workloads, reconciled by ArgoCD running in the OKE cluster from `<iac-repo>`.
 
 - Layout: `apps/{name}.yaml` is the ArgoCD `Application` definition; `apps/{name}/` contains the manifests (`deploy.yaml`, `svc.yaml`, `routes.yaml`, `secret.yaml`).
 - Convention: every app deploys to its own namespace matching the app name.
 - Ingress: NGINX Gateway Fabric via HTTPRoute. Domains: `*.ext.example` (external), `*.int.example` (internal).
 - Secrets: never in plaintext — use `ExternalSecret` backed by OCI Vault.
-- Images: GitLab Container Registry; pull secret `gitlab-container-registry-secret`.
-- **In-repo guidance**: the repo ships its own `AGENTS.md` at the root and a `.skills/` directory with five skills (`kubernetes-app-deployment`, `argocd-troubleshooting`, `gitops-workflow`, `kubernetes-optimization`, `git-workflow`). **Read these first** when working in that repo — they are the authoritative playbooks for that environment.
+- Images: GitLab Container Registry; pull secret `<pull-secret-name>`.
+- **In-repo guidance**: the repo ships its own `AGENTS.md` at the root and a `.skills/` directory. **Read these first** when working in that repo — they are the authoritative playbooks for that environment.
 
 When proposing changes here: every change is a git commit to this repo → ArgoCD reconciles. No `kubectl apply`. Follow the existing `apps/{name}.yaml` + `apps/{name}/` pattern.
 
-### GitLab settings (`<your-org>/gitlab-platform`)
+### GitLab settings (`<your-org>/<settings-repo>`)
 
-**Any change to the settings of a project in group `<your-org>` (visibility, merge rules, protected branches, approvals, CI/CD variables, pipeline schedules) is an MR in `<your-org>/gitlab-platform` (a new project is a new entry in `projects.tf`), never `glab api`, the UI or a local apply, and it is applied only by the manual pipeline job on protected `main` with explicit approval; the only exceptions are break-glass (the command is in the description of an early MR of that repo) and secret values set by hand (e.g. a group access-token variable).** The second-instance reviewer of every IaC/manifest MR and of any GitLab-settings change confirms no out-of-band edit: the out-of-band-settings gate (→ RP-61).
+**Any change to the settings of a project in group `<your-org>` (visibility, merge rules, protected branches, approvals, CI/CD variables, pipeline schedules) is an MR in `<your-org>/<settings-repo>` (a new project is a new entry in `projects.tf`), never `glab api`, the UI or a local apply, and it is applied only by the manual pipeline job on protected `main` with explicit approval; the only exceptions are break-glass (the command is in the description of an early MR of that repo) and secret values set by hand (e.g. a group access-token variable).** The second-instance reviewer of every IaC/manifest MR and of any GitLab-settings change confirms no out-of-band edit: the out-of-band-settings gate (→ RP-61).
 
 ### How to use these repos
 
 - **Read the AI harness first.** Before contributing to either repo, read its `AGENTS.md` (or equivalent project instruction file) and any `.skills/` directory. Those files are the authoritative playbook for that repo — conventions, tooling, workflows, and constraints. Do not skip this step.
 - For current state of either repo, use `glab` (read-only is pre-approved): `glab api 'projects/<your-org>%2F<repo>/repository/tree?path=<path>'`, `glab api 'projects/<your-org>%2F<repo>/repository/files/<urlencoded-path>/raw?ref=<branch>'`, `glab mr list -R <your-org>/<repo>`, etc.
 - Don't cache repo contents from memory across sessions for anything you're about to act on — fetch fresh. Module names, app names, and conventions are stable; specific file contents are not.
-- If the user asks about "the cluster" without naming it, they almost certainly mean the OKE cluster built by `oci-platform`. If they ask about "deploying an app", they mean adding it to `cicd`.
+- If the user asks about "the cluster" without naming it, they almost certainly mean the OKE cluster built by `<iac-repo>`. If they ask about "deploying an app", they mean adding it to `<apps-repo>`.
 
 ## Communication Style
 

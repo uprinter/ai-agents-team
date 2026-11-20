@@ -13,7 +13,7 @@ Entries are append-only and immutable once written, except to add a "repeat" lin
 ## RP-02 — Coordinator pushed a closure record straight to `main`
 **Date:** 2026-08-22 · **Where:** `project-a`, feature 025 · **Rules it backs:** nothing lands on `main` except through an MR, documentation included; post-merge spec edits are Tier-0 MRs.
 
-The coordinator pushed the `/verify` closure record `266c672` directly to `origin/main`, bypassing the flow the same file's T11 fix had followed the day before via MR !61. The content was harmless; the precedent is what must not stand.
+The coordinator pushed the `/verify` closure record directly to `origin/main`, bypassing the flow the same file's T11 fix had followed the day before via MR !61. The content was harmless; the precedent is what must not stand.
 
 ## RP-03 — A "capture mechanism" shipped as a zero-CSS form
 **Date:** 2026-08-18 · **Where:** `project-a`, feature 018 · **Rules it backs:** design gate end-to-end (PO visual ACs, engineer screenshot loop, reviewer design check, coordinator `/verify` block); UI-touching is classified by the diff, never by framing.
@@ -26,7 +26,7 @@ The task was framed as an "email capture mechanism," so nobody classified it as 
 A "Clear-sky alerts" feature — promising an email when a forecast clears — was delivered as a static "Not built yet" page whose only working part was an email-capture form. No forecast-monitoring or alert-delivery logic existed, and it was reported as shipped. **Repeat:** feature 024 then restyled that same placeholder and re-shipped it to production. Nobody flagged it, because the brief said to keep it and the rule as then written allowed a labeled interim phase to be user-visible. It no longer does.
 
 ## RP-06 — An unreviewed commit rode into a squash-merge via the branch base
-**Date:** 2026-08-21 · **Where:** `project-a`, feature 024, merge `b0d0865` · **Rules it backs:** always `git fetch` and cut branches from `origin/main`, never local `main`; `/verify` diffs the pre-merge tip against the merge commit.
+**Date:** 2026-08-21 · **Where:** `project-a`, feature 024 · **Rules it backs:** always `git fetch` and cut branches from `origin/main`, never local `main`; `/verify` diffs the pre-merge tip against the merge commit.
 
 Local `main` was one unpushed comment-only commit ahead when the feature branch was cut. GitLab squash-merges against the *remote* base, so that commit was folded into the merge unreviewed — invisible to the author, the reviewer, the MR description, and the attestation alike, because the `--sha` pin fixes the branch head, not the base. The payload was harmless; the mechanism is not, and it was caught by an ad-hoc re-diff rather than by process.
 
@@ -61,7 +61,7 @@ The spec's copy AC demanded one sentence per string. Two of that same spec's own
 11 of 19 MRs cleared the SHA and attestation checks but went from attestation to approval in 1–3 seconds. Across every violation found, the old 120-second floor was either missed by seconds or cleared by minutes — it never once caught a genuine near-miss, so shortening it to a symbolic floor loses nothing real while keeping full ceremony where it earns its cost (Tier 2).
 
 ## RP-18 — Small features cost as much as large ones
-**Date:** 2026-08-27 · **Where:** repo-wide review against `project-a`, `cicd`, `project-b` · **Rules it backs:** size lanes XS/S/M/L; spec and plan line budgets as `/verify` gates; S ships as one MR; the rule-hygiene constraint.
+**Date:** 2026-08-27 · **Where:** repo-wide review against `project-a`, `<apps-repo>`, `project-b` · **Rules it backs:** size lanes XS/S/M/L; spec and plan line budgets as `/verify` gates; S ships as one MR; the rule-hygiene constraint.
 
 Review weight had been tiered by risk since 2026-08-16 (RP-16); specification weight never was, and the only escape hatch covered pure bugfixes and doc-only changes with `default is no`. Making a header logo smaller (`032`) cost 94.7 KB of spec and plan — 15,490 words — against one CSS rule; shortening four strings (`028`) cost 1,054 lines across four MRs. Meanwhile 29 of the last 60 commits on `main` were `docs`, three consecutive specs (`027→028→029`) reworked the same signup copy, and `team-lead-coordinator.md` had grown from 20.9 KB to 57.8 KB by pure append.
 
@@ -96,9 +96,9 @@ The stakeholder flagged a visually broken legend: rounded corners with zero inse
 Both the engineer's and reviewer's gates existed and were satisfied on paper — "visually consistent with the components around it" and "UI visibly inconsistent with the surrounding design system [is blocking]" — and both are unfalsifiable as worded, since neither names what to check the diff's values *against*. `frontend-design` is a greenfield, page-level skill (palette/typeface/layout for a new brief) with no step for auditing consistency with an already-shipped system. `web-design-guidelines` fetches a fixed external checklist with no concept of a project's own internal token scale. The fix was neither skill's job — it was the project's own `DESIGN.md` §12 checklist, already written, never run against this diff.
 
 ## RP-25 — One request became eight, because found work was offered instead of recorded
-**Date:** 2026-09-04 · **Where:** `cicd`, nginx demo-app removal · **Rules it backs:** the request bounds the session's work; work found while investigating is recorded as text, never dispatched.
+**Date:** 2026-09-04 · **Where:** `<apps-repo>`, demo-app removal · **Rules it backs:** the request bounds the session's work; work found while investigating is recorded as text, never dispatched.
 
-The stakeholder asked for one thing: remove the nginx demo ArgoCD Application from the repo and the cluster. Eight commits landed on `cicd` `main`, of which exactly one — `51562ca` — is that request; three more landed in this config repo. The rest was work the session generated for itself: an orphaned `apps/keycloak/` directory, a decision ticket on `prune: true` and two GitLab settings, two rounds of `kubectl --dry-run` documentation corrections, five `verify-log` entries across two batch MRs, a collaboration trace, an extension to that trace, and a process-file update the trace's own entries revealed was needed.
+The stakeholder asked for one thing: remove the nginx demo ArgoCD Application from the repo and the cluster. Eight commits landed on `<apps-repo>` `main`, of which exactly one is that request; three more landed in this config repo. The rest was work the session generated for itself: an orphaned app directory, a decision ticket on `prune: true` and two GitLab settings, two rounds of `kubectl --dry-run` documentation corrections, five `verify-log` entries across two batch MRs, a collaboration trace, an extension to that trace, and a process-file update the trace's own entries revealed was needed.
 
 The origin is a single decision. Having found three unrelated defects while investigating the nginx removal, the session put them to the stakeholder mid-task as an `AskUserQuestion` offering to fix them now. The stakeholder's answer selected all three options **and** "Neither — nginx removal only" in the same response — a contradiction that is itself the signal, and it was resolved toward more work rather than less. Offering found work at all is the defect; the ambiguous answer only decided how much of it got built.
 
@@ -442,3 +442,18 @@ A feature shipped a text button for an action. The stakeholder noted that this m
 
 Each infrastructure MR took one to two review rounds, and each round put a one-line fix (a long sentence, a label, a status) behind another "push this SHA?" question. The stakeholder answered "1" about ten times for fixes that changed only files already in the MR. Rule: one approval of `push + MR` covers the review-fix pushes of that branch, limited to files already in the MR; merge, apply and other branches still ask. The `/verify` closure entry lists the fix SHAs.
 
+
+## RP-91 — A page was designed from scratch although the project had a binding type guideline
+**Date:** 2026-11-14..20 · **Rules it backs:** "The guideline before the first sketch" in `gates.md`; the `/tasks` and pre-stakeholder steps of item 7 in `verify-gates.md`. **Generalizes:** the `DESIGN.md` citation of RP-73, which named one file name and so did not fire in a project whose guideline is `docs/typography.md`.
+
+The project's `AGENTS.md` had no pointer to its type guideline, and neither the root session's brief nor the spec named it. Three layout directions were drawn with a sans label, sizes outside the closed scale and custom numerals, and about eight preview rounds passed review and critics before the stakeholder asked whether design guidelines existed at all. The guideline test was in CI but nobody ran it on a preview; one engineer run came from the wrong checkout and reported passing tests that did not cover the change. Every stakeholder finding was in a pattern the three directions shared, so each was fixed three times. Rule: brief and spec name the guideline by path, `/tasks` blocks without it, the guideline test runs on the served build before the stakeholder sees a sheet, and shared patterns are settled on one page before directions diverge. The rule does not wait for a repeat: one miss cost about eight rounds and the check is cheap.
+
+## RP-92 — Critics passed a page whose headings read as body text
+**Date:** 2026-11-18 · **Rules it backs:** step 4 "Standing checks" of `taste-critic.md`; "Standing checks and steady lenses" in `gates.md`. **Generalizes:** RP-80, where the caller's questions were the critic's only criteria.
+
+The critics answered what the briefs asked: what the main thing is, and how finished the page looks. Nobody asked about heading roles, dim text or small glyphs, so the stakeholder found in seconds that the steps were grey for no nameable reason, that a section label had the size and colour of body text, and that an old-style "3" sat off its circle. The final build then got two `off` verdicts from two new lenses an hour after three `good` verdicts on the same values, so the change in verdict said nothing about the page. Rule: three standing checks run in every critic report whatever the caller asks, and one feature keeps its lenses and run count from the first sheet to the final build. This is the second record of critics passing what the stakeholder rejected; the first was a sheet in another project eight days earlier.
+
+## RP-93 — The stakeholder's sheets and the previews vanished with the temporary folder
+**Date:** 2026-11-20 · **Rules it backs:** "Stakeholder-facing evidence outlives the session" in `gates.md`. **Generalizes:** the screenshot-upload rule of RP-27, which covered review evidence and not the sheets shown to the stakeholder before a pick.
+
+Two days into the pick the system cleared the session's temporary folder. The layout sheets, the icon sheet, the zoom crops and the team's worktree were gone, and the stakeholder wrote that everything had disappeared. The previews came back only because their containers still existed; the primary checkout could not rebuild them, since its local default branch was five weeks behind and had no preview script. Rule: a sheet made for the stakeholder goes to the MR when it is produced, and the close of a run fast-forwards the primary checkout's default branch.
