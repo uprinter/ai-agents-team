@@ -2,10 +2,18 @@
 // gsc.mjs — read-only Google Search Console CLI, built for the seo-specialist agent's
 // Bash tool. Zero dependencies: Node standard library only (native fetch, node:crypto).
 //
-// Signs its own service-account JWT (RS256) and exchanges it at Google's OAuth token
-// endpoint via the jwt-bearer grant, then calls the Search Console API v3 (sites,
-// searchAnalytics, sitemaps) and the separate urlInspection v1 API directly with fetch.
-// No googleapis, no jsonwebtoken, no package.json.
+// Gets a one-hour access token for a service account, then calls the Search Console
+// API v3 (sites, searchAnalytics, sitemaps) and the separate urlInspection v1 API
+// directly with fetch. No googleapis, no jsonwebtoken, no package.json.
+//
+// Two ways to get that token, chosen by environment variable:
+//   GSC_IMPERSONATE_SERVICE_ACCOUNT  keyless. The email of the service account. The
+//       script takes the caller's own token from `gcloud auth print-access-token` and
+//       asks the IAM Credentials API for a token of that service account. Use this
+//       where an organization policy blocks service-account keys.
+//   GSC_SERVICE_ACCOUNT_KEY  a filesystem path (~ expanded) to a JSON key. The script
+//       signs its own JWT (RS256) and exchanges it at Google's OAuth token endpoint.
+// When both are set, impersonation wins.
 //
 // Requests ONLY the webmasters.readonly scope. No subcommand here can mutate a
 // property — no sitemap submission, no URL removal, no settings change. That is
@@ -13,8 +21,7 @@
 // visibility controls, and this tool makes that structurally true rather than a
 // policy that could be forgotten.
 //
-// Reads the service-account key path from GSC_SERVICE_ACCOUNT_KEY (a filesystem path,
-// ~ expanded). The key file, its private key, and the access token it produces are
+// The key file, its private key, the caller's gcloud token and the access token are
 // never written to disk or printed. See README.md for one-time setup.
 //
 // Verified against Google's current REST reference (2026-08-30):
@@ -36,9 +43,12 @@ import fs from 'node:fs';
 import path from 'node:path';
 import os from 'node:os';
 import crypto from 'node:crypto';
+import { execFileSync } from 'node:child_process';
 
 const SCOPE = 'https://www.googleapis.com/auth/webmasters.readonly';
 const TOKEN_URL = 'https://oauth2.googleapis.com/token';
+const IAM_CREDENTIALS_BASE = 'https://iamcredentials.googleapis.com/v1';
+const SERVICE_ACCOUNT_EMAIL = /^[a-z0-9-]+@[a-z0-9.-]+\.gserviceaccount\.com$/;
 const WEBMASTERS_BASE = 'https://www.googleapis.com/webmasters/v3';
 const INSPECTION_URL = 'https://searchconsole.googleapis.com/v1/urlInspection/index:inspect';
 
@@ -98,8 +108,9 @@ Usage:
 siteUrl is either a domain property ("sc-domain:example.com") or a URL-prefix
 property ("https://example.com/") exactly as it appears in Search Console.
 
-Auth: set GSC_SERVICE_ACCOUNT_KEY to the path of a service-account JSON key
-that has been added as a user on the property in Search Console. See README.md.
+Auth: the service account must be a user on the property in Search Console.
+Set GSC_IMPERSONATE_SERVICE_ACCOUNT to its email (keyless, through your gcloud
+login), or GSC_SERVICE_ACCOUNT_KEY to the path of its JSON key. See README.md.
 `;
 
 function expandHome(p) {
@@ -107,13 +118,98 @@ function expandHome(p) {
   return p;
 }
 
+// Returns the service account to impersonate, or null when the keyless mode is off.
+function readImpersonationTarget() {
+  const raw = process.env.GSC_IMPERSONATE_SERVICE_ACCOUNT;
+  if (!raw || !raw.trim()) return null;
+  const email = raw.trim();
+  if (!SERVICE_ACCOUNT_EMAIL.test(email)) {
+    throw new Error(
+      `GSC_IMPERSONATE_SERVICE_ACCOUNT is "${email}", which is not a service-account email ` +
+        '(expected name@project.iam.gserviceaccount.com).'
+    );
+  }
+  return email;
+}
+
+// The request that turns the caller's token into a token of the service account.
+// The scope is fixed here, so the resulting token can only read Search Console even
+// though the caller's own gcloud token is far broader.
+function impersonationRequest(serviceAccount) {
+  return {
+    url: `${IAM_CREDENTIALS_BASE}/projects/-/serviceAccounts/${encodeURIComponent(serviceAccount)}:generateAccessToken`,
+    body: { scope: [SCOPE], lifetime: '3600s' },
+  };
+}
+
+function getCallerToken() {
+  let out;
+  try {
+    out = execFileSync('gcloud', ['auth', 'print-access-token'], {
+      encoding: 'utf8',
+      stdio: ['ignore', 'pipe', 'pipe'],
+    });
+  } catch (err) {
+    if (err.code === 'ENOENT') {
+      throw new Error(
+        'GSC_IMPERSONATE_SERVICE_ACCOUNT is set, but `gcloud` is not on PATH. Install the Google ' +
+          'Cloud CLI and run `gcloud auth login`.'
+      );
+    }
+    const stderr = String(err.stderr || '').trim().split('\n')[0];
+    throw new Error(
+      `\`gcloud auth print-access-token\` failed${stderr ? `: ${stderr}` : ''}. Run \`gcloud auth login\` ` +
+        'as a user who may impersonate the service account.'
+    );
+  }
+  const token = out.trim();
+  if (!token) throw new Error('`gcloud auth print-access-token` printed nothing. Run `gcloud auth login`.');
+  return token;
+}
+
+async function getImpersonatedAccessToken(serviceAccount) {
+  const { url, body } = impersonationRequest(serviceAccount);
+  const callerToken = getCallerToken();
+  let response;
+  try {
+    response = await fetch(url, {
+      method: 'POST',
+      headers: { Authorization: `Bearer ${callerToken}`, 'Content-Type': 'application/json' },
+      body: JSON.stringify(body),
+    });
+  } catch (err) {
+    throw new Error(`Network error asking for a token of ${serviceAccount}: ${err.message}`);
+  }
+  const text = await response.text();
+  if (!response.ok) {
+    const lines = [formatApiError(response.status, text, `Impersonation of ${serviceAccount}`)];
+    if (response.status === 403 || response.status === 404) {
+      lines.push(
+        'The gcloud user needs roles/iam.serviceAccountTokenCreator on this one service account ' +
+          '(the project Owner role does not include it), the service account must exist, and the IAM ' +
+          'Service Account Credentials API must be enabled in its project. Check who gcloud is ' +
+          'signed in as with `gcloud config get-value account`.'
+      );
+    }
+    throw new Error(lines.join('\n'));
+  }
+  let json;
+  try {
+    json = JSON.parse(text);
+  } catch {
+    throw new Error(`IAM Credentials API returned a non-JSON response (HTTP ${response.status}).`);
+  }
+  if (!json.accessToken) throw new Error('IAM Credentials API response had no accessToken.');
+  return json.accessToken;
+}
+
 function readServiceAccountKey() {
   const keyPath = process.env.GSC_SERVICE_ACCOUNT_KEY;
   if (!keyPath || !keyPath.trim()) {
     throw new Error(
-      'GSC_SERVICE_ACCOUNT_KEY is not set. Point it at your service-account JSON key file, ' +
-        'e.g. export GSC_SERVICE_ACCOUNT_KEY=~/.gcp/service-account.json — see ' +
-        '.claude/scripts/README.md for one-time setup.'
+      'Neither GSC_IMPERSONATE_SERVICE_ACCOUNT nor GSC_SERVICE_ACCOUNT_KEY is set. Set the first to ' +
+        'the service account email (keyless, through gcloud), or the second to the path of its ' +
+        'JSON key file — see .claude/scripts/README.md for one-time setup.'
     );
   }
   const resolved = expandHome(keyPath.trim());
@@ -187,7 +283,7 @@ function formatApiError(status, bodyText, context) {
         'same site. Run `gsc.mjs sites` first to see exactly which properties this service account can ' +
         'read and in which form. Only if the property genuinely is not listed there: add the service ' +
         'account as a user on it in Search Console — Settings > Users and permissions > Add user, using ' +
-        'the client_email from the key file. Restricted (read-only) access is sufficient for this tool.'
+        'the service account email. Restricted (read-only) access is sufficient for this tool.'
     );
   }
   return lines.join('\n');
@@ -614,8 +710,10 @@ async function main() {
   else if (cmd === 'sitemaps') opts = parseSitemapsArgs(rest);
   else if (cmd === 'inspect') opts = parseInspectArgs(rest);
 
-  const key = readServiceAccountKey();
-  const accessToken = await getAccessToken(key);
+  const impersonated = readImpersonationTarget();
+  const accessToken = impersonated
+    ? await getImpersonatedAccessToken(impersonated)
+    : await getAccessToken(readServiceAccountKey());
 
   if (cmd === 'sites') await cmdSites(accessToken, opts);
   else if (cmd === 'query') await cmdQuery(accessToken, opts);
@@ -640,4 +738,6 @@ export {
   formatEmptyQueryMessage,
   defaultDateRange,
   base64url,
+  impersonationRequest,
+  readImpersonationTarget,
 };
