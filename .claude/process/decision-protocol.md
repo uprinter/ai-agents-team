@@ -37,7 +37,7 @@ The same split applies to what you notice while working (→ RP-52):
 
 A permission block on a push, merge or edit is not a decision (→ RP-54). Report once: what was blocked, the exact command for the founder to run, and what happens after; offer no options and do not ask again.
 
-Four operations stay blocked for agents even with an allow rule: `git push --force-with-lease`, `tofu apply`, `kubectl exec` and listing the `envchain` keychain. The brief hands the stakeholder the command at once instead of attempting it, as one self-contained `!` line, because every `!` runs in a fresh shell with no variables, and a `tofu` line starts with `envchain prod` (→ RP-94).
+Four operations stay blocked for agents even with an allow rule: `git push --force-with-lease`, `tofu apply`, `kubectl exec` and listing the secret store. The brief hands the stakeholder the command at once instead of attempting it, as one self-contained `!` line, because every `!` runs in a fresh shell with no variables, and a `tofu` line carries its own credential wrapper (→ RP-94).
 
 ## 1c. Merging an MR
 
