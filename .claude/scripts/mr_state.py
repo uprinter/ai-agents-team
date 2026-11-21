@@ -40,8 +40,9 @@ def parse_time(value: str) -> datetime:
 
 
 def positive(verdict: str) -> bool:
-    text = verdict.lower()
-    return ("pass" in text or "approve" in text) and "change" not in text and "block" not in text
+    """The verdict's leading word decides: ``pass`` or ``approve``. Later prose ("no blocking findings") never flips it."""
+    lead = re.match(r"[a-z-]+", verdict.strip().lower())
+    return bool(lead) and lead[0] in ("pass", "approve")
 
 
 def attestations(notes: list[dict]) -> list[dict]:
