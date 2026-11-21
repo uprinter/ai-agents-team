@@ -44,6 +44,18 @@ class MrStateTests(unittest.TestCase):
         _, nxt = mr_state.evaluate(MR, NOBODY, notes, None)
         self.assertTrue(nxt.startswith("review"))
 
+    def test_approve_with_no_blocking_findings_is_positive(self) -> None:
+        for verdict in ("approve, no blocking findings", "pass on the diff, merge-conditional. Not approved by this instance."):
+            notes = [attestation(1, HEAD, "2026-11-02T08:00:00Z", verdict)]
+            _, nxt = mr_state.evaluate(MR, NOBODY, notes, None)
+            self.assertTrue(nxt.startswith("approval-only"), verdict)
+
+    def test_changes_requested_hyphenated_is_not_positive(self) -> None:
+        for verdict in ("changes-requested (tier 2: revert trap)", "request changes", "blocked"):
+            notes = [attestation(1, HEAD, "2026-11-02T08:00:00Z", verdict)]
+            _, nxt = mr_state.evaluate(MR, NOBODY, notes, None)
+            self.assertTrue(nxt.startswith("review"), verdict)
+
     def test_attested_head_without_approval_needs_approval_only(self) -> None:
         notes = [attestation(1, HEAD, "2026-11-02T08:00:00Z")]
         _, nxt = mr_state.evaluate(MR, NOBODY, notes, None)

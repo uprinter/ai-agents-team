@@ -37,6 +37,8 @@ The same split applies to what you notice while working (→ RP-52):
 
 A permission block on a push, merge or edit is not a decision (→ RP-54). Report once: what was blocked, the exact command for the founder to run, and what happens after; offer no options and do not ask again.
 
+Four operations stay blocked for agents even with an allow rule: `git push --force-with-lease`, `tofu apply`, `kubectl exec` and listing the secret store. The brief hands the stakeholder the command at once instead of attempting it, as one self-contained `!` line, because every `!` runs in a fresh shell with no variables, and a `tofu` line carries its own credential wrapper (→ RP-94).
+
 ## 1c. Merging an MR
 
 After a passing `REVIEW-ATTESTATION` the coordinator starts the second-instance review without asking who reviews. When the reviewer approves and CI is green, the author merges SHA-pinned and the close message reports the merge. The founder is not asked to approve or merge, except to look at a new user-visible element running locally before merge (→ RP-73); a refusal by the permission classifier is a blocker under §1b (→ RP-72).
