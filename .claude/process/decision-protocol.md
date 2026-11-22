@@ -15,7 +15,7 @@ A decision is **ask** only when it has a long-term, visible consequence. The ask
 | anything deleted, force-pushed, or otherwise irreversible | what evidence to cite and how to record a deviation |
 | content that goes live under the founder's name or brand | accepting a check deviation that changed no shipped artifact and no persisted state |
 | scope: adding, dropping, or tiering down a requested feature | one more retry, one more probe, one more read of a log |
-| a choice the founder explicitly reserved | any choice that one MR can reverse without a trace outside the repo |
+| a choice the founder explicitly reserved, such as the render sheet of a new or changed icon, layout or control (`gates.md`, → RP-75) | any choice that one MR can reverse without a trace outside the repo |
 
 Rules of the split:
 
@@ -41,7 +41,7 @@ Four operations stay blocked for agents even with an allow rule: `git push --for
 
 ## 1c. Merging an MR
 
-After a passing `REVIEW-ATTESTATION` the coordinator starts the second-instance review without asking who reviews. When the reviewer approves and CI is green, the author merges SHA-pinned and the close message reports the merge. The founder is not asked to approve or merge, except to look at a new user-visible element running locally before merge (→ RP-73); a refusal by the permission classifier is a blocker under §1b (→ RP-72).
+After a passing `REVIEW-ATTESTATION` the coordinator starts the second-instance review without asking who reviews. When the reviewer approves and CI is green, the author merges SHA-pinned and the close message reports the merge. The founder is not asked to approve or merge, except to look at a new user-visible element running locally before merge (→ RP-73), and except an IaC/manifest MR, whose merge `devops-infra-expert` asks for per action (→ RP-96); a refusal by the permission classifier is a blocker under §1b (→ RP-72).
 
 ## 1d. A branch's review fixes
 

@@ -1,12 +1,12 @@
 ---
 name: team-wiki
-description: "The team's shared cross-project Obsidian knowledge base: where it lives, when to consult it, and how to contribute back. Preloaded into every team agent."
+description: "The team's shared cross-project knowledge: Notion `Knowledge base` for new knowledge, the Obsidian wiki read-only. When to consult it and how to contribute back. Preloaded into every team agent."
 ---
 
-## Shared knowledge base — the wiki (consult per size; contribute back)
+## Shared knowledge base — Notion, wiki read-only (consult per size; contribute back)
 
-The team keeps one persistent, cross-project Obsidian vault as long-lived memory across every engagement — remote `https://gitlab.com/<your-org>/wiki/<you>`, local `~/Documents/Projects/obsidian/<you>/`. When the task reads it, reuse what it already knows instead of re-researching or re-deciding, cite what you use as `[[Page Title]]`, and file durable cross-project knowledge back into it.
+New cross-project knowledge goes to Notion, under a topic page in `Knowledge base`. The Obsidian vault (`https://gitlab.com/<your-org>/wiki/<you>`, local `~/Documents/Projects/obsidian/<you>/`) is read-only: read it, never write to it (→ RP-97).
 
-**The read is gated by size.** XS and lane-S delivery work, a review, a `/verify`, and a UX or feed run do not read the vault at all; lane M/L work, research, and venture work read `wiki/index.md` and the pages it names for the task's domain; the vault's `AGENTS.md` is read only before a write (→ RP-46). Contribute back only when the task produced cross-project knowledge that no existing page holds.
+**The read is gated by size.** XS and lane-S delivery work, a review, a `/verify`, and a UX or feed run read neither; lane M/L work, research, and venture work search `Knowledge base` (with Notion tools; without them, use what the brief carries) and read `wiki/index.md` and the pages it names for the task's domain (→ RP-46). Reuse what is already known and cite what you use.
 
-**At the start of a task that reads the vault, read `${CLAUDE_PLUGIN_ROOT}/.claude/process/wiki.md`** — it carries the read-first and contribute-back protocol, the vault's own behavioral rules (`raw/` is immutable, read before write, prefer updating over duplicating, log every operation, surface contradictions rather than overwriting), and the scope boundary that keeps project execution artifacts out of the wiki.
+**Contribute back** only when the task produced cross-project knowledge that no existing page holds. With Notion tools, file it yourself; without them, end your report with a `## For Notion` section (topic, title, body) for the caller to file. Full protocol: `${CLAUDE_PLUGIN_ROOT}/.claude/process/wiki.md`.

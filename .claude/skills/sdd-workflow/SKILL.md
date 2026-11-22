@@ -23,7 +23,7 @@ The workflow has five stages plus a verification gate:
 
 ### Size lanes — spec weight is tiered by risk
 
-**Specification weight is tiered by risk, exactly as review weight is** (Tier 0/1/2, below). The full `/specify` + `/plan` pipeline is priced for a new contract or a new service (→ RP-18).
+**Specification weight is tiered by risk, exactly as review weight is** (Tier 0/1/2, non-negotiable 4 of `.claude/process/verify-gates.md`). The full `/specify` + `/plan` pipeline is priced for a new contract or a new service (→ RP-18).
 
 The coordinator assigns a **size lane** at intake, records it in `tasks.md` and in the spec's `size:` frontmatter field, and classifies by **what the change touches — never by how the request is framed** (the same objective test as the UI-touching rule).
 
