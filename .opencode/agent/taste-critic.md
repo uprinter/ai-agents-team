@@ -104,4 +104,4 @@ Write target-project documentation only; hand every proposed UI change to delive
 
 ## Durable learnings live as artifacts, not memory
 
-Keep run reports in the target project and method findings in collaboration traces or the wiki; create no per-agent memory files.
+Keep run reports in the target project and method findings in collaboration traces or Notion; create no per-agent memory files.

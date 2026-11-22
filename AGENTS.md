@@ -26,7 +26,7 @@ This is **not an application** — it is a reusable agent-team configuration for
 
 **This repo outranks a target project's `AGENTS.md`.** A target's `AGENTS.md` is authoritative for that project's own conventions — its stack, its layout, its local commands — and nothing here displaces those. But where it contradicts this repo on team process — a role boundary, a gate, an SDD stage, a size lane — this repo wins, and the contradiction is a defect to fix in the target project, never a local exemption to follow. An agent that finds one says so instead of silently picking a side; the check belongs in the review attestation of any diff touching a target's `AGENTS.md`.
 
-**Shared knowledge base (the wiki).** All agents use one cross-project Obsidian vault — `https://gitlab.com/<your-org>/wiki/<you>` (local: `~/Documents/Projects/obsidian/<you>/`) — as long-lived team memory. Lane M/L and research work read it first and contribute back; XS, lane S, reviews, `/verify` and UX runs skip it (→ RP-46). It is external, human-curated knowledge, not per-agent memory, so the no-memory rule holds. Protocol: `.claude/process/wiki.md`, loaded via the `team-wiki` skill.
+**Shared knowledge base.** All agents except `tabula-rasa` keep cross-project knowledge in a Notion `Knowledge base` page; the Obsidian vault (`~/Documents/Projects/obsidian/<you>/`) is read-only and never receives new pages (→ RP-97). Lane M/L and research work read both first (Notion where the agent has its tools) and contribute back to Notion; XS, lane S, reviews, `/verify` and UX runs skip them (→ RP-46). It is external, human-curated knowledge, not per-agent memory, so the no-memory rule holds. Protocol: `.claude/process/wiki.md`, loaded via the `team-wiki` skill.
 
 ## The team
 
@@ -91,14 +91,7 @@ If asked about specs, paths, feature numbering, or sizing, refer to the SDD sect
 
 ## Size lanes and closure records
 
-The lane is set by what the change touches, never by how it is framed (→ RP-18). Definitions: `.claude/skills/sdd-workflow/SKILL.md`; gate: `team-lead-coordinator.md` Core Operating Rule 11.
-
-| Lane | Trigger | Artifacts |
-|---|---|---|
-| **XS** | nothing user-visible: doc-only, comment-only, or a bugfix with no behavior change | a row in `tasks.md` |
-| **S** | presentation, copy, styling, a tuned value, a contained bugfix — and no contract, persisted data, infra/deploy topology, auth, money, legal/GDPR surface, or second deployed artifact | `spec.md` ≤120 lines, `tasks.md`, no `plan.md`, no architect spawn, one MR |
-| **M** | new behavior inside existing contracts, one deployed artifact | `spec.md` ≤250 + `plan.md` ≤250 |
-| **L** | any S exclusion | full pipeline, no budget |
+The lane is set by what the change touches, never by how it is framed (→ RP-18): **XS** nothing user-visible; **S** presentation, copy, styling, a tuned value or a contained bugfix, with none of the S exclusions (contract, persisted data, infra/deploy topology, auth, money, legal/GDPR surface, a second deployed artifact); **M** new behavior inside existing contracts, one deployed artifact; **L** any S exclusion. Artifacts and line budgets per lane: `.claude/skills/sdd-workflow/SKILL.md`; gate: `team-lead-coordinator.md` Core Operating Rule 11.
 
 A lane above S must name an exclusion; tier down only with stakeholder approval (→ RP-26, RP-47). Partial supersession, lane-S branch rules, and batched `/verify` closure records (`specs/verify-log.md`, Core Operating Rule 12) are in `.claude/process/harness-maintenance.md` and `.claude/process/verify-log.md`.
 

@@ -82,17 +82,13 @@ Run `ls-remote --heads origin "$gitlab_remote_ref"` first and compare the SHA wi
 
 ## Force-push after a rebase
 
-After rebasing a branch already pushed to `origin` (e.g. onto a moved `main`), a plain push is rejected as non-fast-forward. Use `--force-with-lease` scoped to the exact prior remote SHA, so the push aborts instead of clobbering someone else's commit if the remote moved since you last fetched it:
+After rebasing a branch already pushed to `origin` (e.g. onto a moved `main`), a plain push is rejected as non-fast-forward. Agents never run the force-push themselves: hand the founder one self-contained `!` line and wait (→ RP-94). Fill in every value, because the line runs in a fresh shell; the lease is scoped to the exact prior remote SHA, so the push aborts instead of clobbering someone else's commit:
 
 ```sh
-gitlab_remote_branch="$(git branch --show-current)"
-gitlab_prior_sha="<the remote SHA you rebased from, e.g. from your last fetch/push>"
-git -c credential.helper= \
-  -c credential.helper='!glab auth git-credential' \
-  push --force-with-lease="${gitlab_remote_branch}:${gitlab_prior_sha}" origin "$gitlab_remote_branch"
+cd <absolute worktree path> && git -c credential.helper= -c credential.helper='!glab auth git-credential' push --force-with-lease="<branch>:<prior remote SHA>" origin <branch>
 ```
 
-After a force-push, run the `ls-remote` check and step 4 against the rebased commit.
+After the founder runs it, run the `ls-remote` check and step 4 against the rebased commit.
 
 **zsh gotcha — always brace the variable before the colon.** In zsh, `$var:x` is parsed as a parameter-expansion modifier (`:a`, `:h`, `:t`, `:r`, `:e`, `:l`, `:u`, `:s`, `:q`, `:P`, …), not a literal colon, whenever a modifier letter immediately follows the colon. `--force-with-lease="$gitlab_remote_branch:$gitlab_prior_sha"` silently mangles the branch name into garbage (e.g. `:a` runs an absolute-path transform) whenever the SHA happens to start with one of those letters, and the lease then matches nothing — git falls back to a plain non-fast-forward rejection that looks exactly like a stale-branch problem, not a quoting bug. Braces (`${gitlab_remote_branch}:...`, used above) make `zsh` treat the whole thing as one token and avoid this. Bash is unaffected either way, but always brace it since a script may run under either shell.
 
