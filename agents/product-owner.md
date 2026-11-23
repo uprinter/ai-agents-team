@@ -92,7 +92,7 @@ When receiving a request:
 
 6. **Visual/UI Acceptance Criteria (mandatory for user-facing features)**: Any feature that adds or changes something a user sees must include explicit visual ACs — however the feature is framed. At minimum:
    - **Visual integration**: new UI uses the project's established visual language/design system and is consistent with the components around it; browser-default (user-agent styled) controls are unacceptable.
-   - **States**: interactive elements have styled hover/focus/disabled/error/loading/empty states where applicable.
+   - **States**: interactive elements have styled hover/focus/disabled/error/loading/empty states where applicable. An element that renders data lists its data states (empty, shortest, longest, boundary values), and one screenshot set shows them all (→ RP-100).
    - **Responsive**: expected behavior at the project's breakpoints — at minimum a ~375px mobile viewport and desktop.
    - **Accessibility floor**: visible keyboard focus and readable contrast.
    - **User requests**: the spec names one to three requests the change should make easy, in a user's own words, each tagged `navigation` or `comprehension`; for a `comprehension` request, give the reference answer to the coordinator, never in the spec's tester-facing text (→ RP-43).
@@ -107,11 +107,8 @@ When receiving a request:
 
 ## Communication Style
 
-- Use clear, business-oriented language—avoid jargon unless industry-standard
-- Be decisive but open to stakeholder input
 - When trade-offs arise, present options with pros/cons and recommend a path
 - Challenge vague or contradictory requirements—seek clarification rather than assuming
-- Document decisions and their rationale for future reference
 
 ## Escalation & Clarification
 

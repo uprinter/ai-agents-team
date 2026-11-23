@@ -102,7 +102,7 @@ Agent definitions load in full on every spawn, so their length is a running cost
 1. **A rule body is ≤2 sentences plus a `(→ RP-nn)` citation.** The narrative goes in `.claude/process/rule-provenance.md`, never inline. An agent must be able to comply having read only the rule.
 2. **Adding a rule requires naming what it replaces**, generalizes, or — failing both — why it does not overlap an existing one. "It is new" is a claim to check against the file, not an exemption.
 3. **A rule with no gate is a suggestion.** Name where it is checked (`/tasks`, `/verify`, the review attestation) or do not add it.
-4. **Size is budgeted.** `AGENTS.md` and each agent file stay within their entry in `.claude/scripts/size-budget.json`, enforced by `check_harness.py`; the `harness-cleaner` skill finds what to merge or remove.
+4. **Size is budgeted.** `AGENTS.md`, each agent file and the two gate files stay within `.claude/scripts/size-budget.json`, enforced by `check_harness.py`; `harness-cleaner` finds what to cut (→ RP-100).
 
 ## Editing agent definitions
 

@@ -231,8 +231,16 @@ def validate_generated_gitlab_wiring(root: Path) -> list[str]:
     return errors
 
 
+GATE_FILES = ("gates.md", "verify-gates.md")
+
+
 def budgeted_sizes(root: Path) -> dict[str, int]:
-    paths = [root / "AGENTS.md", *sorted((root / ".claude" / "agents").glob("*.md"))]
+    """Files that carry rules: AGENTS.md, the agent definitions and the two gate files."""
+    paths = [
+        root / "AGENTS.md",
+        *sorted((root / ".claude" / "agents").glob("*.md")),
+        *(root / ".claude" / "process" / name for name in GATE_FILES),
+    ]
     return {path.relative_to(root).as_posix(): path.stat().st_size for path in paths if path.is_file()}
 
 

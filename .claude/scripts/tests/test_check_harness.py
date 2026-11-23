@@ -462,6 +462,19 @@ class SizeBudgetTests(unittest.TestCase):
         errors = check_harness.validate_size_budget(self.root)
         self.assertEqual(len(errors), 2)
 
+    def test_gate_files_are_budgeted(self) -> None:
+        process = self.root / ".claude" / "process"
+        process.mkdir()
+        (process / "gates.md").write_text("x" * 60)
+        (process / "verify-gates.md").write_text("x" * 40)
+        (process / "rule-provenance.md").write_text("x" * 500)
+        self.budget.write_text(
+            '{".claude/agents/a.md": 100, ".claude/process/gates.md": 50, ".claude/process/verify-gates.md": 40}'
+        )
+        errors = check_harness.validate_size_budget(self.root)
+        self.assertEqual(len(errors), 1)
+        self.assertIn(".claude/process/gates.md: 60 bytes exceeds budget 50", errors[0])
+
     def test_ratchet_lowers_and_adds_but_never_raises(self) -> None:
         self.budget.write_text('{".claude/agents/a.md": 150}')
         check_harness.ratchet_size_budget(self.root)
