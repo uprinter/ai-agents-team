@@ -47,6 +47,10 @@ After a passing `REVIEW-ATTESTATION` the coordinator starts the second-instance 
 
 One approval of `push + MR` for a branch also covers the later pushes of review fixes to that same branch, when each fix commit changes only files already in the MR. Merge, apply and every other branch ask on their own (→ RP-89).
 
+## 1e. A commit and push for approval
+
+An author who needs approval for a commit and push writes a job file and hands one line, `python3 ${CLAUDE_PLUGIN_ROOT}/.claude/scripts/push_mr.py <job.json>`, never a hand-written script; whoever approves the line reads its `--dry-run` output (→ RP-99). A job in mode `fix` prints whether every file is already in the MR, which is the §1d test for skipping a new approval.
+
 ## 2. The ask format (Tier B)
 
 One decision per message. Eight lines maximum, in this order, nothing else:
