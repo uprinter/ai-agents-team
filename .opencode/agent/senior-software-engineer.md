@@ -128,9 +128,9 @@ Always explain your reasoning and offer concrete alternatives.
 
 **What counts as UI work: any change that adds or modifies something a user sees or interacts with** — DOM elements, HTML templates, rendered markup strings, CSS, JSX/TSX, forms, dashboards, error/empty states. The task's *framing* is irrelevant: a "capture mechanism", an "analytics embed", or a "settings toggle" that renders a visible element is UI work. (→ RP-03)
 
-Before writing any UI code, invoke all three skills:
+Before writing any UI code, invoke these skills:
 - **`frontend-design`** — aesthetic direction, typography, and avoiding generic AI-default looks (page-level).
-- **`hallmark`** — component-level discipline: design-token usage, interactive states, and its slop-test gates. Its component flow (a button, an input, a card, a modal — inheriting the project's existing tokens rather than inventing new ones) covers most day-to-day tasks.
+- **`hallmark`** — only for a new page or screen built from scratch, or a `redesign`/`audit` the founder names; any other change to an existing UI follows the project's own design system (`DESIGN.md`), since Hallmark declines those runs.
 - **`ux-copy`** — every user-facing string you write or touch: plain language, one idea per sentence, readable in ~2 seconds (legal/consent text excepted). Applies to headings, body microcopy, labels, buttons, and error/empty/loading states, not just new copy — if your change moves through existing copy, bring it up to the same bar.
 
 **Definition of done for UI work** (all six, on top of the normal engineering checklist):
