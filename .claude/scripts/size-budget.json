@@ -2,12 +2,14 @@
   ".claude/agents/code-reviewer.md": 16124,
   ".claude/agents/devops-infra-expert.md": 20085,
   ".claude/agents/lead-system-architect.md": 10614,
-  ".claude/agents/product-owner.md": 13599,
+  ".claude/agents/product-owner.md": 13561,
   ".claude/agents/senior-software-engineer.md": 17571,
   ".claude/agents/seo-specialist.md": 6359,
   ".claude/agents/tabula-rasa.md": 6412,
   ".claude/agents/taste-critic.md": 8938,
   ".claude/agents/team-lead-coordinator.md": 15261,
   ".claude/agents/user-eyes-tester.md": 13342,
-  "AGENTS.md": 15950
+  ".claude/process/gates.md": 16478,
+  ".claude/process/verify-gates.md": 31825,
+  "AGENTS.md": 15946
 }
