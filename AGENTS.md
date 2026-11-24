@@ -13,8 +13,7 @@ This is **not an application** — it is a reusable agent-team configuration for
   - `gates.md` — full text of the delivery and review gates (design, scope, copy, simulated-user, search-visibility, docs, hygiene).
   - `standalone-agents.md` — full descriptions of the standalone agents.
   - `harness-maintenance.md` — agent ports, skill locations, size-lane detail, partial supersession, closure records, agent-editing detail.
-  - `harness-quality-loop.md`, `spec-change-management.md`, `seo-lifecycle.md`, `wiki.md`, `teammate-protocol.md`, `verify-log.md`, `verify-gates.md`, `decision-protocol.md`, `heavy-files.md` — one per topic in its name.
-- `.claude/settings.local.json` — permission allowlist (not committed-as-team-config; local overrides).
+  - `harness-quality-loop.md`, `spec-change-management.md`, `seo-lifecycle.md`, `wiki.md`, `teammate-protocol.md`, `verify-log.md`, `verify-gates.md`, `decision-protocol.md`, `heavy-files.md`, `project-stage.md` — one per topic in its name.
 
 **No agent-memory.** This team does not maintain per-agent memory files. Durable learnings live as artifacts instead: postmortems under `collaboration-traces/`, per-target-project conventions in that project's `AGENTS.md`, architectural decisions as ADRs in the target project, and team-wide rules in the agent definitions themselves. If you find yourself wanting to write a memory file, edit one of those instead.
 
@@ -49,7 +48,7 @@ A coordinator delegates work across five specialists. Treat this hierarchy as lo
 
 **Two-party review is evidenced by attestation, not by GitLab accounts.** All agent instances share one GitLab identity, so the audit trail cannot distinguish author from reviewer. The reviewer therefore posts a structured `REVIEW-ATTESTATION` note (SHA, files/lines reviewed, findings, spec refs, reviewer instance token) before approving, and `/verify` audits it against the real diff and the approval timestamps; approval without a valid attestation is a self-approval. Full format lives in `code-reviewer.md`; the `/verify` check lives in `team-lead-coordinator.md` (SDD non-negotiable 4).
 
-**Strict delegation, always — including for whoever is driving the team.** The root/orchestrating session never implements code, IaC or config in a target project, however small or certain the change; it dispatches `senior-software-engineer` (or the relevant specialist) and requires independent review before merge (→ RP-55). Direct tool use stays fine for verification, investigation, and git/process operations on an approved change — never for writing or editing what ships.
+**Strict delegation, always — including for whoever is driving the team.** The root/orchestrating session never implements code, IaC or config in a target project, however small or certain the change; it dispatches `senior-software-engineer` (or the relevant specialist) and requires independent review before merge, except at `pre-users` (→ RP-55, RP-101). Direct tool use stays fine for verification, investigation, and git/process operations on an approved change — never for writing or editing what ships.
 
 **The request bounds the work — this binds the root/orchestrating session too.** A finding is not a feature: found work is never dispatched, spec'd or offered mid-task, and a finding inside the requested change rides that feature's existing MR at its lane weight. Per `.claude/process/decision-protocol.md` §1a, trivial in-change findings are fixed silently and recorded; a real problem is one `Separate task proposed:` line at close, three at most (→ RP-25, RP-52; `team-lead-coordinator.md` Core Operating Rule 16). A branch or MR this session did not create is not touched without its owner's confirmation (Rule 21, → RP-60).
 
@@ -87,13 +86,13 @@ Every skill is reachable from **both** `.agents/skills/` and `.claude/skills/`: 
 
 All six delivery-team agents now mandate a **GitHub SpecKit-style** spec-driven workflow when deployed into a target project: `/specify` → `/plan` → `/tasks` → `/implement` → `/verify` → `/archive`, with feature artifacts under `<target-project>/specs/NNN-<feature-slug>/`. **No `specs/` directory ever lives in this config repo** — this repo is team definition only. `.claude/skills/sdd-workflow/SKILL.md` is the authoritative spec of the workflow.
 
-If asked about specs, paths, feature numbering, or sizing, refer to the SDD section in any of the agent files (they're identical). The trivial-fix escape hatch has been replaced by the size lanes below — XS *is* that hatch, with S/M/L between it and the full pipeline.
+If asked about specs, paths, feature numbering, or sizing, refer to the SDD section in any of the agent files (they're identical).
 
 ## Size lanes and closure records
 
 The lane is set by what the change touches, never by how it is framed (→ RP-18): **XS** nothing user-visible; **S** presentation, copy, styling, a tuned value or a contained bugfix, with none of the S exclusions (contract, persisted data, infra/deploy topology, auth, money, legal/GDPR surface, a second deployed artifact); **M** new behavior inside existing contracts, one deployed artifact; **L** any S exclusion. Artifacts and line budgets per lane: `.claude/skills/sdd-workflow/SKILL.md`; gate: `team-lead-coordinator.md` Core Operating Rule 11.
 
-A lane above S must name an exclusion; tier down only with stakeholder approval (→ RP-26, RP-47). Partial supersession, lane-S branch rules, and batched `/verify` closure records (`specs/verify-log.md`, Core Operating Rule 12) are in `.claude/process/harness-maintenance.md` and `.claude/process/verify-log.md`.
+A lane above S must name an exclusion; tier down only with stakeholder approval (→ RP-26, RP-47). At `Project stage: pre-users`, XS and S skip spec, review and `/verify` (`project-stage.md`). Partial supersession, lane-S branch rules, and batched `/verify` closure records (`specs/verify-log.md`, Core Operating Rule 12) are in `.claude/process/harness-maintenance.md` and `.claude/process/verify-log.md`.
 
 ## Rule hygiene
 
