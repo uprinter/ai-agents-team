@@ -16,7 +16,7 @@ An XS or lane-S change at `pre-users`:
 
 - The engineer works in a worktree on a branch and opens one MR. The MR description holds the stakeholder's request in their words, at most five acceptance criteria and the line `lane=<XS|S> stage=pre-users`. The project must allow a merge with zero approvals.
 - Green CI on the MR is the test evidence (Rule 20). CI assertions stay, shipped-artifact hygiene included.
-- A change a user can see: the engineer posts the screenshots of the self-review loop (~375 px and desktop) on the MR, and the stakeholder looks before merge. Copy follows `ux-copy`, and the stakeholder's look checks it.
+- A change a user can see: the engineer posts the screenshots of the self-review loop (~375 px and desktop) on the MR, plus the motion evidence of `gates.md` for an element that moves, and the stakeholder looks before merge. Copy follows `ux-copy`, and the stakeholder's look checks it.
 - A stakeholder rejection is a row of `harness-quality-loop.md` §3, as at `live`.
 - The visual sandbox (`visual-sandbox.md`) stays: a new element with no sample starts there, and the MR links its states page.
 - The engineer merges, SHA-pinned, after green CI and, for a visible change, the stakeholder's ok.
