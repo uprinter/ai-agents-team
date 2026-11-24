@@ -34,7 +34,7 @@ The coordinator assigns a **size lane** at intake, records it in `tasks.md` and 
 | **M** | new or changed behavior inside existing contracts, inside one deployed artifact | `spec.md` ≤250 lines + `plan.md` ≤250 lines (+ `contracts/` where applicable) |
 | **L** | any of the exclusions listed under S | the full pipeline, no line budget |
 
-At `Project stage: pre-users` in the target's instructions file, XS and S run light: one MR, no spec, `tasks.md`, review or `/verify` (`.claude/process/project-stage.md`).
+At `Project stage: pre-users` in the target's instructions file, XS and S run light: one MR, no spec, `tasks.md`, review or `/verify` (`.claude/process/project-stage.md`). The visual sandbox (`.claude/process/visual-sandbox.md`) is not `/implement`: it needs no spec and ships nothing.
 
 Lane rules, all binding:
 
