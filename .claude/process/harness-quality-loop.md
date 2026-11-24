@@ -53,7 +53,7 @@ When a `/tasks`, review, or `/verify` gate fails, append one compact row to the 
 
 Do not invent correction time. Use observed elapsed time when available and otherwise name the closest measured proxy.
 
-A founder rejection of a shown result (a sheet, a preview or a live page) is a failed gate, also when every written gate passed. Record one row for each rejection, with the round number in the repeat key (`<feature> · founder-look · round 2`), so that a later audit can count the rounds for each visual change (→ RP-100).
+A founder rejection of a shown result (a sheet, a preview or a live page) is a failed gate, also when every written gate passed. Record one row for each rejection, with the round number in the repeat key (`<feature> · founder-look · round 2`), so that a later audit can count the rounds for each visual change (→ RP-100). A round of the visual sandbox is not a rejection (`visual-sandbox.md`).
 
 Before adding a durable role rule, search prior postmortems for the repeat key and cite the matches in the rule proposal. Prefer an executable check for a repeated deterministic failure, a clearer instruction for a repeated judgment failure, and no harness change when the record does not show recurrence or useful prevention; a single high-impact exception must state why waiting for recurrence is unacceptable.
 

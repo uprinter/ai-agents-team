@@ -13,7 +13,7 @@ This is **not an application** — it is a reusable agent-team configuration for
   - `gates.md` — full text of the delivery and review gates (design, scope, copy, simulated-user, search-visibility, docs, hygiene).
   - `standalone-agents.md` — full descriptions of the standalone agents.
   - `harness-maintenance.md` — agent ports, skill locations, size-lane detail, partial supersession, closure records, agent-editing detail.
-  - `harness-quality-loop.md`, `spec-change-management.md`, `seo-lifecycle.md`, `wiki.md`, `teammate-protocol.md`, `verify-log.md`, `verify-gates.md`, `decision-protocol.md`, `heavy-files.md`, `project-stage.md` — one per topic in its name.
+  - `harness-quality-loop.md`, `spec-change-management.md`, `seo-lifecycle.md`, `wiki.md`, `teammate-protocol.md`, `verify-log.md`, `verify-gates.md`, `decision-protocol.md`, `heavy-files.md`, `project-stage.md`, `visual-sandbox.md` — one per topic in its name.
 
 **No agent-memory.** This team does not maintain per-agent memory files. Durable learnings live as artifacts instead: postmortems under `collaboration-traces/`, per-target-project conventions in that project's `AGENTS.md`, architectural decisions as ADRs in the target project, and team-wide rules in the agent definitions themselves. If you find yourself wanting to write a memory file, edit one of those instead.
 
@@ -60,12 +60,9 @@ A coordinator delegates work across five specialists. Treat this hierarchy as lo
 
 **The dispatch brief states what changes and the constraints — never roles, stages or artifacts.** The root session says what the stakeholder asked for, what must not regress and what evidence settles it; `team-lead-coordinator` assigns the lane from the diff surface (Core Operating Rule 11). Naming "the full SDD lifecycle" or `lead-system-architect` in a brief is tiering up without approval. A lane above S must name an exclusion from the size-lane table; bookkeeping volume is not one, and restated superseded IDs go to `specs/NNN-<slug>/evidence/superseded-ids.md` (→ RP-26).
 
-**Coordinator operates as a Claude Code Agent Team lead** (per `https://code.claude.com/docs/en/agent-teams`), which requires:
-- `CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1`
-- Claude Code v2.1.32+
-- Coordinator running in the main session (teammates cannot spawn their own teams)
+**Coordinator operates as a Claude Code Agent Team lead**; preconditions and the `Agent` fallback are in `team-lead-coordinator.md`.
 
-If those preconditions aren't met, the coordinator falls back to the regular `Agent` sub-agent tool.
+**A new visual element with no stakeholder sample starts in the visual sandbox** — the root session dispatches one engineer, no coordinator, gates or MR, until the stakeholder picks a variant (`visual-sandbox.md`, → RP-102).
 
 ## Standalone agents
 
