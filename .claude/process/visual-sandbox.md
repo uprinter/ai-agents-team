@@ -21,6 +21,16 @@ The root session dispatches one `senior-software-engineer` directly, with this f
 
 Done when the founder has picked one variant on the states page, or has stopped the search.
 
+## Concept level
+
+The element level above finds the look of one element. The concept level finds the idea of the whole product first: how it should feel and which visual idea holds its screens together. A project's design guideline (the file its instructions name, → RP-91) describes how to build; the concept says what the look stands for.
+
+- **When.** The project's design guideline has no `Idea` section and a sandbox is about to start, or the founder asks. The root session offers it once; the founder can decline, and the element sandbox then runs without it.
+- **Directions.** The engineer builds 3 concepts. Each has a one-line metaphor, three mood words, a type pairing, a palette and one motion principle, and each is shown on the same three key screens of the product, with real data, at ~375 px and desktop. The concepts differ in idea, not in colour alone.
+- **Rounds and storage.** As at the element level: one static page per round at `sandbox/<slug>/round-<n>/`, the same engineer for every round, and new references after three rounds with no pick.
+- **Hand-off.** The founder's pick becomes an `Idea` section at the top of the design guideline: the metaphor, the mood words and what each screen does to express them, at most 20 lines. Delivery adds it through the normal intake, like any documentation change. Every later element sandbox works inside it.
+- **Restart.** When the founder picks none of three rounds, the founder gives a moodboard (10–15 images) and three words for how the product should feel, and the concept rounds start again from them (→ RP-103).
+
 ## Where the code lives
 
 Outside the product build: a `sandbox/<slug>` branch that is never merged, or a folder the target's instructions name. Sandbox code is a prototype; delivery rewrites it to the project's standards and keeps the look. A sandbox round is not a founder rejection in the sense of `harness-quality-loop.md` §3; a rejection after hand-off is.
