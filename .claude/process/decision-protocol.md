@@ -43,6 +43,8 @@ Four operations stay blocked for agents even with an allow rule: `git push --for
 
 After a passing `REVIEW-ATTESTATION` the coordinator starts the second-instance review without asking who reviews. When the reviewer approves and CI is green, the author merges SHA-pinned and the close message reports the merge. The founder is not asked to approve or merge, except to look at a new user-visible element running locally before merge (→ RP-73), and except an IaC/manifest MR, whose merge `devops-infra-expert` asks for per action (→ RP-96); a refusal by the permission classifier is a blocker under §1b (→ RP-72).
 
+A bot-authored dependency MR (branch `renovate/*`, only bot commits) gets one domain-matched reviewer instance, `code-reviewer` for application code or `devops-infra-expert` for IaC, manifests and CI, which posts a `REVIEW-ATTESTATION` and never approves or merges; the founder approves and merges, and an agent commit on that branch returns the MR to the normal lifecycle. This replaces "the author merges" for MRs whose author is a bot; `/verify` checks an attestation on the merged head and no agent commit on the branch (→ RP-105).
+
 ## 1d. A branch's review fixes
 
 One approval of `push + MR` for a branch also covers the later pushes of review fixes to that same branch, when each fix commit changes only files already in the MR. Merge, apply and every other branch ask on their own (→ RP-89).
