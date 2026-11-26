@@ -157,6 +157,8 @@ agents/                source agent prompts for all runtimes (symlinked as .clau
 .codex/sync-agents.py  Codex generator and drift validator
 .opencode/agent/       generated OpenCode agents
 .opencode/sync-agents.py
+.hermes/profiles/      generated Hermes profile distributions
+.hermes/sync-agents.py Hermes generator and drift validator
 .claude-plugin/        Claude Code plugin + marketplace manifests (also read by Codex's plugin loader)
 AGENTS.md              canonical repository instructions
 ```
@@ -174,12 +176,20 @@ Ask Codex to spawn a named specialist for a bounded task, or use
 `team-lead-coordinator` for multi-role delivery work. The coordinator uses
 Codex's collaboration tools and project-discovered agent names.
 
+## Using with Hermes
+
+Hermes models an agent as a profile. Run `hermes skills trust` once in this
+repository so it loads `.agents/skills/`, then install a profile with
+`hermes profile install .hermes/profiles/<name>`. Details and limits:
+`.hermes/README.md`.
+
 ## Editing and validation
 
-Edit `agents/*.md` (symlinked as `.claude/agents/*.md`), then regenerate both ports:
+Edit `agents/*.md` (symlinked as `.claude/agents/*.md`), then regenerate all ports:
 
 ```sh
 .opencode/sync-agents.py
+.hermes/sync-agents.py
 .codex/sync-agents.py
 .codex/sync-agents.py --check
 ```

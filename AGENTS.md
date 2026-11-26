@@ -4,7 +4,7 @@ This file provides shared guidance to Claude Code, Codex, and OpenCode when work
 
 ## What this repo is
 
-This is **not an application** — it is a reusable agent-team configuration for Claude Code, Codex, and OpenCode. There is no application build or runtime. `agents/` (symlinked as `.claude/agents/` for the standard Claude Code project convention) is the source of truth; `.codex/agents/` and `.opencode/agent/` are generated ports, and repository skills are shared across runtimes through `.agents/skills/` and `.claude/skills/` (the latter holds every skill's real directory; see *Skills — where they live*).
+This is **not an application** — it is a reusable agent-team configuration for Claude Code, Codex, OpenCode, and Hermes. There is no application build or runtime. `agents/` (symlinked as `.claude/agents/` for the standard Claude Code project convention) is the source of truth; `.codex/agents/` and `.opencode/agent/` are generated ports, and repository skills are shared across runtimes through `.agents/skills/` and `.claude/skills/` (the latter holds every skill's real directory; see *Skills — where they live*).
 
 - `.claude/agents/*.md` — agent definitions, each with YAML frontmatter (`name`, `description`, `tools`, `model`, `color`) followed by the agent's system prompt. Six form the SDD **delivery team** (see *The team*); the rest are standalone (see *Standalone agents*).
 - `.claude/collaboration-traces/<date>-<topic>/` — postmortems and traces from team test runs. This is where durable findings about team behavior live.
@@ -110,10 +110,11 @@ Agent definitions load in full on every spawn, so their length is a running cost
 
 ## Commands
 
-There is no application to build or test. After editing an agent definition, regenerate both ports (never edit a generated file) and validate Codex output:
+There is no application to build or test. After editing an agent definition, regenerate all ports (never edit a generated file) and validate Codex output:
 
 ```sh
 .opencode/sync-agents.py
+.hermes/sync-agents.py
 .codex/sync-agents.py
 .codex/sync-agents.py --check
 ```

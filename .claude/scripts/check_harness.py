@@ -180,7 +180,11 @@ def validate_skill_mirrors(root: Path) -> list[str]:
 
 def run_generated_port_checks(root: Path) -> list[str]:
     errors: list[str] = []
-    scripts = (root / ".codex" / "sync-agents.py", root / ".opencode" / "sync-agents.py")
+    scripts = (
+        root / ".codex" / "sync-agents.py",
+        root / ".opencode" / "sync-agents.py",
+        root / ".hermes" / "sync-agents.py",
+    )
     for script in scripts:
         relative = script.relative_to(root)
         if not script.is_file():
