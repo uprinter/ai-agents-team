@@ -201,12 +201,14 @@ class HarnessCheckTests(unittest.TestCase):
     def test_generated_port_checks_invoke_both_scripts(self) -> None:
         self.add_sync_script(".codex")
         self.add_sync_script(".opencode")
+        self.add_sync_script(".hermes")
 
         self.assertEqual([], check_harness.run_generated_port_checks(self.root))
 
     def test_generated_port_check_reports_failure(self) -> None:
         self.add_sync_script(".codex", exit_code=1)
         self.add_sync_script(".opencode")
+        self.add_sync_script(".hermes")
 
         errors = check_harness.run_generated_port_checks(self.root)
 
