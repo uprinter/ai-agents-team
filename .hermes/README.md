@@ -40,9 +40,12 @@ update` refreshes `SOUL.md` without touching them.
 
 ## Limits
 
-- Hermes cannot spawn a named profile from `delegate_task`. A coordinator
-  delegates with "Act as `<agent-name>`: read its `SOUL.md` first" in the goal;
-  the vocabulary map in each `SOUL.md` says so.
+- `delegate_task` runs a named profile only through the `advanced-delegation`
+  plugin: set `delegation.backend: profile_routes` and list each profile under
+  `delegation.backends.profile_routes`. A listed profile lends its credentials
+  and terminal policy to the delegating agent, so list only profiles you trust.
+  Without that route, a coordinator delegates with "Act as `<agent-name>`: read
+  its `SOUL.md` first" in the goal; the vocabulary map in each `SOUL.md` says so.
 - No shared task list, mailbox, or Agent Teams: the one-shot fallback applies.
 - The source tool allowlist and model are not mapped, so read-only roles such
   as `code-reviewer` are not sandboxed by the port; restrict toolsets in the
